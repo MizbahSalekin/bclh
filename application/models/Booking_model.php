@@ -16,10 +16,10 @@ class Booking_model extends CI_Model
      */
     function bookingListingCount($searchText)
     {
-        $this->db->select('BaseTbl.bookingId, BaseTbl.roomName, BaseTbl.description, BaseTbl.createdDtm');
+        $this->db->select('BaseTbl.pId, BaseTbl.pName, BaseTbl.description, BaseTbl.createdDtm');
         $this->db->from('tbl_booking as BaseTbl');
         if(!empty($searchText)) {
-            $likeCriteria = "(BaseTbl.roomName LIKE '%".$searchText."%')";
+            $likeCriteria = "(BaseTbl.pName LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
         $this->db->where('BaseTbl.isDeleted', 0);
@@ -37,14 +37,14 @@ class Booking_model extends CI_Model
      */
     function bookingListing($searchText, $page, $segment)
     {
-        $this->db->select('BaseTbl.bookingId, BaseTbl.roomName, BaseTbl.description, BaseTbl.createdDtm');
+        $this->db->select('BaseTbl.pId, BaseTbl.pName, BaseTbl.description, BaseTbl.createdDtm');
         $this->db->from('tbl_booking as BaseTbl');
         if(!empty($searchText)) {
-            $likeCriteria = "(BaseTbl.roomName LIKE '%".$searchText."%')";
+            $likeCriteria = "(BaseTbl.pName LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
         $this->db->where('BaseTbl.isDeleted', 0);
-        $this->db->order_by('BaseTbl.bookingId', 'DESC');
+        $this->db->order_by('BaseTbl.pId', 'DESC');
         $this->db->limit($page, $segment);
         $query = $this->db->get();
         
@@ -70,14 +70,14 @@ class Booking_model extends CI_Model
     
     /**
      * This function used to get booking information by id
-     * @param number $bookingId : This is booking id
+     * @param number $pId : This is booking id
      * @return array $result : This is booking information
      */
-    function getBookingInfo($bookingId)
+    function getBookingInfo($pId)
     {
-        $this->db->select('bookingId, roomName, description');
+        $this->db->select('pId, pName, description');
         $this->db->from('tbl_booking');
-        $this->db->where('bookingId', $bookingId);
+        $this->db->where('pId', $pId);
         $this->db->where('isDeleted', 0);
         $query = $this->db->get();
         
@@ -88,11 +88,11 @@ class Booking_model extends CI_Model
     /**
      * This function is used to update the booking information
      * @param array $bookingInfo : This is booking updated information
-     * @param number $bookingId : This is booking id
+     * @param number $pId : This is booking id
      */
-    function editBooking($bookingInfo, $bookingId)
+    function editBooking($bookingInfo, $pId)
     {
-        $this->db->where('bookingId', $bookingId);
+        $this->db->where('pId', $pId);
         $this->db->update('tbl_booking', $bookingInfo);
         
         return TRUE;

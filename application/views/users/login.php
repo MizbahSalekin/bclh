@@ -25,7 +25,7 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <a href="#"><b>Gavi</b><br>Admin System</a>
+      <a href="#"><b>GAVI_CLHUB</b><br>Administration System</a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
       <p class="login-box-msg">Sign In</p>

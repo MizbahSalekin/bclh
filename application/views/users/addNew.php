@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-users"></i> Gavi
+            <i class="fa fa-users"></i> Enlisted Staff
             <small>Add / Edit User</small>
         </h1>
     </section>
@@ -64,7 +64,7 @@
                                     <div class="form-group">
                                         <label for="mobile">Mobile Number</label>
                                         <input type="text" class="form-control required digits" id="mobile"
-                                            value="<?php echo set_value('mobile'); ?>" name="mobile" maxlength="10">
+                                            value="<?php echo set_value('mobile'); ?>" name="mobile" maxlength="11">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

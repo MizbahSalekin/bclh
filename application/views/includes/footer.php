@@ -1,8 +1,9 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Gavi</b> Admin System | Version 1.6
+        <b>Gavi</b> Admin System | Version 1.0
     </div>
-    <strong>Copyright &copy; 2024 <a href="<?php echo base_url(); ?>">Gavi</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2024 <a href="<?php echo "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)"; ?>">ICDDR,B</a>.</strong> All rights reserved.
+    <!-- <strong>Website - <a href="<?php echo "https://clh-immunisation-bd.org/"; ?>">CLH</a>.</strong> -->
 </footer>
 
 <script src="<?php echo base_url(); ?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

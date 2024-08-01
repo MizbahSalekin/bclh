@@ -82,7 +82,7 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<?php echo base_url(); ?>assets/dist/img/avatar.png" class="user-image"
+                                <img src="<?php echo base_url(); ?>assets/dist/img/avatar5.png" class="user-image"
                                     alt="User Image" />
                                 <span class="hidden-xs"><?php echo $name; ?></span>
                             </a>
@@ -90,7 +90,7 @@
                                 <!-- User image -->
                                 <li class="user-header">
 
-                                    <img src="<?php echo base_url(); ?>assets/dist/img/avatar.png" class="img-circle"
+                                    <img src="<?php echo base_url(); ?>assets/dist/img/avatar5.png" class="img-circle"
                                         alt="User Image" />
                                     <p>
                                         <?php echo $name; ?>
@@ -146,6 +146,13 @@
                                 <li><a href="<?php echo base_url(); ?>eSupervision"><i class="fa fa-circle-o"></i>
                                         E-Supervision Checklist </a></li>
                             </ul>
+                        </li>
+
+                        <li>
+                            <a href="<?php echo base_url(); ?>booking">
+                                <i class="fa fa-user"></i>
+                                <span>Patients</span>
+                            </a>
                         </li>
 
                         <li>

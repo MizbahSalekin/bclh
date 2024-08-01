@@ -84,16 +84,16 @@ class Booking extends BaseController
         } else {
             $this->load->library('form_validation');
 
-            $this->form_validation->set_rules('roomName', 'Room Name', 'trim|callback_html_clean|required|max_length[50]');
+            $this->form_validation->set_rules('pName', 'Room Name', 'trim|callback_html_clean|required|max_length[50]');
             $this->form_validation->set_rules('description', 'Description', 'trim|callback_html_clean|required|max_length[1024]');
 
             if ($this->form_validation->run() == FALSE) {
                 $this->add();
             } else {
-                $roomName = $this->security->xss_clean($this->input->post('roomName'));
+                $pName = $this->security->xss_clean($this->input->post('pName'));
                 $description = $this->security->xss_clean($this->input->post('description'));
 
-                $bookingInfo = array('roomName' => $roomName, 'description' => $description, 'createdBy' => $this->vendorId, 'createdDtm' => date('Y-m-d H:i:s'));
+                $bookingInfo = array('pName' => $pName, 'description' => $description, 'createdBy' => $this->vendorId, 'createdDtm' => date('Y-m-d H:i:s'));
 
                 $result = $this->bm->addNewBooking($bookingInfo);
 
@@ -111,18 +111,18 @@ class Booking extends BaseController
 
     /**
      * This function is used load booking edit information
-     * @param number $bookingId : Optional : This is booking id
+     * @param number $pId : Optional : This is booking id
      */
-    function edit($bookingId = NULL)
+    function edit($pId = NULL)
     {
         if (!$this->hasUpdateAccess()) {
             $this->loadThis();
         } else {
-            if ($bookingId == null) {
+            if ($pId == null) {
                 redirect('booking/bookingListing');
             }
 
-            $data['bookingInfo'] = $this->bm->getBookingInfo($bookingId);
+            $data['bookingInfo'] = $this->bm->getBookingInfo($pId);
 
             $this->global['pageTitle'] = 'Gavi : Edit Booking';
 
@@ -141,20 +141,20 @@ class Booking extends BaseController
         } else {
             $this->load->library('form_validation');
 
-            $bookingId = $this->input->post('bookingId');
+            $pId = $this->input->post('pId');
 
-            $this->form_validation->set_rules('roomName', 'Room Name', 'trim|callback_html_clean|required|max_length[50]');
+            $this->form_validation->set_rules('pName', 'Room Name', 'trim|callback_html_clean|required|max_length[50]');
             $this->form_validation->set_rules('description', 'Description', 'trim|callback_html_clean|required|max_length[1024]');
 
             if ($this->form_validation->run() == FALSE) {
-                $this->edit($bookingId);
+                $this->edit($pId);
             } else {
-                $roomName = $this->security->xss_clean($this->input->post('roomName'));
+                $pName = $this->security->xss_clean($this->input->post('pName'));
                 $description = $this->security->xss_clean($this->input->post('description'));
 
-                $bookingInfo = array('roomName' => $roomName, 'description' => $description, 'updatedBy' => $this->vendorId, 'updatedDtm' => date('Y-m-d H:i:s'));
+                $bookingInfo = array('pName' => $pName, 'description' => $description, 'updatedBy' => $this->vendorId, 'updatedDtm' => date('Y-m-d H:i:s'));
 
-                $result = $this->bm->editBooking($bookingInfo, $bookingId);
+                $result = $this->bm->editBooking($bookingInfo, $pId);
 
                 if ($result == true) {
                     $this->session->set_flashdata('success', 'Booking updated successfully');

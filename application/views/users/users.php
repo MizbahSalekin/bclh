@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-users"></i> Gavi
+            <i class="fa fa-users"></i> Enlisted Staff
             <small>Add, Edit, Delete</small>
         </h1>
     </section>
