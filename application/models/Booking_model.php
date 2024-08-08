@@ -16,7 +16,7 @@ class Booking_model extends CI_Model
      */
     function bookingListingCount($searchText)
     {
-        $this->db->select('BaseTbl.pId, BaseTbl.pName, BaseTbl.description, BaseTbl.createdDtm');
+        $this->db->select('BaseTbl.pId, BaseTbl.zil_Name, BaseTbl.upz_Name, BaseTbl.uni_Name, BaseTbl.war_Name, BaseTbl.sc_Type, BaseTbl.sp_d, BaseTbl.int_dt, BaseTbl.pName, BaseTbl.fName, BaseTbl.mName, BaseTbl.description, BaseTbl.createdDtm');
         $this->db->from('tbl_booking as BaseTbl');
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.pName LIKE '%".$searchText."%')";
@@ -37,7 +37,7 @@ class Booking_model extends CI_Model
      */
     function bookingListing($searchText, $page, $segment)
     {
-        $this->db->select('BaseTbl.pId, BaseTbl.pName, BaseTbl.description, BaseTbl.createdDtm');
+        $this->db->select('BaseTbl.pId, BaseTbl.zil_Name, BaseTbl.upz_Name, BaseTbl.uni_Name, BaseTbl.war_Name, BaseTbl.sc_Type, BaseTbl.sp_d, BaseTbl.int_dt, BaseTbl.pName, BaseTbl.fName, BaseTbl.mName, BaseTbl.description, BaseTbl.createdDtm');
         $this->db->from('tbl_booking as BaseTbl');
         if(!empty($searchText)) {
             $likeCriteria = "(BaseTbl.pName LIKE '%".$searchText."%')";
@@ -75,7 +75,7 @@ class Booking_model extends CI_Model
      */
     function getBookingInfo($pId)
     {
-        $this->db->select('pId, pName, description');
+        $this->db->select('pId, zil_Name, upz_Name, uni_Name, war_Name, sc_Type, sp_d, int_dt, pName, fName, mName, description');
         $this->db->from('tbl_booking');
         $this->db->where('pId', $pId);
         $this->db->where('isDeleted', 0);

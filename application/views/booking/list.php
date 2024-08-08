@@ -64,7 +64,16 @@
                 <div class="box-body table-responsive no-padding">
                   <table class="table table-hover">
                     <tr>
+                        <th>Zilla</th>
+                        <th>Upazilla</th>
+                        <th>Union</th>
+                        <th>Ward No.</th>
+                        <th>SC Type</th>
+                        <th>SP Designation</th>
+                        <th>Interview Date</th>
                         <th>Child Name</th>
+                        <th>Father Name</th>
+                        <th>Mother Name</th>
                         <th>Description</th>
                         <th>Created On</th>
                         <th class="text-center">Actions</th>
@@ -76,7 +85,16 @@
                         {
                     ?>
                     <tr>
+                        <td><?php echo $record->zil_Name ?></td>
+                        <td><?php echo $record->upz_Name ?></td>
+                        <td><?php echo $record->uni_Name ?></td>
+                        <td><?php echo $record->war_Name ?></td>
+                        <td><?php echo $record->sc_Type ?></td>
+                        <td><?php echo $record->sp_d ?></td>
+                        <td><?php echo date("d-m-Y", strtotime($record->int_dt)) ?></td>
                         <td><?php echo $record->pName ?></td>
+                        <td><?php echo $record->fName ?></td>
+                        <td><?php echo $record->mName ?></td>
                         <td><?php echo $record->description ?></td>
                         <td><?php echo date("d-m-Y", strtotime($record->createdDtm)) ?></td>
                         <td class="text-center">
@@ -88,6 +106,21 @@
                         }
                     }
                     ?>
+                    <tr>
+                        <th>Zilla</th>
+                        <th>Upazilla</th>
+                        <th>Union</th>
+                        <th>Ward</th>
+                        <th>SC Type</th>
+                        <th>SP Designation</th>
+                        <th>Interview Date</th>
+                        <th>Child Name</th>
+                        <th>Father Name</th>
+                        <th>Mother Name</th>
+                        <th>Description</th>
+                        <th>Created On</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
                   </table>
                   
                 </div><!-- /.box-body -->
