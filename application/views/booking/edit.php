@@ -6,6 +6,7 @@ $uni_Name = $bookingInfo->uni_Name;
 $war_Name = $bookingInfo->war_Name;
 $sc_Type = $bookingInfo->sc_Type;
 $sp_d = $bookingInfo->sp_d;
+$sp_Name = $bookingInfo->sp_Name;
 $int_dt = $bookingInfo->int_dt;
 $pName = $bookingInfo->pName;
 $fName = $bookingInfo->fName;
@@ -42,50 +43,50 @@ $description = $bookingInfo->description;
                                     <div class="form-group">
                                         <label for="zil_Name">Zilla</label>
                                         <input type="text" class="form-control required" value="<?php echo $zil_Name; ?>" id="zil_Name" name="zil_Name" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $zil_Name; ?>" name="zil_Name" id="zil_Name" />
+                                        <input type="hidden" value="<?php echo $pId; ?>" name="pId" id="pId" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="upz_Name">Upazilla</label>
                                         <input type="text" class="form-control required" value="<?php echo $upz_Name; ?>" id="upz_Name" name="upz_Name" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $upz_Name; ?>" name="upz_Name" id="upz_Name" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="uni_Name">Union</label>
                                         <input type="text" class="form-control required" value="<?php echo $uni_Name; ?>" id="uni_Name" name="uni_Name" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $uni_Name; ?>" name="uni_Name" id="uni_Name" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="war_Name">Ward No.</label>
                                         <input type="text" class="form-control required" value="<?php echo $war_Name; ?>" id="war_Name" name="war_Name" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $war_Name; ?>" name="war_Name" id="war_Name" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="sc_Type">Service Center Type</label>
                                         <input type="text" class="form-control required" value="<?php echo $sc_Type; ?>" id="sc_Type" name="sc_Type" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $sc_Type; ?>" name="sc_Type" id="sc_Type" />
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">                                
                                     <div class="form-group">
-                                        <label for="sp_d">Service Provider Designation<</label>
+                                        <label for="sp_d">Service Provider Designation</label>
                                         <input type="text" class="form-control required" value="<?php echo $sp_d; ?>" id="sp_d" name="sp_d" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $sp_d; ?>" name="sp_d" id="sp_d" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                
+                                    <div class="form-group">
+                                        <label for="sp_Name">Service Provider Name</label>
+                                        <input type="text" class="form-control required" value="<?php echo $sp_Name; ?>" id="sp_Name" name="sp_Name" maxlength="256" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="int_dt">Interview Date</label>
                                         <input type="date" class="form-control required" value="<?php echo $int_dt; ?>" id="int_dt" name="int_dt" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $int_dt; ?>" name="int_dt" id="int_dt" />
                                     </div>
                                 </div>
 
@@ -93,21 +94,18 @@ $description = $bookingInfo->description;
                                     <div class="form-group">
                                         <label for="pName">Child Name</label>
                                         <input type="text" class="form-control required" value="<?php echo $pName; ?>" id="pName" name="pName" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $pId; ?>" name="pName" id="pName" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="fName">Father Name</label>
-                                        <input type="text" class="form-control required" value="<?php echo $fName; ?>" id="fName" name="pName" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $fName; ?>" name="fName" id="fName" />
+                                        <input type="text" class="form-control required" value="<?php echo $fName; ?>" id="fName" name="fName" maxlength="256" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="mName">Mother Name</label>
                                         <input type="text" class="form-control required" value="<?php echo $mName; ?>" id="mName" name="mName" maxlength="256" />
-                                        <input type="hidden" value="<?php echo $mName; ?>" name="mName" id="mName" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">

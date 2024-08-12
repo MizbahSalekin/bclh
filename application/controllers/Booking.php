@@ -95,6 +95,7 @@ class Booking extends BaseController
             $this->form_validation->set_rules('sc_Type', 'Service Center Type', 'trim|required|max_length[128]');
             $this->form_validation->set_rules('sp_d', 'Service Provider Designation', 'trim|required|max_length[128]');
             $this->form_validation->set_rules('int_dt','Interview Date','trim|required|callback_validate_date');
+            $this->form_validation->set_rules('sp_Name', 'Service Provider Name', 'trim|required|max_length[128]');
             // $this->form_validation->set_rules('int_dt','Interview Date','trim|required|valid_date');
             $this->form_validation->set_rules('pName', 'Child Name', 'trim|callback_html_clean|required|max_length[50]');
             $this->form_validation->set_rules('fName', 'Father Name', 'trim|callback_html_clean|required|max_length[50]');
@@ -111,6 +112,7 @@ class Booking extends BaseController
                 $sc_Type = ucwords(strtolower($this->security->xss_clean($this->input->post('sc_Type'))));
                 $sp_d = ucwords(strtolower($this->security->xss_clean($this->input->post('sp_d'))));
                 $int_dt = $this->security->xss_clean($this->input->post('int_dt'));
+                $sp_Name = ucwords(strtolower($this->security->xss_clean($this->input->post('sp_Name'))));
                 $pName = ucwords(strtolower($this->security->xss_clean($this->input->post('pName'))));
                 $fName = ucwords(strtolower($this->security->xss_clean($this->input->post('fName'))));
                 $mName = ucwords(strtolower($this->security->xss_clean($this->input->post('mName'))));
@@ -124,6 +126,7 @@ class Booking extends BaseController
                     'sc_Type' => $sc_Type,
                     'sp_d' => $sp_d,
                     'int_dt' => $int_dt,
+                    'sp_Name' => $sp_Name,
                     'pName' => $pName,
                     'fName' => $fName,
                     'mName' => $mName,
@@ -172,6 +175,7 @@ class Booking extends BaseController
      */
     function editBooking()
     {
+
         if (!$this->hasUpdateAccess()) {
             $this->loadThis();
         } else {
@@ -179,19 +183,23 @@ class Booking extends BaseController
 
             $pId = $this->input->post('pId');
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('zil_Name', 'Zilla', 'trim|required|max_length[128]');
-            $this->form_validation->set_rules('upz_Name', 'Upazilla', 'trim|required|max_length[128]');
-            $this->form_validation->set_rules('uni_Name', 'Union', 'trim|required|max_length[128]');
-            $this->form_validation->set_rules('war_Name', 'Ward', 'trim|required|max_length[128]');
-            $this->form_validation->set_rules('sc_Type', 'Service Center Type', 'trim|required|max_length[128]');
-            $this->form_validation->set_rules('sp_d', 'Service Provider Designation', 'trim|required|max_length[128]');
-            $this->form_validation->set_rules('int_dt','Interview Date','trim|required|valid_date');
-            $this->form_validation->set_rules('pName', 'Child Name', 'trim|callback_html_clean|required|max_length[50]');
-            $this->form_validation->set_rules('fName', 'Father Name', 'trim|callback_html_clean|required|max_length[50]');
-            $this->form_validation->set_rules('mName', 'Mother Name', 'trim|callback_html_clean|required|max_length[50]');  
-            $this->form_validation->set_rules('description', 'Description', 'trim|callback_html_clean|max_length[1024]');
+            $this->form_validation->set_rules('zil_Name', 'Zilla', 'required');
+            $this->form_validation->set_rules('upz_Name', 'Upazilla', 'required');
+            $this->form_validation->set_rules('uni_Name', 'Union', 'required');
+            $this->form_validation->set_rules('war_Name', 'Ward', 'required');
+            $this->form_validation->set_rules('sc_Type', 'Service Center Type', 'required');
+            $this->form_validation->set_rules('sp_d', 'Service Provider Designation', 'required');
+            $this->form_validation->set_rules('sp_Name', 'Service Provider Name', 'required');
+            $this->form_validation->set_rules('int_dt','Interview Date','required');
+            $this->form_validation->set_rules('pName', 'Child Name', 'required');
+            $this->form_validation->set_rules('fName', 'Father Name', 'required');
+            $this->form_validation->set_rules('mName', 'Mother Name', 'required');  
+            $this->form_validation->set_rules('description', 'Description', 'max_length[1024]');
+            // print_r($pId); die();
+
 
             if ($this->form_validation->run() == FALSE) {
+                // die();
                 $this->edit($pId);
             } else {
                 $zil_Name = ucwords(strtolower($this->security->xss_clean($this->input->post('zil_Name'))));
@@ -200,6 +208,7 @@ class Booking extends BaseController
                 $war_Name = ucwords(strtolower($this->security->xss_clean($this->input->post('war_Name'))));
                 $sc_Type = ucwords(strtolower($this->security->xss_clean($this->input->post('sc_Type'))));
                 $sp_d = ucwords(strtolower($this->security->xss_clean($this->input->post('sp_d'))));
+                $sp_Name = ucwords(strtolower($this->security->xss_clean($this->input->post('sp_Name'))));
                 $int_dt = ucwords(strtolower($this->security->xss_clean($this->input->post('int_dt'))));
                 $pName = $this->security->xss_clean($this->input->post('pName'));
                 $fName = ucwords(strtolower($this->security->xss_clean($this->input->post('fName'))));
@@ -213,6 +222,7 @@ class Booking extends BaseController
                     'war_Name' => $war_Name,
                     'sc_Type' => $sc_Type,
                     'sp_d' => $sp_d,
+                    'sp_Name' => $sp_Name,
                     'int_dt' => date('Y-m-d H:i:s'),
                     'pName' => $pName,
                     'fName' => $fName,
@@ -220,8 +230,10 @@ class Booking extends BaseController
                     'description' => $description,
                     'createdBy' => $this->vendorId,
                     'createdDtm' => date('Y-m-d H:i:s'));
+                // print_r($bookingInfo); die();
 
                 $result = $this->bm->editBooking($bookingInfo, $pId);
+                
 
                 if ($result == true) {
                     $this->session->set_flashdata('success', 'Booking updated successfully');

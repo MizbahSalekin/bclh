@@ -63,6 +63,12 @@
                                 </div>
                                 <div class="col-md-4">                                
                                     <div class="form-group">
+                                        <label for="sp_Name">Service Provider Name</label>
+                                        <input type="text" class="form-control required" value="<?php echo set_value('sp_Name'); ?>" id="sp_Name" name="sp_Name" maxlength="256" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">                                
+                                    <div class="form-group">
                                         <label for="int_dt">Interview Date</label>
                                         <input type="date" class="form-control required" value="<?php echo set_value('int_dt'); ?>" id="int_dt" name="int_dt" maxlength="256" />
                                     </div>

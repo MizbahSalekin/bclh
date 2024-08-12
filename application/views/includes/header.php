@@ -58,9 +58,9 @@
             <!-- Logo -->
             <a href="<?php echo base_url(); ?>" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>Ga</b>Vi</span>
+                <span class="logo-mini"><b>B</b>CLH</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Gavi</b></span>
+                <span class="logo-lg"><b>BCLH</b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">

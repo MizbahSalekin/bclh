@@ -71,6 +71,7 @@
                         <th>SC Type</th>
                         <th>SP Designation</th>
                         <th>Interview Date</th>
+                        <th>SP Name</th>
                         <th>Child Name</th>
                         <th>Father Name</th>
                         <th>Mother Name</th>
@@ -92,6 +93,7 @@
                         <td><?php echo $record->sc_Type ?></td>
                         <td><?php echo $record->sp_d ?></td>
                         <td><?php echo date("d-m-Y", strtotime($record->int_dt)) ?></td>
+                        <td><?php echo $record->sp_Name ?></td>
                         <td><?php echo $record->pName ?></td>
                         <td><?php echo $record->fName ?></td>
                         <td><?php echo $record->mName ?></td>
@@ -114,6 +116,7 @@
                         <th>SC Type</th>
                         <th>SP Designation</th>
                         <th>Interview Date</th>
+                        <th>SP Name</th>
                         <th>Child Name</th>
                         <th>Father Name</th>
                         <th>Mother Name</th>
