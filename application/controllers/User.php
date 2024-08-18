@@ -27,7 +27,7 @@ class User extends BaseController
      */
     public function index()
     {
-        $this->global['pageTitle'] = 'Gavi : Dashboard';
+        $this->global['pageTitle'] = 'BCLH : Dashboard';
 
         $this->loadViews("general/dashboard", $this->global, NULL, NULL);
     }
@@ -54,7 +54,7 @@ class User extends BaseController
 
             $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
 
-            $this->global['pageTitle'] = 'Gavi : User Listing';
+            $this->global['pageTitle'] = 'BCLH : User Listing';
 
             $this->loadViews("users/users", $this->global, $data, NULL);
         }
@@ -71,7 +71,7 @@ class User extends BaseController
             $this->load->model('user_model');
             $data['roles'] = $this->user_model->getUserRoles();
 
-            $this->global['pageTitle'] = 'Gavi : Add New User';
+            $this->global['pageTitle'] = 'BCLH : Add New User';
 
             $this->loadViews("users/addNew", $this->global, $data, NULL);
         }
@@ -167,7 +167,7 @@ class User extends BaseController
             $data['roles'] = $this->user_model->getUserRoles();
             $data['userInfo'] = $this->user_model->getUserInfo($userId);
 
-            $this->global['pageTitle'] = 'Gavi : Edit User';
+            $this->global['pageTitle'] = 'BCLH : Edit User';
 
             $this->loadViews("users/editOld", $this->global, $data, NULL);
         }
@@ -269,7 +269,7 @@ class User extends BaseController
      */
     function pageNotFound()
     {
-        $this->global['pageTitle'] = 'Gavi : 404 - Page Not Found';
+        $this->global['pageTitle'] = 'BCLH : 404 - Page Not Found';
 
         $this->loadViews("general/404", $this->global, NULL, NULL);
     }
@@ -303,7 +303,7 @@ class User extends BaseController
 
             $data['userRecords'] = $this->user_model->loginHistory($userId, $searchText, $fromDate, $toDate, $returns["page"], $returns["segment"]);
 
-            $this->global['pageTitle'] = 'Gavi : User Login History';
+            $this->global['pageTitle'] = 'BCLH : User Login History';
 
             $this->loadViews("users/loginHistory", $this->global, $data, NULL);
         }
@@ -317,7 +317,7 @@ class User extends BaseController
         $data["userInfo"] = $this->user_model->getUserInfoWithRole($this->vendorId);
         $data["active"] = $active;
 
-        $this->global['pageTitle'] = $active == "details" ? 'Gavi : My Profile' : 'Gavi : Change Password';
+        $this->global['pageTitle'] = $active == "details" ? 'BCLH : My Profile' : 'BCLH : Change Password';
         $this->loadViews("users/profile", $this->global, $data, NULL);
     }
 

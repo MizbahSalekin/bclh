@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Gavi | Admin System Log in</title>
+  <title>BCLH | Admin System Log in</title>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <link href="<?php echo base_url(); ?>assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
     type="text/css" />
@@ -25,8 +25,10 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <a href="#"><b>GAVI_CLHUB</b><br>Administration System</a>
-    </div><!-- /.login-logo -->
+      <img src="<?php echo base_url(); ?>assets/dist/img/new-logo.svg" alt="BCLH_logo">
+      <a href="#"><b>Bangladesh</b><br><b>Country Learning Hub</b><br>Administration System</a>
+    </div>
+    <!-- /.login-logo -->
     <div class="login-box-body">
       <p class="login-box-msg">Sign In</p>
       <?php $this->load->helper('form'); ?>
@@ -70,13 +72,13 @@
                 </label>
               </div>  -->
           </div><!-- /.col -->
-          <div class="col-xs-4">
+          <div class="col-xs-12">
             <input type="submit" class="btn btn-primary btn-block btn-flat" value="Sign In" />
           </div><!-- /.col -->
         </div>
       </form>
 
-      <a href="<?php echo base_url() ?>forgotPassword">Forgot Password</a><br>
+      <a href="<?php echo base_url() ?>forgotPassword" style="display: block; text-align: center; margin-top: 20px;">Forgot Password</a>
 
     </div><!-- /.login-box-body -->
   </div><!-- /.login-box -->

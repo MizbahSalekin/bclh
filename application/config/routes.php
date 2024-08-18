@@ -98,5 +98,7 @@ $route['roleListing/(:num)/(:num)'] = "roles/roleListing/$1/$2";
 
 
 // Routes for gavi
+$route['eScreening_summary'] = 'report/eScreening_summary';
+$route['eSupervision_summary'] = 'report/eSupervision_summary';
 $route['eScreening'] = 'report/eScreening';
 $route['eSupervision'] = 'report/eSupervision';

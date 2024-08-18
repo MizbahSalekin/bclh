@@ -124,7 +124,7 @@
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
                         <a href="<?php echo base_url(); ?>dashboard">
-                            <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
+                            <i class="fa fa-dashboard"></i> <span>Dashboard Menu</span></i>
                         </a>
                     </li>
 
@@ -140,6 +140,12 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <li><a href="<?php echo base_url(); ?>eScreening_summary"><i class="fa fa-circle-o"></i>
+                                        E-Screening Summary </a></li>
+
+                                <li><a href="<?php echo base_url(); ?>eSupervision_summary"><i class="fa fa-circle-o"></i>
+                                        E-Supervision Summary </a></li>
+
                                 <li><a href="<?php echo base_url(); ?>eScreening"><i class="fa fa-circle-o"></i>
                                         E-Screening Checklist </a></li>
 
