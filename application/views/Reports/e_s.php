@@ -87,18 +87,6 @@ $(function() {
             <div class="row">
                 <div class="col-md-4">                                
                     <div class="form-group">
-                        <label>DIVISION:</label>
-                                      <select name="div" id="div">
-                                          <option value="0" selected>Select Division</option>
-
-                                          <?php foreach($division as $obj){ ?>
-                                            <option value="<?php echo $obj->divisioneng?>" ><?php echo $obj->divisioneng?></option>
-                                          <?php } ?>
-                                      </select>
-                    </div>
-                </div>
-                <div class="col-md-4">                                
-                    <div class="form-group">
                         <label>DISTRICT:</label>
                                       <select name="dis" id="dis">
                                           <option value="0" selected>Select District</option>
@@ -129,7 +117,7 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">From Date</label>
-                        <input type="date" class="form-control required" id="start_date" name="start_date" value="">
+                        <input type="date" class="form-control" id="start_date" name="start_date" value="">
                     </div>
                 </div>
                 <div class="col-md-4">                                
@@ -147,7 +135,8 @@ $(function() {
             <div class="col-md-12">
                 <div class="form-group">
                     <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" />
+                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" onclick="this.form.reset(); window.location.reload();" />
+
                 </div>
             </div>
         </div>
@@ -302,7 +291,7 @@ $(function() {
                 alert("Please input From date and To date.");
                 return false;
             }
-            $("#filter_report").submit();
+            $("#generate_report").submit();
         });
 
         $("input[name='selectAlldivision[]'], input[name='selectItemdivision[]']").on('change', function() {

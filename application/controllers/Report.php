@@ -109,24 +109,54 @@ class Report extends BaseController
         }
     }
 
-    public function generate_report() {
-        // Get the start and end dates from the form
-        $start_date = $this->input->post('start_date');
-        $end_date = $this->input->post('end_date');
+    public function get_upazila_by_zillaid() {
+    $zillaid = $this->input->post('zillaid');  // Get the zillaid value from the POST data
+    
+    if ($zillaid) {
+        // Load the database library if it's not autoloaded
+        $this->load->database();
 
-        // Validate that the start date is not later than the end date
-        if (strtotime($start_date) > strtotime($end_date)) {
-            $data['error'] = "Start date cannot be later than end date.";
-            $this->load->view('report_form', $data);
-        } else {
-            // Fetch data from the model
-            $data['results'] = $this->report_model->get_report_data($start_date, $end_date);
-            $this->global['pageTitle'] = 'BCLH : E-Supervision';
-            $data['report_title'] = 'E-Supervision Report';
-            $this->loadViews("reports/e_s", $this->global, $data, NULL);
-            // $this->load->view('report_results', $data);  // Load the view to display the results
-        }
+        // Query the upazila table for the matching zillaid
+        $this->db->select('upazilaid, upazilanameeng');
+        $this->db->from('upazila');
+        $this->db->where('zillaid', $zillaid);
+        $query = $this->db->get();
+        
+        // Return the results as JSON
+        $result = $query->result_array();
+        echo json_encode($result);
+    } else {
+        echo json_encode([]);  // Return an empty array if zillaid is not provided
     }
+}
+
+
+
+    public function generate_report() {
+    // Get the start and end dates from the form
+    $start_date = $this->input->post('start_date');
+    $end_date = $this->input->post('end_date');
+            $district  = $this->report_model->getDistrict();
+            $upaz  = $this->report_model->getUpazilla();
+    $zilla_id = $this->input->post('zilla_id'); // Add this line to get the zilla filter
+    $upazila_id = $this->input->post('upazila_id'); // Add this line to get the upazila filter
+
+    // Validate that the start date is not later than the end date
+    if (strtotime($start_date) > strtotime($end_date)) {
+        $data['error'] = "Start date cannot be later than end date.";
+        $this->load->view('report_form', $data);
+    } else {
+        // Fetch data from the model with the remaining filters
+        $data['results'] = $this->report_model->get_report_data($start_date, $end_date, $zilla_id, $upazila_id);
+        $data['district'] = $district;
+        $data['upaz'] = $upaz;
+        $this->global['pageTitle'] = 'BCLH : E-Supervision';
+        $data['report_title'] = 'E-Supervision Report';
+
+        // Load the view to display the results
+        $this->loadViews("reports/e_s", $this->global, $data, NULL);
+    }
+}
 
     function eSupervision()
     {
@@ -176,6 +206,15 @@ class Report extends BaseController
             $this->loadViews("reports/e_screening", $this->global, $data, NULL);
         }
     }
+
+    // public function total_screening_count() {
+    //     // Assuming you have a model that fetches the count
+    //     $this->load->model('report_model');
+    //     $data['total_screening_count'] = $this->report_model->get_total_screening_count();
+
+    //     // Load your view and pass the data
+    //     $this->load->view('general/dashboard', $data);
+    // }
 
 }
 

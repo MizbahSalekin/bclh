@@ -362,6 +362,7 @@ $(function() {
     </script>
     <script>
     $(document).ready(function() {
+        $('#example tbody tr:last-child').css("background-color", "yellow");
         $('#example').DataTable({
             dom: 'Bfrtip',
             buttons: [

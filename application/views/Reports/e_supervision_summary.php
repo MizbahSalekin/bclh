@@ -87,29 +87,28 @@ $(function() {
             <div class="row">
                 <div class="col-md-4">                                
                     <div class="form-group">
-                        <label>DIVISION:</label>
-                                      <select name="div" id="div">
-                                          <option value="0" selected>Select Division</option>
-
-                                          <?php foreach($division as $obj){ ?>
-                                            <option value="<?php echo $obj->divisioneng?>" ><?php echo $obj->divisioneng?></option>
-                                          <?php } ?>
-                                      </select>
-                    </div>
-                </div>
-                <div class="col-md-4">                                
-                    <div class="form-group">
                         <label>DISTRICT:</label>
                                       <select name="dis" id="dis">
                                           <option value="0" selected>Select District</option>
 
                                           <?php foreach($district as $obj){ ?>
-                                            <option value="<?php echo $obj->zillanameeng?>" ><?php echo $obj->zillanameeng?></option>
+                                            <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
                                           <?php } ?>
                                       </select>
                     </div>
                 </div>
+
                 <div class="col-md-4">                                
+                    <div class="form-group">
+                        <label>UPAZILLA:</label>
+                        <select name="upazilla" id="upazilla">
+                            <option value="0" selected>Select District</option>
+                            <!-- Options will be populated here via AJAX -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- <div class="col-md-4">                                
                     <div class="form-group">
                         <label>UPAZILLA:</label>
                                       <select name="upazilla" id="upazilla">
@@ -120,7 +119,7 @@ $(function() {
                                           <?php } ?>
                                       </select>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 <!-- <h4>Select Date Range for Report</h4> -->
@@ -287,15 +286,55 @@ $(function() {
     <script src='https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js'></script>
 
 
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#dis').on('change', function() {
+                var zillaid = $(this).val(); 
+                if (zillaid) {
+                    // console.log(zillaid);
+                    $.ajax({
+                        url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',  
+                        type: 'POST',
+                        data: { zillaid: zillaid }, 
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response);  // Log the response to see what is being returned
+                            
+                            var upazillaDropdown = $('#upazilla');
+                            upazillaDropdown.empty();
+                            upazillaDropdown.append('<option value="0" selected>Select Upazila</option>');
+                            
+                            $.each(response, function(index, upazila) {
+                                upazillaDropdown.append('<option value="' + upazila.upazilaid + '">' + upazila.upazilanameeng + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);  // Log any error to the console
+                            alert('Error retrieving data.');
+                        }
+                    });
+                } else {
+                    $('#upazilla').empty().append('<option value="0" selected>Select Upazila</option>');
+                }
+            });
+        });
+
+
+    </script>
+
+
     <?php if (empty($_POST)) { ?>
     <script type="text/javascript">
     $(document).ready(function() {
-        $('#division').multipleSelect('setSelects', [50]);
-        set_district();
-    });
+    //     $('#division').multipleSelect('setSelects', [50]);
+    //     set_district();
+    // });
     </script>
     <?php } ?>
     <script>
+
+
     $(function() {
         $("#filter_submit").click(function() {
             if ($("#start_date").val() == '' || $("#end_date").val() == '') {

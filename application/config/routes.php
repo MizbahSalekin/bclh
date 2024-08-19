@@ -100,5 +100,6 @@ $route['roleListing/(:num)/(:num)'] = "roles/roleListing/$1/$2";
 // Routes for gavi
 $route['eScreening_summary'] = 'report/eScreening_summary';
 $route['eSupervision_summary'] = 'report/eSupervision_summary';
+$route['get-upazila-by-zillaid'] = 'Report/get_upazila_by_zillaid';
 $route['eScreening'] = 'report/eScreening';
 $route['eSupervision'] = 'report/eSupervision';
