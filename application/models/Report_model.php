@@ -19,8 +19,6 @@ class Report_model extends CI_Model
         return $district->result();
     }
 
-
-
     function getUpazilla(){
 
         $query = "SELECT DISTINCT upazilanameeng FROM upazila where upload = 1 ORDER BY upazilanameeng ASC";
@@ -29,13 +27,140 @@ class Report_model extends CI_Model
         return $upaz->result();
     }
 
-public function get_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
-    // Build the query with joins
+    public function get_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
+    $this->db->select('
+            s2.idno,
+            s1.zillaid AS ZILLA_Name,
+            z.zillanameeng,
+            z.zillaname,
+            s1.upazilaid,
+            u.upazilanameeng,
+            u.upazilaname,
+            s1.unionid,
+            un.unionnameeng,
+            un.unionname,
+            s1.entryuser,
+            p.provname,
+            c.ward_no,
+            c.epi_sub_block,
+            c.clusterid,
+            c.epi_cluster_name,
+            s1.interviewer_id,
+            DATE_FORMAT(s1.interviewer_date, "%d/%m/%y") as Interview_Date,
+            s1.q105,
+            s1.q106,
+            s1.q107,
+            pt.typename,
+            s1.slno,
+            s2.q111,
+            s2.q111a,
+            s2.q111b,
+            s2.q111c,
+            s2.q111d,
+            s2.q111e,
+            s2.q111x,
+            s2.q111x1,
+            s2.q112a,
+            s2.q112a1,
+            s2.q112a2,
+            s2.q112b,
+            s2.q112b1,
+            s2.q112b2,
+            s2.q112c,
+            s2.q112c1,
+            s2.q112c2,
+            s2.q112d,
+            s2.q112d1,
+            s2.q112d2,
+            s2.q112e,
+            s2.q112e1,
+            s2.q112e2,
+            s2.q112f,
+            s2.q112f1,
+            s2.q112f2,
+            s2.q112g,
+            s2.q112g1,
+            s2.q112g2,
+            s2.q112h,
+            s2.q112h1,
+            s2.q112h2,
+            s2.q112i,
+            s2.q112i1,
+            s2.q112i2,
+            s2.q112j,
+            s2.q112j1,
+            s2.q112j2,
+            s2.q112k,
+            s2.q112k1,
+            s2.q112k2,
+            s2.q112l,
+            s2.q112l1,
+            s2.q112l2,
+            s2.q113,
+            s2.q112p1a,
+            s2.q112p1b,
+            s2.q112p1c,
+            s2.q112p1d,
+            s2.q112p1e,
+            s2.q112p1x,
+            s2.q112p1x1,
+            s2.q112p2a,
+            s2.q112p2b,
+            s2.q112p2c,
+            s2.q112p2d,
+            s2.q112p2e,
+            s2.q112p2x,
+            s2.q112p2x1,
+            s2.q112p3a,
+            s2.q112p3b,
+            s2.q112p3c,
+            s2.q112p3d,
+            s2.q112p3e,
+            s2.q112p3x,
+            s2.q112p3x1,
+            s2.q112m1a,
+            s2.q112m1b,
+            s2.q112m1c,
+            s2.q112m1d,
+            s2.q112m1e,
+            s2.q112m1x,
+            s2.q112m1x1,
+            DATE_FORMAT(s1.uploaddt, "%d/%m/%Y") as uploaddt
+        ');
+
+        $this->db->from('section_1_identifications_ipc_reg s1');
+        $this->db->join('section_1_manager_staff_service s2', 's2.idno = s1.idno');
+        $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
+        $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
+        $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
+        $this->db->join('division d', 'd.id = z.divid', 'left');
+        $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
+        $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
+        $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
+        $this->db->where('s2.idno IS NOT NULL');
+        // $this->db->where('s1.uploaddt >=', $start_date);
+        // $this->db->where('s1.uploaddt <=', $end_date);
+
+        // Add the zilla and upazila filters if provided
+        if ($zilla_id !== null) {
+
+            $this->db->where('s1.zillaid', $zilla_id);
+        }
+        if ($upazila_id !== null) {
+            $this->db->where('s1.upazilaid', $upazila_id);
+
+        }
+
+        $this->db->order_by('s1.uploaddt', 'ASC');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+    public function get_supervision_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
     $this->db->select('
         s2.idno,
-        d.id AS Division_ID,
-        d.divisioneng,
-        d.division,
         s1.zillaid AS ZILLA_Name,
         z.zillanameeng,
         z.zillaname,
@@ -139,7 +264,6 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
     $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
     $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
     $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
-    $this->db->join('division d', 'd.id = z.divid', 'left');
     $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
     $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
     $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
@@ -147,25 +271,23 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
     $this->db->where('s1.uploaddt >=', $start_date);
     $this->db->where('s1.uploaddt <=', $end_date);
 
-    // Add the zilla and upazila filters if provided
     if ($zilla_id !== null) {
         $this->db->where('s1.zillaid', $zilla_id);
-    }
+        }
     if ($upazila_id !== null) {
         $this->db->where('s1.upazilaid', $upazila_id);
-    }
+        }
 
-    $this->db->order_by('s1.uploaddt', 'ASC');
+    $this->db->order_by('s1.uploaddt', 'DESC');
 
-    // Execute the query and return results
     $query = $this->db->get();
     return $query->result_array();
-}
+    }
 
     function eScreening_summary_model()
         {
             $queryUnion = "SELECT
-                        'Total' as zillaname,
+                        'Total' as District,
                         SUM(CASE 
                             WHEN s1.q109 LIKE '%test%' 
                             OR s2.q201 LIKE '%test%' 
@@ -240,7 +362,7 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
                         ";
 
         $queryRadio = "SELECT
-                        z.zillanameeng as zillaname,
+                        z.zillanameeng as District,
                         SUM(CASE 
                             WHEN s1.q109 LIKE '%test%' 
                             OR s2.q201 LIKE '%test%' 
@@ -321,97 +443,10 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
         return $radio_query_result->result();
     }
 
-    function eSupervision_summary_model()
-    {
-        $queryRadio = "SELECT 
-                        z.zillanameeng,
-                        u.upazilanameeng,
-                        un.unionnameeng,
-                        p.provname,
-                        c.ward_no,
-                        c.epi_sub_block,
-                        c.epi_cluster_name,
-                        s1.interviewer_date,
-                        s1.q105,
-                        s1.q106,
-                        s1.q107,
-                        pt.typename,
-                        s2.idno,
-                        s1.slno,
-                        s2.q111,
-                        s2.q111a,
-                        s2.q111b,
-                        s2.q111c,
-                        s2.q111d,
-                        s2.q111e,
-                        s2.q111x,
-                        s2.q111x1,
-                        s2.q112a,
-                        s2.q112a1,
-                        s2.q112a2,
-                        s2.q112b,
-                        s2.q112b1,
-                        s2.q112b2,
-                        s2.q112c,
-                        s2.q112c1,
-                        s2.q112c2,
-                        s2.q112d,
-                        s2.q112d1,
-                        s2.q112d2,
-                        s2.q112e,
-                        s2.q112e1,
-                        s2.q112e2,
-                        s2.q112f,
-                        s2.q112f1,
-                        s2.q112f2,
-                        s2.q112g,
-                        s2.q112g1,
-                        s2.q112g2,
-                        s2.q112h,
-                        s2.q112h1,
-                        s2.q112h2,
-                        s2.q112i,
-                        s2.q112i1,
-                        s2.q112i2,
-                        s2.q112j,
-                        s2.q112j1,
-                        s2.q112j2,
-                        s2.q112k,
-                        s2.q112k1,
-                        s2.q112k2,
-                        s2.q112l,
-                        s2.q112l1,
-                        s2.q112l2,
-                        s2.q113,
-                        s2.q112p1a,
-                        s2.q112p1b,
-                        s2.q112p1c,
-                        s2.q112p1d,
-                        s2.q112p1e,
-                        s2.q112p1x,
-                        s2.q112p1x1,
-                        s2.q112p2a,
-                        s2.q112p2b,
-                        s2.q112p2c,
-                        s2.q112p2d,
-                        s2.q112p2e,
-                        s2.q112p2x,
-                        s2.q112p2x1,
-                        s2.q112p3a,
-                        s2.q112p3b,
-                        s2.q112p3c,
-                        s2.q112p3d,
-                        s2.q112p3e,
-                        s2.q112p3x,
-                        s2.q112p3x1,
-                        s2.q112m1a,
-                        s2.q112m1b,
-                        s2.q112m1c,
-                        s2.q112m1d,
-                        s2.q112m1e,
-                        s2.q112m1x,
-                        s2.q112m1x1,
-                        s1.uploaddt 
+    function eSupervision_summary_model(){
+        $query_Union = "SELECT
+                        'Total' as Union_Name,
+                        COUNT(DISTINCT s2.idno) AS Total_Supervision_Checklist_Used 
                         FROM
                         section_1_identifications_ipc_reg s1 
                         JOIN section_1_manager_staff_service s2 
@@ -431,15 +466,67 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
                             AND un.unionid = s1.unionid 
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s1.q106 AS UNSIGNED) 
-                        WHERE s2.idno IS NOT NULL ;
+                        WHERE s2.idno IS NOT NULL
                     ";
 
-        $radio_query_result = $this->db->query($queryRadio);
+        $query_Radio = "SELECT
+                        un.unionnameeng AS Union_Name,
+                        COUNT(DISTINCT s2.idno) AS Total_Supervision_Checklist_Used  
+                        FROM
+                        section_1_identifications_ipc_reg s1 
+                        JOIN section_1_manager_staff_service s2 
+                            ON s2.idno = s1.idno 
+                        LEFT JOIN providerdb p 
+                            ON p.providerid = CAST(s1.entryuser AS UNSIGNED) 
+                        LEFT JOIN providertype pt 
+                            ON pt.provtype = CAST(s1.q107 AS UNSIGNED) 
+                        LEFT JOIN zilla z 
+                            ON z.zillaid = s1.zillaid 
+                        LEFT JOIN upazila u 
+                            ON u.zillaid = s1.zillaid 
+                            AND u.upazilaid = s1.upazilaid 
+                        LEFT JOIN unions un 
+                            ON un.zillaid = s1.zillaid 
+                            AND un.upazilaid = s1.upazilaid 
+                            AND un.unionid = s1.unionid 
+                        LEFT JOIN cluster c 
+                            ON c.clusterid = CAST(s1.q106 AS UNSIGNED) 
+                        WHERE s2.idno IS NOT NULL
+                        GROUP BY un.unionid
+                        UNION ALL
+                        $query_Union
+                    ";
+
+        $radio_query_result = $this->db->query($query_Radio);
         return $radio_query_result->result();
     }
 
     function eScreening_model()
     {
+
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+        $zilla_id = $this->input->post('zilla_id'); 
+        $upazila_id = $this->input->post('upazila_id');
+        $where = '';
+        if($zilla_id != ''){
+            $where .= "AND s1.zillaid = '" . $zilla_id . "'";
+          
+        }
+        if($upazila_id != ''){
+            $where .= "AND s1.upazilaid = '" . $upazila_id . "'";
+            
+        }
+
+        if($start_date != ''){
+            $where .= "AND s1.uploaddt > '" . $start_date . "'";
+          
+        }
+        if($end_date != ''){
+            $where .= "AND s1.uploaddt < '" . $end_date . "'";
+            
+        }
+
         $queryRadio = "SELECT 
                         s1.zillaid,
                         z.zillanameeng,
@@ -533,7 +620,7 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
                             AND un.unionid = s1.unionid 
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s2.q211 AS INTEGER) 
-                        WHERE s2.idno IS NOT NULL ;
+                        WHERE s2.idno IS NOT NULL $where;
                     ";
 
         $radio_query_result = $this->db->query($queryRadio);
@@ -659,29 +746,13 @@ public function get_report_data($start_date, $end_date, $zilla_id = null, $upazi
                             AND un.unionid = s1.unionid 
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s1.q106 AS UNSIGNED) 
-                        WHERE s2.idno IS NOT NULL ;
+                        WHERE s2.idno IS NOT NULL
+
                     ";
 
         $radio_query_result = $this->db->query($queryRadio);
         return $radio_query_result->result();
     }
-
-    // public function get_total_screening_count() {
-    //     $this->db->select('COUNT(DISTINCT s1.idno) AS Total_Screening_Count');
-    //     $this->db->from('section_1_identifications_ipc_reg s1');
-    //     $this->db->join('section_1_manager_staff_service s2', 's2.idno = s1.idno');
-    //     $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
-    //     $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
-    //     $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
-    //     $this->db->join('division d', 'd.id = z.divid', 'left');
-    //     $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
-    //     $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
-    //     $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
-    //     $this->db->where('s2.idno IS NOT NULL');
-
-    //     $query = $this->db->get();
-    //     return $query->row()->Total_Screening_Count;
-    // }
 
     function userListingCount($searchText)
     {

@@ -88,11 +88,11 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>DISTRICT:</label>
-                                      <select name="dis" id="dis">
+                                      <select name="zilla_id" id="zilla_id">
                                           <option value="0" selected>Select District</option>
 
                                           <?php foreach($district as $obj){ ?>
-                                            <option value="<?php echo $obj->zillanameeng?>" ><?php echo $obj->zillanameeng?></option>
+                                            <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
                                           <?php } ?>
                                       </select>
                     </div>
@@ -130,7 +130,7 @@ $(function() {
         </div>
 
 <body>
-
+    </form>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -179,7 +179,7 @@ $(function() {
                         $i = 1;
                         $header = $row_column = '';
                         $division = $district = $thana = 0;
-                        foreach ($results as $object) {
+                        foreach ($result_data as $object) {
                             $row_column .= '<tr>';
                             //$arr_geo = array('Present_Division', 'Present_District');
                             foreach ($object as $key => $value) {
@@ -275,6 +275,41 @@ $(function() {
         src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src='https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js'></script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#zilla_id').on('change', function() {
+                var zillaid = $(this).val(); 
+                if (zillaid) {
+                    // console.log(zillaid);
+                    $.ajax({
+                        url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',  
+                        type: 'POST',
+                        data: { zillaid: zillaid }, 
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response);  // Log the response to see what is being returned
+                            
+                            var upazillaDropdown = $('#upazilla');
+                            upazillaDropdown.empty();
+                            upazillaDropdown.append('<option value="0" selected>Select Upazila</option>');
+                            
+                            $.each(response, function(index, upazila) {
+                                upazillaDropdown.append('<option value="' + upazila.upazilaid + '">' + upazila.upazilanameeng + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);  // Log any error to the console
+                            alert('Error retrieving data.');
+                        }
+                    });
+                } else {
+                    $('#upazilla').empty().append('<option value="0" selected>Select Upazila</option>');
+                }
+            });
+        });
+
+
+    </script>
 
     <?php if (empty($_POST)) { ?>
     <script type="text/javascript">
@@ -291,7 +326,7 @@ $(function() {
                 alert("Please input From date and To date.");
                 return false;
             }
-            $("#generate_report").submit();
+            $("#generate_supervision_report").submit();
         });
 
         $("input[name='selectAlldivision[]'], input[name='selectItemdivision[]']").on('change', function() {

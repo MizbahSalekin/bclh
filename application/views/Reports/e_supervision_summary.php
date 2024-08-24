@@ -75,85 +75,6 @@ $(function() {
 
         <div class="row">
             <div class="col-xs-12">
-
-            <?php if (isset($error)): ?>
-                <p style="color:red;"><?php echo $error; ?></p>
-            <?php endif; ?>
-
-            <!-- <h4>Select Area for Report</h4>                 -->
-            <form id="generate_report" method="post" action="<?= base_url('report/generate_report') ?>">
-
-                <div class="box-body">
-            <div class="row">
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label>DISTRICT:</label>
-                                      <select name="dis" id="dis">
-                                          <option value="0" selected>Select District</option>
-
-                                          <?php foreach($district as $obj){ ?>
-                                            <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
-                                          <?php } ?>
-                                      </select>
-                    </div>
-                </div>
-
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label>UPAZILLA:</label>
-                        <select name="upazilla" id="upazilla">
-                            <option value="0" selected>Select District</option>
-                            <!-- Options will be populated here via AJAX -->
-                        </select>
-                    </div>
-                </div>
-
-                <!-- <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label>UPAZILLA:</label>
-                                      <select name="upazilla" id="upazilla">
-                                          <option value="0" selected>Select District</option>
-
-                                          <?php foreach($upaz as $obj){ ?>
-                                            <option value="<?php echo $obj->upazilanameeng?>" ><?php echo $obj->upazilanameeng?></option>
-                                          <?php } ?>
-                                      </select>
-                    </div>
-                </div> -->
-            </div>
-        </div>
-<!-- <h4>Select Date Range for Report</h4> -->
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label for="date">From Date</label>
-                        <input type="date" class="form-control required" id="start_date" name="start_date" value="">
-                    </div>
-                </div>
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label for="date">To Date</label>
-                        <input type="date" class="form-control required" id="end_date" name="end_date" value="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<body>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" />
-                </div>
-            </div>
-        </div>
-
-    </form>
-</body>
-
                 <div class="box box-primary">
                     <div class="box-header">
 
@@ -285,45 +206,6 @@ $(function() {
         src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src='https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js'></script>
 
-
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#dis').on('change', function() {
-                var zillaid = $(this).val(); 
-                if (zillaid) {
-                    // console.log(zillaid);
-                    $.ajax({
-                        url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',  
-                        type: 'POST',
-                        data: { zillaid: zillaid }, 
-                        dataType: 'json',
-                        success: function(response) {
-                            console.log(response);  // Log the response to see what is being returned
-                            
-                            var upazillaDropdown = $('#upazilla');
-                            upazillaDropdown.empty();
-                            upazillaDropdown.append('<option value="0" selected>Select Upazila</option>');
-                            
-                            $.each(response, function(index, upazila) {
-                                upazillaDropdown.append('<option value="' + upazila.upazilaid + '">' + upazila.upazilanameeng + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);  // Log any error to the console
-                            alert('Error retrieving data.');
-                        }
-                    });
-                } else {
-                    $('#upazilla').empty().append('<option value="0" selected>Select Upazila</option>');
-                }
-            });
-        });
-
-
-    </script>
-
-
     <?php if (empty($_POST)) { ?>
     <script type="text/javascript">
     $(document).ready(function() {
@@ -336,14 +218,7 @@ $(function() {
 
 
     $(function() {
-        $("#filter_submit").click(function() {
-            if ($("#start_date").val() == '' || $("#end_date").val() == '') {
-                alert("Please input From date and To date.");
-                return false;
-            }
-            $("#filter_report").submit();
-        });
-
+        
         $("input[name='selectAlldivision[]'], input[name='selectItemdivision[]']").on('change', function() {
             set_district();
         });
@@ -480,7 +355,11 @@ $(function() {
     <script>
     // 'print',
     $(document).ready(function() {
+        $('#example tbody tr:last-child').css("background-color", "yellow");
         $('#example').DataTable({
+            paging:true,
+            pageLength: 25,
+            lengthMenu: [[25, 50, 100, -1],[25, 50, 100, "All"]],
             dom: 'Bfrtip',
             buttons: [
                 'excel', 'csv', 'copy'

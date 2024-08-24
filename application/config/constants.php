@@ -88,6 +88,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 /**** USER DEFINED CONSTANTS **********/
 define('SYSTEM_ADMIN',                          1);
 define('REGULAR_USER',                          2);
+define('Sakekin',                          3);
 
 define('SEGMENT',								2);
 

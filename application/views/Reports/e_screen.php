@@ -77,70 +77,69 @@ $(function() {
             <div class="col-xs-12">
 
                 <?php if (isset($error)): ?>
-                <p style="color:red;"><?php echo $error; ?></p>
-            <?php endif; ?>
-
-            <!-- <h4>Select Area for Report</h4>                 -->
-            <form id="generate_supervision_report" method="post" action="<?= base_url('report/generate_supervision_report') ?>">
-
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label>DISTRICT:</label>
-                                      <select name="zilla_id" id="zilla_id">
+                        <p style="color:red;"><?php echo $error; ?></p>
+                        <?php endif; ?>
+                    
+                <form id="generate_screening_report" method="post" action="<?= base_url('report/generate_screening_report') ?>">
+                    
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">                                
+                            <div class="form-group">
+                                <label>DISTRICT:</label>
+                                    <select name="zilla_id" id="zilla_id">
                                           <option value="0" selected>Select District</option>
 
                                           <?php foreach($district as $obj){ ?>
                                             <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
                                           <?php } ?>
-                                      </select>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">                                
+                            <div class="form-group">
+                                <label>UPAZILLA:</label>
+                                <select name="upazilla" id="upazilla">
+                                    <option value="0" selected>Select Upazilla</option>
+                                    <!-- Options will be populated here via AJAX -->
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label>UPAZILLA:</label>
-                        <select name="upazilla" id="upazilla">
-                            <option value="0" selected>Select District</option>
-                            <!-- Options will be populated here via AJAX -->
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-        </div>
 <!-- <h4>Select Date Range for Report</h4> -->
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label for="date">From Date</label>
-                        <input type="date" class="form-control required" id="start_date" name="start_date" value="">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">                                
+                            <div class="form-group">
+                                <label for="date">From Date</label>
+                                <input type="date" class="form-control required" id="start_date" name="start_date" value="">
+                            </div>
+                        </div>
+                        <div class="col-md-4">                                
+                            <div class="form-group">
+                                <label for="date">To Date</label>
+                                <input type="date" class="form-control required" id="end_date" name="end_date" value="">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">                                
-                    <div class="form-group">
-                        <label for="date">To Date</label>
-                        <input type="date" class="form-control required" id="end_date" name="end_date" value="">
-                    </div>
-                </div>
-            </div>
-        </div>
 
-<body>
-    <form>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" />
-                </div>
-            </div>
-        </div>
+                <body>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
+                                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" onclick="this.form.reset(); window.location.reload();" />
+                                </div>
+                            </div>
+                        </div>
 
-    </form>
-</body>
+                    </form>
+                </body>
 
                 <div class="box box-primary">
                     <div class="box-header">
@@ -261,6 +260,7 @@ $(function() {
 
 
     ?>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" language="javascript"
         src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript"
@@ -272,6 +272,7 @@ $(function() {
     <script type="text/javascript" language="javascript"
         src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src='https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.5.2/multiple-select.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -309,7 +310,6 @@ $(function() {
 
     </script>
 
-
     <?php if (empty($_POST)) { ?>
     <script type="text/javascript">
     $(document).ready(function() {
@@ -325,7 +325,7 @@ $(function() {
                 alert("Please input From date and To date.");
                 return false;
             }
-            $("#generate_supervision_report").submit();
+            $("#generate_report").submit();
         });
 
         $("input[name='selectAlldivision[]'], input[name='selectItemdivision[]']").on('change', function() {
@@ -462,7 +462,6 @@ $(function() {
     }
     </script>
     <script>
-    // 'print',
     $(document).ready(function() {
         $('#example').DataTable({
             dom: 'Bfrtip',

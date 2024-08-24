@@ -13,14 +13,15 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>270<sup style="font-size: 20px"></sup></h3>
+                        <h3>323<sup style="font-size: 20px"></sup></h3>
+                        <h2>E-Screening Checklist</h2>
                         <p>Identified Zero Dose, Under Immunized & Drop Out Children</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="<?php echo base_url(); ?>eScreening_summary" class="small-box-footer">Click For Summarized View...<i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="<?php echo base_url(); ?>eScreening" class="small-box-footer">Click For Detailed View...<i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo base_url(); ?>eScreening_summary" class="small-box-footer">For Summarized View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo base_url(); ?>eScreening" class="small-box-footer">For Detailed View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             
             </div><!-- ./col -->
@@ -28,14 +29,14 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>140</h3>
-                        <p>E-Supervision Checklist</p>
+                        <h3>153</h3>
+                        <h2>E-Supervision Checklist</h2>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="<?php echo base_url(); ?>eSupervision_summary" class="small-box-footer">Click For Summarized View...<i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="<?php echo base_url(); ?>eSupervision" class="small-box-footer">Click For Detailed View...<i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo base_url(); ?>eSupervision_summary" class="small-box-footer" style="color:white">For Summarized View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo base_url(); ?>eSupervision" class="small-box-footer">For Detailed View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div><!-- ./col -->
         </div>

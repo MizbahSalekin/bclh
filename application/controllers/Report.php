@@ -27,7 +27,7 @@ class Report extends BaseController
 
     function eScreening_summary()
     {
-        if (!$this->isAdmin()) {
+        if ($this->isAdmin()) {
             $this->loadThis();
         } else {
             $searchText = '';
@@ -44,6 +44,7 @@ class Report extends BaseController
 
             $this->global['pageTitle'] = 'BCLH : E-Screening Summary';
             $data['report_title'] = 'E-Screening Checklist Summary';
+            $data['report_sub_title'] = 'E-Screening Checklist: Detailed View';
 
             $this->loadViews("reports/e_screening_summary", $this->global, $data, NULL);
         }
@@ -51,7 +52,7 @@ class Report extends BaseController
 
     function eScreening()
     {
-        if (!$this->isAdmin()) {
+        if ($this->isAdmin()) {
             $this->loadThis();
         } else {
             $searchText = '';
@@ -60,14 +61,26 @@ class Report extends BaseController
             }
             $data['searchText'] = $searchText;
 
+            $start_date = $this->input->post('start_date');
+            $end_date = $this->input->post('end_date');
+            $division  = $this->report_model->getDivision();
+            $district  = $this->report_model->getDistrict();
+            $upaz  = $this->report_model->getUpazilla();
+
             $this->load->library('pagination');
 
             $result_data = $this->report_model->eScreening_model();
 
             $data['result_data'] = $result_data;
+            $data['division'] = $division;
+            $data['district'] = $district;
+            $data['upaz'] = $upaz;
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
 
             $this->global['pageTitle'] = 'BCLH : E-Screening';
             $data['report_title'] = 'E-Screening Checklist';
+            $data['report_sub_title'] = 'E-Screening Checklist: Summarized View';
 
             $this->loadViews("reports/e_screening", $this->global, $data, NULL);
         }
@@ -75,7 +88,7 @@ class Report extends BaseController
 
     function eSupervision_summary()
     {
-        if (!$this->isAdmin()) {
+        if ($this->isAdmin()) {
             $this->loadThis();
         } else {
             $searchText = '';
@@ -93,7 +106,7 @@ class Report extends BaseController
 
 
 
-            $this->load->library('pagination');
+            // $this->load->library('pagination');
 
             $result_data = $this->report_model->eSupervision_summary_model();
 
@@ -130,14 +143,48 @@ class Report extends BaseController
     }
 }
 
-
-
-    public function generate_report() {
+    public function generate_screening_report() {
     // Get the start and end dates from the form
     $start_date = $this->input->post('start_date');
     $end_date = $this->input->post('end_date');
-            $district  = $this->report_model->getDistrict();
-            $upaz  = $this->report_model->getUpazilla();
+    
+    // Get the zilla and upazila filters
+    $zilla_id = $this->input->post('zilla_id'); 
+    $upazila_id = $this->input->post('upazila_id');
+    
+    // pre($start_date);
+    // pre($end_date);
+    // pre($zilla_id);
+    // pre($upazila_id);
+    // die();
+
+    $data = [];
+
+    // Validate that the start date is not later than the end date
+    if (strtotime($start_date) > strtotime($end_date)) {
+        $data['error'] = "Start date cannot be later than end date.";
+        $this->load->view('report_form', $data);
+    } else {
+        $start_date = date('Y-m-d', strtotime($start_date));
+        $end_date = date('Y-m-d', strtotime($end_date));
+
+  
+        $data['result_data'] = $this->report_model->get_report_data($start_date, $end_date, $zilla_id, $upazila_id);
+        pre($data);
+        die();
+
+        $this->global['pageTitle'] = 'BCLH : E-Screening Filter';
+        $data['report_title'] = 'E-Screening Filtered Report';
+        $this->loadViews("reports/e_screen", $this->global, $data, NULL);
+    }
+}
+
+
+    public function generate_supervision_report() {
+    // Get the start and end dates from the form
+    $start_date = $this->input->post('start_date');
+    $end_date = $this->input->post('end_date');
+    // Omit division_id filter
     $zilla_id = $this->input->post('zilla_id'); // Add this line to get the zilla filter
     $upazila_id = $this->input->post('upazila_id'); // Add this line to get the upazila filter
 
@@ -147,40 +194,54 @@ class Report extends BaseController
         $this->load->view('report_form', $data);
     } else {
         // Fetch data from the model with the remaining filters
-        $data['results'] = $this->report_model->get_report_data($start_date, $end_date, $zilla_id, $upazila_id);
-        $data['district'] = $district;
-        $data['upaz'] = $upaz;
-        $this->global['pageTitle'] = 'BCLH : E-Supervision';
-        $data['report_title'] = 'E-Supervision Report';
+        $data['result_data'] = $this->report_model->get_report_data($start_date, $end_date, $zilla_id, $upazila_id);
+        $this->global['pageTitle'] = 'BCLH : E-Supervision Filter';
+        $data['report_title'] = 'E-Supervision Report Filtered Report';
 
         // Load the view to display the results
-        $this->loadViews("reports/e_s", $this->global, $data, NULL);
+        $this->loadViews("reports/e_super", $this->global, $data, NULL);
     }
 }
 
+
     function eSupervision()
-    {
-        if (!$this->isAdmin()) {
-            $this->loadThis();
-        } else {
-            $searchText = '';
-            if (!empty($this->input->post('searchText'))) {
-                $searchText = $this->security->xss_clean($this->input->post('searchText'));
-            }
-            $data['searchText'] = $searchText;
-
-            $this->load->library('pagination');
-
-            $result_data = $this->report_model->eSupervision_model();
-
-            $data['result_data'] = $result_data;
-
-            $this->global['pageTitle'] = 'BCLH : E-Supervision';
-            $data['report_title'] = 'E-Supervision Checklist';
-
-            $this->loadViews("reports/e_supervision", $this->global, $data, NULL);
+{
+    if ($this->isAdmin()) {
+        $this->loadThis();
+    } else {
+        // Capture search filters
+        $division_id = $this->input->post('division_id');
+        $district_id = $this->input->post('district_id');
+        $upazila_id = $this->input->post('upazila_id');
+        $searchText = '';
+        if (!empty($this->input->post('searchText'))) {
+            $searchText = $this->security->xss_clean($this->input->post('searchText'));
         }
+        $data['searchText'] = $searchText;
+
+        // Get division, district, and upazila lists for the filters
+        $division = $this->report_model->getDivision();
+        $district = $this->report_model->getDistrict();
+        $upaz = $this->report_model->getUpazilla();
+
+        // Load pagination library
+        $this->load->library('pagination');
+
+        // Fetch the filtered data
+        $result_data = $this->report_model->eSupervision_model($division_id, $district_id, $upazila_id, $searchText);
+
+        $data['result_data'] = $result_data;
+        $data['division'] = $division;
+        $data['district'] = $district;
+        $data['upaz'] = $upaz;
+
+        $this->global['pageTitle'] = 'BCLH : E-Supervision';
+        $data['report_title'] = 'E-Supervision Checklist';
+
+        $this->loadViews("reports/e_supervision", $this->global, $data, NULL);
     }
+}
+
 
     function userListing()
     {

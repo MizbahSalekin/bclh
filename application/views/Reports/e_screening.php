@@ -75,6 +75,71 @@ $(function() {
 
         <div class="row">
             <div class="col-xs-12">
+
+                 <?php if (isset($error)): ?>
+                        <p style="color:red;"><?php echo $error; ?></p>
+                        <?php endif; ?>
+                    
+                <form  method="post" action="<?= base_url('report/eScreening') ?>">
+                    <!-- id="eScreening" -->
+                <div class="box-body">
+            <div class="row">
+                <div class="col-md-4">                                
+                    <div class="form-group">
+                        <label>DISTRICT:</label>
+                                      <select name="zilla_id" id="zilla_id">
+                                          <option value="" selected>Select District</option>
+                                          <?php foreach($district as $obj){ ?>
+                                            <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
+                                          <?php } ?>
+                                      </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">                                
+                    <div class="form-group">
+                        <label>UPAZILLA:</label>
+                        <select name="upazila_id" id="upazila_id">
+                            <option value="" selected>Select Upazilla</option>
+                            <!-- Options will be populated here via AJAX -->
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+<!-- <h4>Select Date Range for Report</h4> -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-4">                                
+                    <div class="form-group">
+                        <label for="date">From Date</label>
+                        <input type="date" class="form-control required" id="start_date" name="start_date" value="">
+                    </div>
+                </div>
+                <div class="col-md-4">                                
+                    <div class="form-group">
+                        <label for="date">To Date</label>
+                        <input type="date" class="form-control required" id="end_date" name="end_date" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<body>
+    <form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
+                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" onclick="this.form.reset(); window.location.reload();" />
+                </div>
+            </div>
+        </div>
+
+    </form>
+</body>
+
                 <div class="box box-primary">
                     <div class="box-header">
 
@@ -159,6 +224,25 @@ $(function() {
             </div>
         </div>
     </section>
+
+<section class="content-footer">
+    <div class="row">
+        <div class="col-xs-12 text-center header-margin">
+            <h3>
+                <div style="border: 1px solid #000; padding: 10px; display: inline-block; color: #ff0000; background-color: #f0f0f0; font-weight: bold;">
+                    <a href="<?php echo base_url(); ?>eScreening" style="color: #ff0000; text-decoration: none;">
+                        <?php echo $report_sub_title; ?>
+                    </a>
+                </div>
+
+                <?php
+                $CI =& get_instance();
+                ?>
+            </h3>
+        </div>
+    </div>
+</section>
+    
 </div>
 </div>
 
@@ -208,6 +292,39 @@ $(function() {
     <script src='https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/multiple-select/1.5.2/multiple-select.min.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#zilla_id').on('change', function() {
+                var zillaid = $(this).val(); 
+                if (zillaid) {
+                    // console.log(zillaid);
+                    $.ajax({
+                        url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',  
+                        type: 'POST',
+                        data: { zillaid: zillaid }, 
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response);  // Log the response to see what is being returned
+                            
+                            var upazillaDropdown = $('#upazila_id');
+                            upazillaDropdown.empty();
+                            upazillaDropdown.append('<option value="0" selected>Select Upazila</option>');
+                            
+                            $.each(response, function(index, upazila) {
+                                upazillaDropdown.append('<option value="' + upazila.upazilaid + '">' + upazila.upazilanameeng + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);  // Log any error to the console
+                            alert('Error retrieving data.');
+                        }
+                    });
+                } else {
+                    $('#upazila_id').empty().append('<option value="0" selected>Select Upazila</option>');
+                }
+            });
+        });
+    </script>
 
     <?php if (empty($_POST)) { ?>
     <script type="text/javascript">
@@ -224,7 +341,7 @@ $(function() {
                 alert("Please input From date and To date.");
                 return false;
             }
-            $("#filter_report").submit();
+            $("#eScreening").submit();
         });
 
         $("input[name='selectAlldivision[]'], input[name='selectItemdivision[]']").on('change', function() {

@@ -56,28 +56,25 @@ $(function() {
 });
 </script>
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="row">
-            <div class="col-xs-6 text-left header-margin ">
-                <h3>
-                    <?php echo $report_title; ?>
-                    <?php
-                    $CI =& get_instance();
-                    ?>
-                </h3>
+        <section class="content-header">
+            <div class="row">
+                <div class="col-xs-12 text-left header-margin ">
+                    <h3>
+                        <?php echo $report_title; ?>
+                        <?php
+                        $CI =& get_instance();
+                        ?>
+                    </h3>
+                </div>
             </div>
+        </section>
 
-        </div>
-    </section>
 
-    <section class="content content-margin">
-
+<section class="content content-margin">
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-primary">
                     <div class="box-header">
-
 
                         <?php
                         $this->load->helper('form');
@@ -159,6 +156,26 @@ $(function() {
             </div>
         </div>
     </section>
+
+<section class="content-footer">
+    <div class="row">
+        <div class="col-xs-12 text-center header-margin">
+            <h3>
+                <div style="border: 1px solid #000; padding: 10px; display: inline-block; color: #ff0000; background-color: #f0f0f0; font-weight: bold;">
+                    <a href="<?php echo base_url(); ?>eScreening" style="color: #ff0000; text-decoration: none;">
+                        <?php echo $report_sub_title; ?>
+                    </a>
+                </div>
+
+                <?php
+                $CI =& get_instance();
+                ?>
+            </h3>
+        </div>
+    </div>
+</section>
+
+
 </div>
 </div>
 

@@ -103,6 +103,7 @@
                                         <select class="form-control required" id="isAdmin" name="isAdmin">
                                             <option value="<?= REGULAR_USER ?>">Regular User</option>
                                             <option value="<?= SYSTEM_ADMIN ?>">System Administrator</option>
+                                            <option value="<?= Sakekin ?>">Test User</option>
                                         </select>
                                     </div>
                                 </div>
