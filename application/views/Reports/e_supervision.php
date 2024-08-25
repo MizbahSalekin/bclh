@@ -72,7 +72,6 @@ $(function() {
     </section>
 
     <section class="content content-margin">
-
         <div class="row">
             <div class="col-xs-12">
 
@@ -81,16 +80,14 @@ $(function() {
             <?php endif; ?>
 
             <!-- <h4>Select Area for Report</h4>                 -->
-            <form id="generate_supervision_report" method="post" action="<?= base_url('report/generate_supervision_report') ?>">
-
+    <form  method="post" action="<?= base_url('report/eSupervision') ?>">
         <div class="box-body">
             <div class="row">
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>DISTRICT:</label>
                                       <select name="zilla_id" id="zilla_id">
-                                          <option value="0" selected>Select District</option>
-
+                                          <option value="" selected>Select District</option>
                                           <?php foreach($district as $obj){ ?>
                                             <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
                                           <?php } ?>
@@ -101,8 +98,8 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>UPAZILLA:</label>
-                        <select name="upazilla" id="upazilla">
-                            <option value="0" selected>Select District</option>
+                        <select name="upazila_id" id="upazila_id">
+                            <option value="" selected>Select Upazilla</option>
                             <!-- Options will be populated here via AJAX -->
                         </select>
                     </div>
@@ -127,18 +124,15 @@ $(function() {
                 </div>
             </div>
         </div>
-
 <body>
-    <form>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" />
+                    <input type="button" id="filter_reset" class="btn btn-default" value="Reset" onclick="resetForm();" />
                 </div>
             </div>
         </div>
-
     </form>
 </body>
 
@@ -226,6 +220,25 @@ $(function() {
             </div>
         </div>
     </section>
+
+    <section class="content-footer">
+    <div class="row">
+        <div class="col-xs-12 text-center header-margin">
+            <p>
+                <div style="border: 1px solid #000000; padding: 10px; display: inline-block; color: #000000; background-color: #000000; font-weight: bold;">
+                    <a href="<?php echo base_url(); ?>eSupervision_summary" style="color: #ffff00; text-decoration: none;">
+                        <?php echo $report_sub_title; ?>
+                    </a>
+                </div>
+
+                <?php
+                $CI =& get_instance();
+                ?>
+            </p>
+        </div>
+    </div>
+</section>
+
 </div>
 </div>
 
@@ -287,7 +300,7 @@ $(function() {
                         success: function(response) {
                             console.log(response);  // Log the response to see what is being returned
                             
-                            var upazillaDropdown = $('#upazilla');
+                            var upazillaDropdown = $('#upazila_id');
                             upazillaDropdown.empty();
                             upazillaDropdown.append('<option value="0" selected>Select Upazila</option>');
                             
@@ -301,12 +314,18 @@ $(function() {
                         }
                     });
                 } else {
-                    $('#upazilla').empty().append('<option value="0" selected>Select Upazila</option>');
+                    $('#upazila_id').empty().append('<option value="0" selected>Select Upazila</option>');
                 }
             });
         });
+    </script>
 
-
+    <script>
+        function resetForm() 
+            {
+            document.querySelector('form').reset();
+            window.location.href = '<?= base_url('report/eSupervision') ?>';
+            }
     </script>
 
 
@@ -325,7 +344,13 @@ $(function() {
                 alert("Please input From date and To date.");
                 return false;
             }
-            $("#generate_supervision_report").submit();
+            $("#eSupervision").submit()
+                pre($start_date);
+                pre($end_date);
+                pre($zilla_id);
+                pre($upazila_id);
+                die();
+
         });
 
         $("input[name='selectAlldivision[]'], input[name='selectItemdivision[]']").on('change', function() {

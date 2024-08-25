@@ -159,6 +159,24 @@ $(function() {
             </div>
         </div>
     </section>
+
+    <section class="content-footer">
+    <div class="row">
+        <div class="col-xs-12 text-center header-margin">
+            <p>
+                <div style="border: 1px solid #000000; padding: 10px; display: inline-block; color: #000000; background-color: #000000; font-weight: bold;">
+                    <a href="<?php echo base_url(); ?>eSupervision" style="color: #ffff00; text-decoration: none;">
+                        <?php echo $report_sub_title; ?>
+                    </a>
+                </div>
+                <?php
+                $CI =& get_instance();
+                ?>
+            </p>
+        </div>
+    </div>
+</section>
+
 </div>
 </div>
 

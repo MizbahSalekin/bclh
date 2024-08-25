@@ -13,7 +13,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>323<sup style="font-size: 20px"></sup></h3>
+                        <h3>362<sup style="font-size: 20px"></sup></h3>
                         <h2>E-Screening Checklist</h2>
                         <p>Identified Zero Dose, Under Immunized & Drop Out Children</p>
                     </div>
@@ -29,7 +29,7 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>153</h3>
+                        <h3>158</h3>
                         <br>
                         <h2>E-Supervision Checklist</h2>
                     </div>

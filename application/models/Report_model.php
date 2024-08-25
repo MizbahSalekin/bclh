@@ -600,7 +600,7 @@ class Report_model extends CI_Model
                         s2.q212x,
                         s2.q212x1,
                         s2.q213,
-                        s1.uploaddt 
+                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS Upload_Date
                         FROM
                         section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
@@ -629,6 +629,29 @@ class Report_model extends CI_Model
 
     function eSupervision_model()
     {
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+        $zilla_id = $this->input->post('zilla_id'); 
+        $upazila_id = $this->input->post('upazila_id');
+        $where = '';
+        if($zilla_id != ''){
+            $where .= "AND s1.zillaid = '" . $zilla_id . "'";
+          
+        }
+        if($upazila_id != ''){
+            $where .= "AND s1.upazilaid = '" . $upazila_id . "'";
+            
+        }
+
+        if($start_date != ''){
+            $where .= "AND s1.uploaddt >= '" . $start_date . "'";
+          
+        }
+        if($end_date != ''){
+            $where .= "AND s1.uploaddt <= '" . $end_date . "'";
+            
+        }
+
         $queryRadio = "SELECT 
                         s1.zillaid,
                         z.zillanameeng,
@@ -726,7 +749,7 @@ class Report_model extends CI_Model
                         s2.q112m1e,
                         s2.q112m1x,
                         s2.q112m1x1,
-                        s1.uploaddt 
+                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS Upload_Date 
                         FROM
                         section_1_identifications_ipc_reg s1 
                         JOIN section_1_manager_staff_service s2 
@@ -746,8 +769,7 @@ class Report_model extends CI_Model
                             AND un.unionid = s1.unionid 
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s1.q106 AS UNSIGNED) 
-                        WHERE s2.idno IS NOT NULL
-
+                        WHERE s2.idno IS NOT NULL $where;
                     ";
 
         $radio_query_result = $this->db->query($queryRadio);

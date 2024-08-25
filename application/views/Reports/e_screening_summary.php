@@ -160,9 +160,9 @@ $(function() {
 <section class="content-footer">
     <div class="row">
         <div class="col-xs-12 text-center header-margin">
-            <h3>
-                <div style="border: 1px solid #000; padding: 10px; display: inline-block; color: #ff0000; background-color: #f0f0f0; font-weight: bold;">
-                    <a href="<?php echo base_url(); ?>eScreening" style="color: #ff0000; text-decoration: none;">
+            <p>
+                <div style="border: 1px solid #000000; padding: 10px; display: inline-block; color: #000000; background-color: #000000; font-weight: bold;">
+                    <a href="<?php echo base_url(); ?>eScreening" style="color: #ffff00; text-decoration: none;">
                         <?php echo $report_sub_title; ?>
                     </a>
                 </div>
@@ -170,7 +170,7 @@ $(function() {
                 <?php
                 $CI =& get_instance();
                 ?>
-            </h3>
+            </p>
         </div>
     </div>
 </section>
