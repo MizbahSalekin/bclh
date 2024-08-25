@@ -127,12 +127,11 @@ $(function() {
         </div>
 
 <body>
-    <form>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="reset" id="filter_reset" class="btn btn-default" value="Reset" onclick="this.form.reset(); window.location.reload();" />
+                    <input type="button" id="filter_reset" class="btn btn-default" value="Reset" onclick="resetForm();" />
                 </div>
             </div>
         </div>
@@ -230,7 +229,7 @@ $(function() {
         <div class="col-xs-12 text-center header-margin">
             <h3>
                 <div style="border: 1px solid #000; padding: 10px; display: inline-block; color: #ff0000; background-color: #f0f0f0; font-weight: bold;">
-                    <a href="<?php echo base_url(); ?>eScreening" style="color: #ff0000; text-decoration: none;">
+                    <a href="<?php echo base_url(); ?>eScreening_summary" style="color: #ff0000; text-decoration: none;">
                         <?php echo $report_sub_title; ?>
                     </a>
                 </div>
@@ -324,6 +323,15 @@ $(function() {
                 }
             });
         });
+    </script>
+
+    <script>
+        function resetForm() 
+            {
+            document.querySelector('form').reset();
+
+             window.location.href = '<?= base_url('report/eScreening') ?>';
+            }
     </script>
 
     <?php if (empty($_POST)) { ?>

@@ -30,6 +30,7 @@
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>153</h3>
+                        <br>
                         <h2>E-Supervision Checklist</h2>
                     </div>
                     <div class="icon">
