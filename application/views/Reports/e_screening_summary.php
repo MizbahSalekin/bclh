@@ -3,7 +3,7 @@ td,
 th {
     padding: 0;
     text-align: center;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 th {
@@ -378,13 +378,19 @@ $(function() {
     }
     </script>
     <script>
-    $(document).ready(function() {
-        $('#example tbody tr:last-child').css("background-color", "yellow");
-        $('#example').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'excel', 'csv', 'copy'
-            ]
+        $(document).ready(function() {
+            $('#example tbody tr:last-child').css({
+                "background-color": '#ffff00',
+                "font-weight": 'bold'
+            });
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel',
+                    'csv',
+                    'copy'
+                ]
+            });
         });
-    });
     </script>

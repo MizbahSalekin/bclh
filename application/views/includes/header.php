@@ -121,7 +121,7 @@
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                    <!-- <li class="header">MAIN NAVIGATION</li> -->
                     <li>
                         <a href="<?php echo base_url(); ?>dashboard">
                             <i class="fa fa-dashboard"></i> <span>Dashboard Menu</span></i>
@@ -143,11 +143,11 @@
                                 <li><a href="<?php echo base_url(); ?>eScreening_summary"><i class="fa fa-circle-o"></i>
                                         E-Screening Summary </a></li>
 
-                                <li><a href="<?php echo base_url(); ?>eSupervision_summary"><i class="fa fa-circle-o"></i>
-                                        E-Supervision Summary </a></li>
-
                                 <li><a href="<?php echo base_url(); ?>eScreening"><i class="fa fa-circle-o"></i>
                                         E-Screening Checklist </a></li>
+
+                                <li><a href="<?php echo base_url(); ?>eSupervision_summary"><i class="fa fa-circle-o"></i>
+                                        E-Supervision Summary </a></li>
 
                                 <li><a href="<?php echo base_url(); ?>eSupervision"><i class="fa fa-circle-o"></i>
                                         E-Supervision Checklist </a></li>

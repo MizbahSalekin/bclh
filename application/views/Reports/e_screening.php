@@ -170,8 +170,11 @@ $(function() {
                     <div class="box-body parent-sticky">
                         <?php
                         $i = 1;
-                        $header = $row_column = '';
+                        $header = $row_column = $colspann = '';
                         $division = $district = $thana = 0;
+                        $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="7">Adress</th>';
+                        if(!EMPTY($result_data)){
                         foreach ($result_data as $object) {
                             $row_column .= '<tr>';
                             //$arr_geo = array('Present_Division', 'Present_District');
@@ -201,12 +204,15 @@ $(function() {
                             }
                             $row_column .= '</tr>';
                             $i++;
-                        }
+                        }}
                         ?>
 
                         <h4>Export Data</h4>
                         <table id="example" class="table table-bordered sticky-table" style="width:100%">
                             <thead>
+                                <tr>
+                                    <?php echo $colspann; ?>
+                                </tr>
                                 <tr>
                                     <?php echo $header; ?>
                                 </tr>

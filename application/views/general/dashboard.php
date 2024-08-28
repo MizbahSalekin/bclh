@@ -13,9 +13,9 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>362<sup style="font-size: 20px"></sup></h3>
+                        <h3>365<sup style="font-size: 20px"></sup></h3>
                         <h2>E-Screening Checklist</h2>
-                        <p>Identified Zero Dose, Under Immunized & Drop Out Children</p>
+                        <p>Status of Identified <strong>Zero Dose, Under Immunized</strong> & <strong>Drop Out</strong> Children</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -29,14 +29,14 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>158</h3>
-                        <br>
+                        <h3>159</h3>
                         <h2>E-Supervision Checklist</h2>
+                        <p>Status of Expanded Programme on Immunization (EPI) Supervisor's Field Visit</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="<?php echo base_url(); ?>eSupervision_summary" class="small-box-footer" style="color:white">For Summarized View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo base_url(); ?>eSupervision_summary" class="small-box-footer">For Summarized View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
                     <a href="<?php echo base_url(); ?>eSupervision" class="small-box-footer">For Detailed View: Click Here...<i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div><!-- ./col -->

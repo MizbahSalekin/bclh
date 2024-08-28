@@ -291,6 +291,16 @@ class User_model extends CI_Model
         return $query->row();
     }
 
+    // Method to get the distinct count of idno
+    function get_distinct_idno_count()
+    {
+        $this->db->select('COUNT(DISTINCT idno) AS Total_Screening_Count');
+        $this->db->from('section_1_screening_checklist_idf');
+        $query = $this->db->get();
+        return $query->row_array();
+
+    }
+
 }
 
   

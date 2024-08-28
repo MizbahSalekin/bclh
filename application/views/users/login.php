@@ -25,7 +25,7 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <img src="<?php echo base_url(); ?>assets/dist/img/new-logo.svg" alt="BCLH_logo">
+      <!-- <img src="<?php echo base_url(); ?>assets/dist/img/icddrb.png" class="logo_icddrb" alt="logo_icddrb" /> -->
       <a href="#"><b>Bangladesh</b><br><b>Country Learning Hub</b><br>Administration System</a>
     </div>
     <!-- /.login-logo -->
@@ -78,7 +78,7 @@
         </div>
       </form>
 
-      <a href="<?php echo base_url() ?>forgotPassword" style="display: block; text-align: center; margin-top: 20px;">Forgot Password</a>
+      <!-- <a href="<?php echo base_url() ?>forgotPassword" style="display: block; text-align: center; margin-top: 20px;">Forgot Password</a> -->
 
     </div><!-- /.login-box-body -->
   </div><!-- /.login-box -->

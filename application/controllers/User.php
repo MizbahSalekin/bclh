@@ -32,6 +32,15 @@ class User extends BaseController
         $this->loadViews("general/dashboard", $this->global, NULL, NULL);
     }
 
+    public function dashboard()
+    {
+        // Fetch the distinct idno count from the model
+        $data['idno_count'] = $this->User_model->get_distinct_idno_count();
+
+        // Load the view and pass the data
+        $this->load->view('dashboard', $data);
+    }
+
     /**
      * This function is used to load the user list
      */

@@ -21,281 +21,289 @@ class Report_model extends CI_Model
 
     function getUpazilla(){
 
-        $query = "SELECT DISTINCT upazilanameeng FROM upazila where upload = 1 ORDER BY upazilanameeng ASC";
+        $query = "SELECT DISTINCT upazilanameeng, upazilaid FROM upazila where upload = 1 ORDER BY upazilanameeng ASC";
 
         $upaz = $this->db->query($query);
         return $upaz->result();
     }
 
-    public function get_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
-    $this->db->select('
-            s2.idno,
-            s1.zillaid AS ZILLA_Name,
-            z.zillanameeng,
-            z.zillaname,
-            s1.upazilaid,
-            u.upazilanameeng,
-            u.upazilaname,
-            s1.unionid,
-            un.unionnameeng,
-            un.unionname,
-            s1.entryuser,
-            p.provname,
-            c.ward_no,
-            c.epi_sub_block,
-            c.clusterid,
-            c.epi_cluster_name,
-            s1.interviewer_id,
-            DATE_FORMAT(s1.interviewer_date, "%d/%m/%y") as Interview_Date,
-            s1.q105,
-            s1.q106,
-            s1.q107,
-            pt.typename,
-            s1.slno,
-            s2.q111,
-            s2.q111a,
-            s2.q111b,
-            s2.q111c,
-            s2.q111d,
-            s2.q111e,
-            s2.q111x,
-            s2.q111x1,
-            s2.q112a,
-            s2.q112a1,
-            s2.q112a2,
-            s2.q112b,
-            s2.q112b1,
-            s2.q112b2,
-            s2.q112c,
-            s2.q112c1,
-            s2.q112c2,
-            s2.q112d,
-            s2.q112d1,
-            s2.q112d2,
-            s2.q112e,
-            s2.q112e1,
-            s2.q112e2,
-            s2.q112f,
-            s2.q112f1,
-            s2.q112f2,
-            s2.q112g,
-            s2.q112g1,
-            s2.q112g2,
-            s2.q112h,
-            s2.q112h1,
-            s2.q112h2,
-            s2.q112i,
-            s2.q112i1,
-            s2.q112i2,
-            s2.q112j,
-            s2.q112j1,
-            s2.q112j2,
-            s2.q112k,
-            s2.q112k1,
-            s2.q112k2,
-            s2.q112l,
-            s2.q112l1,
-            s2.q112l2,
-            s2.q113,
-            s2.q112p1a,
-            s2.q112p1b,
-            s2.q112p1c,
-            s2.q112p1d,
-            s2.q112p1e,
-            s2.q112p1x,
-            s2.q112p1x1,
-            s2.q112p2a,
-            s2.q112p2b,
-            s2.q112p2c,
-            s2.q112p2d,
-            s2.q112p2e,
-            s2.q112p2x,
-            s2.q112p2x1,
-            s2.q112p3a,
-            s2.q112p3b,
-            s2.q112p3c,
-            s2.q112p3d,
-            s2.q112p3e,
-            s2.q112p3x,
-            s2.q112p3x1,
-            s2.q112m1a,
-            s2.q112m1b,
-            s2.q112m1c,
-            s2.q112m1d,
-            s2.q112m1e,
-            s2.q112m1x,
-            s2.q112m1x1,
-            DATE_FORMAT(s1.uploaddt, "%d/%m/%Y") as uploaddt
-        ');
+    function getUnion(){
 
-        $this->db->from('section_1_identifications_ipc_reg s1');
-        $this->db->join('section_1_manager_staff_service s2', 's2.idno = s1.idno');
-        $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
-        $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
-        $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
-        $this->db->join('division d', 'd.id = z.divid', 'left');
-        $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
-        $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
-        $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
-        $this->db->where('s2.idno IS NOT NULL');
-        // $this->db->where('s1.uploaddt >=', $start_date);
-        // $this->db->where('s1.uploaddt <=', $end_date);
+        $query = "SELECT DISTINCT unionnameeng FROM unions where upload = 1 ORDER BY unionid ASC";
 
-        // Add the zilla and upazila filters if provided
-        if ($zilla_id !== null) {
-
-            $this->db->where('s1.zillaid', $zilla_id);
-        }
-        if ($upazila_id !== null) {
-            $this->db->where('s1.upazilaid', $upazila_id);
-
-        }
-
-        $this->db->order_by('s1.uploaddt', 'ASC');
-
-        $query = $this->db->get();
-
-        return $query->result_array();
+        $uni = $this->db->query($query);
+        return $uni->result();
     }
 
-    public function get_supervision_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
-    $this->db->select('
-        s2.idno,
-        s1.zillaid AS ZILLA_Name,
-        z.zillanameeng,
-        z.zillaname,
-        s1.upazilaid,
-        u.upazilanameeng,
-        u.upazilaname,
-        s1.unionid,
-        un.unionnameeng,
-        un.unionname,
-        s1.entryuser,
-        p.provname,
-        c.ward_no,
-        c.epi_sub_block,
-        c.clusterid,
-        c.epi_cluster_name,
-        s1.interviewer_id,
-        DATE_FORMAT(s1.interviewer_date, "%d/%m/%y") as Interview_Date,
-        s1.q105,
-        s1.q106,
-        s1.q107,
-        pt.typename,
-        s1.slno,
-        s2.q111,
-        s2.q111a,
-        s2.q111b,
-        s2.q111c,
-        s2.q111d,
-        s2.q111e,
-        s2.q111x,
-        s2.q111x1,
-        s2.q112a,
-        s2.q112a1,
-        s2.q112a2,
-        s2.q112b,
-        s2.q112b1,
-        s2.q112b2,
-        s2.q112c,
-        s2.q112c1,
-        s2.q112c2,
-        s2.q112d,
-        s2.q112d1,
-        s2.q112d2,
-        s2.q112e,
-        s2.q112e1,
-        s2.q112e2,
-        s2.q112f,
-        s2.q112f1,
-        s2.q112f2,
-        s2.q112g,
-        s2.q112g1,
-        s2.q112g2,
-        s2.q112h,
-        s2.q112h1,
-        s2.q112h2,
-        s2.q112i,
-        s2.q112i1,
-        s2.q112i2,
-        s2.q112j,
-        s2.q112j1,
-        s2.q112j2,
-        s2.q112k,
-        s2.q112k1,
-        s2.q112k2,
-        s2.q112l,
-        s2.q112l1,
-        s2.q112l2,
-        s2.q113,
-        s2.q112p1a,
-        s2.q112p1b,
-        s2.q112p1c,
-        s2.q112p1d,
-        s2.q112p1e,
-        s2.q112p1x,
-        s2.q112p1x1,
-        s2.q112p2a,
-        s2.q112p2b,
-        s2.q112p2c,
-        s2.q112p2d,
-        s2.q112p2e,
-        s2.q112p2x,
-        s2.q112p2x1,
-        s2.q112p3a,
-        s2.q112p3b,
-        s2.q112p3c,
-        s2.q112p3d,
-        s2.q112p3e,
-        s2.q112p3x,
-        s2.q112p3x1,
-        s2.q112m1a,
-        s2.q112m1b,
-        s2.q112m1c,
-        s2.q112m1d,
-        s2.q112m1e,
-        s2.q112m1x,
-        s2.q112m1x1,
-        DATE_FORMAT(s1.uploaddt, "%d/%m/%Y") as uploaddt
-    ');
+    // public function get_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
+    // $this->db->select('
+    //         s2.idno,
+    //         s1.zillaid AS ZILLA_Name,
+    //         z.zillanameeng,
+    //         z.zillaname,
+    //         s1.upazilaid,
+    //         u.upazilanameeng,
+    //         u.upazilaname,
+    //         s1.unionid,
+    //         un.unionnameeng,
+    //         un.unionname,
+    //         s1.entryuser,
+    //         p.provname,
+    //         c.ward_no,
+    //         c.epi_sub_block,
+    //         c.clusterid,
+    //         c.epi_cluster_name,
+    //         s1.interviewer_id,
+    //         DATE_FORMAT(s1.interviewer_date, "%d/%m/%y") as Interview_Date,
+    //         s1.q105,
+    //         s1.q106,
+    //         s1.q107,
+    //         pt.typename,
+    //         s1.slno,
+    //         s2.q111,
+    //         s2.q111a,
+    //         s2.q111b,
+    //         s2.q111c,
+    //         s2.q111d,
+    //         s2.q111e,
+    //         s2.q111x,
+    //         s2.q111x1,
+    //         s2.q112a,
+    //         s2.q112a1,
+    //         s2.q112a2,
+    //         s2.q112b,
+    //         s2.q112b1,
+    //         s2.q112b2,
+    //         s2.q112c,
+    //         s2.q112c1,
+    //         s2.q112c2,
+    //         s2.q112d,
+    //         s2.q112d1,
+    //         s2.q112d2,
+    //         s2.q112e,
+    //         s2.q112e1,
+    //         s2.q112e2,
+    //         s2.q112f,
+    //         s2.q112f1,
+    //         s2.q112f2,
+    //         s2.q112g,
+    //         s2.q112g1,
+    //         s2.q112g2,
+    //         s2.q112h,
+    //         s2.q112h1,
+    //         s2.q112h2,
+    //         s2.q112i,
+    //         s2.q112i1,
+    //         s2.q112i2,
+    //         s2.q112j,
+    //         s2.q112j1,
+    //         s2.q112j2,
+    //         s2.q112k,
+    //         s2.q112k1,
+    //         s2.q112k2,
+    //         s2.q112l,
+    //         s2.q112l1,
+    //         s2.q112l2,
+    //         s2.q113,
+    //         s2.q112p1a,
+    //         s2.q112p1b,
+    //         s2.q112p1c,
+    //         s2.q112p1d,
+    //         s2.q112p1e,
+    //         s2.q112p1x,
+    //         s2.q112p1x1,
+    //         s2.q112p2a,
+    //         s2.q112p2b,
+    //         s2.q112p2c,
+    //         s2.q112p2d,
+    //         s2.q112p2e,
+    //         s2.q112p2x,
+    //         s2.q112p2x1,
+    //         s2.q112p3a,
+    //         s2.q112p3b,
+    //         s2.q112p3c,
+    //         s2.q112p3d,
+    //         s2.q112p3e,
+    //         s2.q112p3x,
+    //         s2.q112p3x1,
+    //         s2.q112m1a,
+    //         s2.q112m1b,
+    //         s2.q112m1c,
+    //         s2.q112m1d,
+    //         s2.q112m1e,
+    //         s2.q112m1x,
+    //         s2.q112m1x1,
+    //         DATE_FORMAT(s1.uploaddt, "%d/%m/%Y") as uploaddt
+    //     ');
 
-    $this->db->from('section_1_identifications_ipc_reg s1');
-    $this->db->join('section_1_manager_staff_service s2', 's2.idno = s1.idno');
-    $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
-    $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
-    $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
-    $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
-    $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
-    $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
-    $this->db->where('s2.idno IS NOT NULL');
-    $this->db->where('s1.uploaddt >=', $start_date);
-    $this->db->where('s1.uploaddt <=', $end_date);
+    //     $this->db->from('section_1_identifications_ipc_reg s1');
+    //     $this->db->join('section_1_manager_staff_service s2', 's2.idno = s1.idno');
+    //     $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
+    //     $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
+    //     $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
+    //     $this->db->join('division d', 'd.id = z.divid', 'left');
+    //     $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
+    //     $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
+    //     $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
+    //     $this->db->where('s2.idno IS NOT NULL');
+    //     // $this->db->where('s1.uploaddt >=', $start_date);
+    //     // $this->db->where('s1.uploaddt <=', $end_date);
 
-    if ($zilla_id !== null) {
-        $this->db->where('s1.zillaid', $zilla_id);
-        }
-    if ($upazila_id !== null) {
-        $this->db->where('s1.upazilaid', $upazila_id);
-        }
+    //     // Add the zilla and upazila filters if provided
+    //     if ($zilla_id !== null) {
 
-    $this->db->order_by('s1.uploaddt', 'DESC');
+    //         $this->db->where('s1.zillaid', $zilla_id);
+    //     }
+    //     if ($upazila_id !== null) {
+    //         $this->db->where('s1.upazilaid', $upazila_id);
 
-    $query = $this->db->get();
-    return $query->result_array();
-    }
+    //     }
+
+    //     $this->db->order_by('s1.uploaddt', 'ASC');
+
+    //     $query = $this->db->get();
+
+    //     return $query->result_array();
+    // }
+
+    // public function get_supervision_report_data($start_date, $end_date, $zilla_id = null, $upazila_id = null) {
+    // $this->db->select('
+    //     s2.idno,
+    //     s1.zillaid AS ZILLA_Name,
+    //     z.zillanameeng,
+    //     z.zillaname,
+    //     s1.upazilaid,
+    //     u.upazilanameeng,
+    //     u.upazilaname,
+    //     s1.unionid,
+    //     un.unionnameeng,
+    //     un.unionname,
+    //     s1.entryuser,
+    //     p.provname,
+    //     c.ward_no,
+    //     c.epi_sub_block,
+    //     c.clusterid,
+    //     c.epi_cluster_name,
+    //     s1.interviewer_id,
+    //     DATE_FORMAT(s1.interviewer_date, "%d/%m/%y") as Interview_Date,
+    //     s1.q105,
+    //     s1.q106,
+    //     s1.q107,
+    //     pt.typename,
+    //     s1.slno,
+    //     s2.q111,
+    //     s2.q111a,
+    //     s2.q111b,
+    //     s2.q111c,
+    //     s2.q111d,
+    //     s2.q111e,
+    //     s2.q111x,
+    //     s2.q111x1,
+    //     s2.q112a,
+    //     s2.q112a1,
+    //     s2.q112a2,
+    //     s2.q112b,
+    //     s2.q112b1,
+    //     s2.q112b2,
+    //     s2.q112c,
+    //     s2.q112c1,
+    //     s2.q112c2,
+    //     s2.q112d,
+    //     s2.q112d1,
+    //     s2.q112d2,
+    //     s2.q112e,
+    //     s2.q112e1,
+    //     s2.q112e2,
+    //     s2.q112f,
+    //     s2.q112f1,
+    //     s2.q112f2,
+    //     s2.q112g,
+    //     s2.q112g1,
+    //     s2.q112g2,
+    //     s2.q112h,
+    //     s2.q112h1,
+    //     s2.q112h2,
+    //     s2.q112i,
+    //     s2.q112i1,
+    //     s2.q112i2,
+    //     s2.q112j,
+    //     s2.q112j1,
+    //     s2.q112j2,
+    //     s2.q112k,
+    //     s2.q112k1,
+    //     s2.q112k2,
+    //     s2.q112l,
+    //     s2.q112l1,
+    //     s2.q112l2,
+    //     s2.q113,
+    //     s2.q112p1a,
+    //     s2.q112p1b,
+    //     s2.q112p1c,
+    //     s2.q112p1d,
+    //     s2.q112p1e,
+    //     s2.q112p1x,
+    //     s2.q112p1x1,
+    //     s2.q112p2a,
+    //     s2.q112p2b,
+    //     s2.q112p2c,
+    //     s2.q112p2d,
+    //     s2.q112p2e,
+    //     s2.q112p2x,
+    //     s2.q112p2x1,
+    //     s2.q112p3a,
+    //     s2.q112p3b,
+    //     s2.q112p3c,
+    //     s2.q112p3d,
+    //     s2.q112p3e,
+    //     s2.q112p3x,
+    //     s2.q112p3x1,
+    //     s2.q112m1a,
+    //     s2.q112m1b,
+    //     s2.q112m1c,
+    //     s2.q112m1d,
+    //     s2.q112m1e,
+    //     s2.q112m1x,
+    //     s2.q112m1x1,
+    //     DATE_FORMAT(s1.uploaddt, "%d/%m/%Y") as uploaddt
+    // ');
+
+    // $this->db->from('section_1_identifications_ipc_reg s1');
+    // $this->db->join('section_1_manager_staff_service s2', 's2.idno = s1.idno');
+    // $this->db->join('providerdb p', 'p.providerid = CAST(s1.entryuser AS UNSIGNED)', 'left');
+    // $this->db->join('providertype pt', 'pt.provtype = CAST(s1.q107 AS UNSIGNED)', 'left');
+    // $this->db->join('zilla z', 'z.zillaid = s1.zillaid', 'left');
+    // $this->db->join('upazila u', 'u.zillaid = s1.zillaid AND u.upazilaid = s1.upazilaid', 'left');
+    // $this->db->join('unions un', 'un.zillaid = s1.zillaid AND un.upazilaid = s1.upazilaid AND un.unionid = s1.unionid', 'left');
+    // $this->db->join('cluster c', 'c.clusterid = CAST(s1.q106 AS UNSIGNED)', 'left');
+    // $this->db->where('s2.idno IS NOT NULL');
+    // $this->db->where('s1.uploaddt >=', $start_date);
+    // $this->db->where('s1.uploaddt <=', $end_date);
+
+    // if ($zilla_id !== null) {
+    //     $this->db->where('s1.zillaid', $zilla_id);
+    //     }
+    // if ($upazila_id !== null) {
+    //     $this->db->where('s1.upazilaid', $upazila_id);
+    //     }
+
+    // $this->db->order_by('s1.uploaddt', 'DESC');
+
+    // $query = $this->db->get();
+    // return $query->result_array();
+    // }
 
     function eScreening_summary_model()
         {
             $queryUnion = "SELECT
                         'Total' as District,
-                        SUM(CASE 
-                            WHEN s1.q109 LIKE '%test%' 
-                            OR s2.q201 LIKE '%test%' 
-                            OR s2.q206a LIKE '%test%' 
-                            OR s2.q206b LIKE '%test%'
-                            THEN 1 
-                            ELSE 0
-                        END) AS Test_Child,
+                        -- SUM(CASE 
+                        --     WHEN s1.q109 LIKE '%test%' 
+                        --     OR s2.q201 LIKE '%test%' 
+                        --     OR s2.q206a LIKE '%test%' 
+                        --     OR s2.q206b LIKE '%test%'
+                        --     THEN 1 
+                        --     ELSE 0
+                        -- END) AS Test_Child,
                         SUM(CASE
                         WHEN s2.q205b = 2 
                             AND s2.q203 = 2 
@@ -305,7 +313,7 @@ class Report_model extends CI_Model
                             OR s2.q206b NOT LIKE '%test%') 
                             THEN 1 
                             ELSE 0
-                        END) AS Zero_Dose_Count,
+                        END) AS Zero_Dose,
                         SUM(CASE
                             WHEN s2.q203 = 2
                             AND s2.q205b = 1
@@ -320,7 +328,7 @@ class Report_model extends CI_Model
                             ) 
                             THEN 1 
                             ELSE 0
-                        END) AS Under_Immunized_Count,
+                        END) AS Under_Immunized,
                         SUM(CASE
                               WHEN s2.q203 = 1
                               OR (s2.q205b = 1
@@ -336,8 +344,8 @@ class Report_model extends CI_Model
                               THEN 1
                               ELSE 0
                             END
-                          ) AS Drop_Out_Count,
-                        COUNT(DISTINCT s1.idno) AS Total_Screening_Count,
+                          ) AS Drop_Out,
+                        COUNT(DISTINCT s1.idno) AS Screening_Checklist_Used,
                         SUM(IF((s2.q212 = 1) OR (s2.q212 = 2) , 1, 0) ) AS Vaccinated
                         FROM
                         section_1_screening_checklist_idf s1 
@@ -363,14 +371,14 @@ class Report_model extends CI_Model
 
         $queryRadio = "SELECT
                         z.zillanameeng as District,
-                        SUM(CASE 
-                            WHEN s1.q109 LIKE '%test%' 
-                            OR s2.q201 LIKE '%test%' 
-                            OR s2.q206a LIKE '%test%' 
-                            OR s2.q206b LIKE '%test%'
-                            THEN 1 
-                            ELSE 0
-                        END) AS Test_Child,
+                        -- SUM(CASE 
+                        --     WHEN s1.q109 LIKE '%test%' 
+                        --     OR s2.q201 LIKE '%test%' 
+                        --     OR s2.q206a LIKE '%test%' 
+                        --     OR s2.q206b LIKE '%test%'
+                        --     THEN 1 
+                        --     ELSE 0
+                        -- END) AS Test_Child,
                         SUM(CASE
                         WHEN s2.q205b = 2 
                             AND s2.q203 = 2 
@@ -380,7 +388,7 @@ class Report_model extends CI_Model
                             OR s2.q206b NOT LIKE '%test%') 
                             THEN 1 
                             ELSE 0
-                        END) AS Zero_Dose_Count,
+                        END) AS Zero_Dose,
                         SUM(CASE
                             WHEN s2.q203 = 2
                             AND s2.q205b = 1
@@ -395,7 +403,7 @@ class Report_model extends CI_Model
                             ) 
                             THEN 1 
                             ELSE 0
-                        END) AS Under_Immunized_Count,
+                        END) AS Under_Immunized,
                         SUM(CASE
                               WHEN s2.q203 = 1
                               OR (s2.q205b = 1
@@ -411,8 +419,8 @@ class Report_model extends CI_Model
                               THEN 1
                               ELSE 0
                             END
-                          ) AS Drop_Out_Count,
-                        COUNT(DISTINCT s1.idno) AS Total_Screening_Count,
+                          ) AS Drop_Out,
+                        COUNT(DISTINCT s1.idno) AS Screening_Checklist_Used,
                         SUM(IF((s2.q212 = 1) OR (s2.q212 = 2) , 1, 0) ) AS Vaccinated
                         FROM
                         section_1_screening_checklist_idf s1 
@@ -446,7 +454,7 @@ class Report_model extends CI_Model
     function eSupervision_summary_model(){
         $query_Union = "SELECT
                         'Total' as Union_Name,
-                        COUNT(DISTINCT s2.idno) AS Total_Supervision_Checklist_Used 
+                        COUNT(DISTINCT s2.idno) AS Supervision_Checklist_Used 
                         FROM
                         section_1_identifications_ipc_reg s1 
                         JOIN section_1_manager_staff_service s2 
@@ -519,87 +527,182 @@ class Report_model extends CI_Model
         }
 
         if($start_date != ''){
-            $where .= "AND s1.uploaddt > '" . $start_date . "'";
+            $where .= "AND DATE(s1.uploaddt) >= '" . $start_date . "'";
           
         }
         if($end_date != ''){
-            $where .= "AND s1.uploaddt < '" . $end_date . "'";
+            $where .= "AND DATE(s1.uploaddt) <= '" . $end_date . "'";
             
         }
 
-        $queryRadio = "SELECT 
-                        s1.zillaid,
-                        z.zillanameeng,
-                        z.zillaname,
-                        s1.upazilaid,
-                        u.upazilanameeng,
-                        u.upazilaname,
-                        s1.unionid,
-                        un.unionnameeng,
-                        un.unionname,
-                        s1.entryuser,
-                        p.provname,
-                        c.ward_no,
-                        c.epi_sub_block,
-                        c.clusterid,
-                        c.epi_cluster_name,
-                        s2.idno,
-                        s1.slno,
-                        s1.q105,
+        $queryRadio = "SELECT
+                        s2.idno AS Child_ID,
+                        z.zillanameeng AS Zilla,
+                        u.upazilanameeng AS Upazilla,
+                        un.unionnameeng AS 'Union',
+                        p.provname AS Provider_Name,
+                        c.ward_no AS 'Ward_No',
+                        c.epi_sub_block AS EPI_Sub_Block,
+                        c.epi_cluster_name AS EPI_Cluster,
                         s1.q106,
-                        s1.q107,
-                        pt.typename,
-                        s1.q108,
-                        s1.q109,
-                        s2.q201,
-                        s2.q202,
-                        s2.q202a,
-                        s2.q202b1,
-                        s2.q202b2,
-                        s2.q202b3,
-                        s2.q203,
-                        s2.q204a,
-                        s2.q204b,
-                        s2.q204c,
-                        s2.q204d,
-                        s2.q204e,
-                        s2.q204f,
-                        s2.q204g,
-                        s2.q204h,
-                        s2.q204i,
-                        s2.q204j,
-                        s2.q204k,
-                        s2.q204l,
-                        s2.q204x,
-                        s2.q204x1,
-                        s2.q205a,
-                        s2.q205b,
-                        s2.q205c,
-                        s2.q205d,
-                        s2.q205e,
-                        s2.q205f,
-                        s2.q205x,
-                        s2.q206a,
-                        s2.q206b,
-                        s2.q206c,
-                        s2.q206d,
-                        s2.q207,
+                        pt.typename as Provider_Designation,
+                        DATE_FORMAT(s1.q108, '%d-%m-%Y') AS Interview_Date,
+                        s1.q109 AS Caregiver_Name,
+                        s2.q201 AS Child_Name,
+                        s2.q202 AS DOB,
+                        CASE
+                            WHEN s2.q202a = 1 THEN 'Yes'
+                            WHEN s2.q202a = 2 THEN 'No'
+                            ELSE 'Not_Selected'
+                            END AS Unknown_DOB,
+                        s2.q202b1 AS Age_Day,
+                        s2.q202b2 AS Age_Month,
+                        s2.q202b3 AS Age_Year,
+                        CASE
+                            WHEN s2.q203 = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Received_All_Vaccine,
+                        CASE
+                            WHEN s2.q204a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Not_Time_To_Vaccinate,
+                        CASE
+                            WHEN s2.q204b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Fear_of_side_Effect,
+                        CASE
+                            WHEN s2.q204c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Child_Ilness,
+                        CASE
+                            WHEN s2.q204d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Parent_Business,
+                        CASE
+                            WHEN s2.q204e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Not_Permitted,
+                        CASE
+                            WHEN s2.q204f = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Financial_Issue,
+                        CASE
+                            WHEN s2.q204g = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Vaccine_Center_located_far,
+                        CASE
+                            WHEN s2.q204h = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Thought_to_Vaccinate,
+                        CASE
+                            WHEN s2.q204i = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS No_Faith_in_Vaccine,
+                        CASE
+                            WHEN s2.q204j = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Inconvenient_Hours,
+                        CASE
+                            WHEN s2.q204k = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Unknown_Center,
+                        CASE
+                            WHEN s2.q204l = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Unsatisfied_Vaccinator_Behaviour,
+                        CASE
+                            WHEN s2.q204x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Other_Reasons,
+                        s2.q204x1 AS Specify_Reason,
+                        CASE
+                            WHEN s2.q205a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS BCG,
+                        CASE
+                            WHEN s2.q205b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Penta-1',
+                        CASE
+                            WHEN s2.q205c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Penta-2',
+                        CASE
+                            WHEN s2.q205d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Penta-3',
+                        CASE
+                            WHEN s2.q205e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'MR-1',
+                        CASE
+                            WHEN s2.q205f = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'MR-2',
+                        CASE
+                            WHEN s2.q205x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS Others,
+                        s2.q206a AS Mother_Name,
+                        s2.q206b AS Father_Name,
+                        s2.q206c AS Mobile_No,
+                        s2.q206d AS House_Name,
+                        CASE
+                            WHEN s2.q207 = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Selected_for_Information',
                         s2.q208,
-                        s2.q209,
-                        s2.q210,
-                        s2.q211,
-                        s2.q212,
-                        s2.q212a,
-                        s2.q212b,
-                        s2.q212c,
-                        s2.q212d,
-                        s2.q212e,
-                        s2.q212f,
-                        s2.q212g,
-                        s2.q212h,
-                        s2.q212x,
-                        s2.q212x1,
-                        s2.q213,
+                        u.upazilanameeng AS 'EPI_Upazilla_Name',
+                        un.unionnameeng AS 'EPI_Union_Name',
+                        c.ward_no AS 'Ward_No',
+                        c.epi_cluster_name AS 'EPI_Cluster',
+                        CASE
+                            WHEN s2.q212 = 1 THEN 'Selected-1'
+                            WHEN s2.q212 = 2 THEN 'Selected-2'
+                            WHEN s2.q212 = 3 THEN '3_selected'
+                            ELSE 'Not_Selected'
+                            END AS Vaccination_Status,
+                        CASE
+                            WHEN s2.q212a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_Not_Found',
+                        CASE
+                            WHEN s2.q212b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Caregiver_Moved',
+                        CASE
+                            WHEN s2.q212c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_Illness',
+                        CASE
+                            WHEN s2.q212d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Parent_Business',
+                        CASE
+                            WHEN s2.q212e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Caregiver_Not_Interested',
+                        CASE
+                            WHEN s2.q212f = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Not_Time_To_Vaccinate',
+                        CASE
+                            WHEN s2.q212g = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Financial_Issue',
+                         CASE
+                            WHEN s2.q212h = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Caregivcer_Illness',
+                        CASE
+                            WHEN s2.q212x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_Resason',
+                        CASE
+                            WHEN s2.q212x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Specify_Provider_Reason',
+                        DATE_FORMAT(s2.q213, '%d-%m-%Y') AS Vaccine_Info_Date,
                         DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS Upload_Date
                         FROM
                         section_1_screening_checklist_idf s1 
@@ -631,52 +734,44 @@ class Report_model extends CI_Model
     {
         $start_date = $this->input->post('start_date');
         $end_date = $this->input->post('end_date');
-        $zilla_id = $this->input->post('zilla_id'); 
-        $upazila_id = $this->input->post('upazila_id');
+        $upazila_id = $this->input->post('upazila_id'); 
+        $union_id = $this->input->post('union_id');
         $where = '';
-        if($zilla_id != ''){
-            $where .= "AND s1.zillaid = '" . $zilla_id . "'";
-          
-        }
         if($upazila_id != ''){
             $where .= "AND s1.upazilaid = '" . $upazila_id . "'";
+          
+        }
+        if($union_id != ''){
+            $where .= "AND s1.unionid = '" . $union_id . "'";
             
         }
 
         if($start_date != ''){
-            $where .= "AND s1.uploaddt >= '" . $start_date . "'";
+            $where .= "AND DATE(s1.uploaddt) >= '" . $start_date . "'";
           
         }
         if($end_date != ''){
-            $where .= "AND s1.uploaddt <= '" . $end_date . "'";
+            $where .= "AND DATE(s1.uploaddt) <= '" . $end_date . "'";
             
         }
 
-        $queryRadio = "SELECT 
-                        s1.zillaid,
-                        z.zillanameeng,
-                        z.zillaname,
-                        s1.upazilaid,
-                        u.upazilanameeng,
-                        u.upazilaname,
-                        s1.unionid,
-                        un.unionnameeng,
-                        un.unionname,
-                        s1.entryuser,
-                        p.provname,
-                        c.ward_no,
-                        c.epi_sub_block,
-                        c.clusterid,
-                        c.epi_cluster_name,
-                        s1.interviewer_id,
-                        s1.interviewer_date,
-                        s1.q105,
-                        s1.q106,
-                        s1.q107,
-                        pt.typename,
-                        s2.idno,
-                        s1.slno,
-                        s2.q111,
+        $queryRadio = "SELECT
+                        s2.idno AS Child_ID,
+                        z.zillanameeng AS Zilla,
+                        u.upazilanameeng AS Upazilla,
+                        un.unionnameeng AS 'Union',
+                        p.provname AS 'Provider_Name',
+                        c.ward_no AS 'Ward_No',
+                        c.epi_sub_block AS 'EPI_Sub_Block',
+                        c.epi_cluster_name AS 'EPI_Cluster',
+                        DATE_FORMAT(s1.interviewer_date, '%d-%m-%Y') AS Interview_Date,
+                        s1.q105 AS 'Ward_No',
+                        s1.q106 AS 'EPI_Sub_Block',
+                        pt.typename AS 'Provider_Designation',
+                        CASE
+                            WHEN s2.q111 = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Observed_Session',
                         s2.q111a,
                         s2.q111b,
                         s2.q111c,
@@ -684,11 +779,15 @@ class Report_model extends CI_Model
                         s2.q111e,
                         s2.q111x,
                         s2.q111x1,
-                        s2.q112a,
-                        s2.q112a1,
-                        s2.q112a2,
-                        s2.q112b,
-                        s2.q112b1,
+                        s2.q112a AS BCG,
+                        CASE
+                            WHEN s2.q112a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS BCG,
+                        s2.q112a1 AS Target_BCG,
+                        s2.q112a2 AS Vaccination_BCG,
+                        s2.q112b AS 'Target_Penta-1',
+                        s2.q112b1 AS 'Vaccination_Penta-1',
                         s2.q112b2,
                         s2.q112c,
                         s2.q112c1,

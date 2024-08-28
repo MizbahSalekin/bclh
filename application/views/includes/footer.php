@@ -2,7 +2,7 @@
     <div class="pull-right hidden-xs">
         <b>Gavi</b> Admin System | Version 1.0
     </div>
-    <strong>Copyright &copy; 2024 <a href="<?php echo "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)"; ?>">ICDDR,B</a>.</strong> All rights reserved.
+    <strong>Copyright&copy; <a href="<?php echo "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)"; ?>">ICDDR,B</a> 2024.</strong> All rights reserved.
     <!-- <strong>Website - <a href="<?php echo "https://clh-immunisation-bd.org/"; ?>">CLH</a>.</strong> -->
 </footer>
 
