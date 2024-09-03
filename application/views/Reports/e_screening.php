@@ -86,10 +86,12 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>DISTRICT:</label>
-                                      <select name="zilla_id" id="zilla_id">
+                                      <select name="zilla_id" id="zilla_id" required>
                                           <option value="" selected>Select District</option>
-                                          <?php foreach($district as $obj){ ?>
-                                            <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
+                                        <?php foreach($district as $obj){ ?>
+                                          <option value="<?php echo $obj->zillaid ?>" <?php if($this->input->post('zilla_id') == $obj->zillaid) echo 'selected'; ?>>
+                                            <?php echo $obj->zillanameeng ?>
+                                        </option>
                                           <?php } ?>
                                       </select>
                     </div>
@@ -98,7 +100,7 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>UPAZILLA:</label>
-                        <select name="upazila_id" id="upazila_id">
+                        <select name="upazila_id" id="upazila_id" required>
                             <option value="" selected>Select Upazilla</option>
                             <!-- Options will be populated here via AJAX -->
                         </select>
@@ -113,13 +115,13 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">From Date</label>
-                        <input type="date" class="form-control required" id="start_date" name="start_date" value="">
+                        <input type="date" class="form-control required" id="start_date" name="start_date" value="<?= $this->input->post('start_date') ?>">
                     </div>
                 </div>
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">To Date</label>
-                        <input type="date" class="form-control required" id="end_date" name="end_date" value="">
+                        <input type="date" class="form-control required" id="end_date" name="end_date" value="<?= $this->input->post('end_date') ?>">
                     </div>
                 </div>
             </div>
@@ -364,7 +366,7 @@ $(function() {
     $(function() {
         $("#filter_submit").click(function() {
             if ($("#start_date").val() == '' || $("#end_date").val() == '') {
-                alert("Please input From date and To date.");
+                alert("Please input AREA & DATE Range.");
                 return false;
             }
             $("#eScreening").submit();

@@ -26,7 +26,7 @@
   <div class="login-box">
     <div class="login-logo">
       <!-- <img src="<?php echo base_url(); ?>assets/dist/img/icddrb.png" class="logo_icddrb" alt="logo_icddrb" /> -->
-      <a href="#"><b>Bangladesh</b><br><b>Country Learning Hub</b><br>Administration System</a>
+      <a href="#" ><b>Bangladesh</b><br><b>Country Learning Hub</b><br>Administration System</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">

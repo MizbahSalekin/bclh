@@ -87,12 +87,14 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>DISTRICT:</label>
-                          <select name="zilla_id" id="zilla_id">
-                              <option value="" selected>Select District</option>
-                              <?php foreach($district as $obj){ ?>
-                                <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
-                              <?php } ?>
-                          </select>
+                          <select name="zilla_id" id="zilla_id" required>
+                                          <option value="" selected>Select District</option>
+                                        <?php foreach($district as $obj){ ?>
+                                          <option value="<?php echo $obj->zillaid ?>" <?php if($this->input->post('zilla_id') == $obj->zillaid) echo 'selected'; ?>>
+                                            <?php echo $obj->zillanameeng ?>
+                                        </option>
+                                          <?php } ?>
+                                      </select>
                     </div>
                 </div>
                 <div class="col-md-4">                                
@@ -133,13 +135,13 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">From Date</label>
-                        <input type="date" class="form-control required" id="start_date" name="start_date" value="" required>
+                        <input type="date" class="form-control required" id="start_date" name="start_date" value="<?= $this->input->post('start_date') ?>" required>
                     </div>
                 </div>
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">To Date</label>
-                        <input type="date" class="form-control required" id="end_date" name="end_date" value="" required>
+                        <input type="date" class="form-control required" id="end_date" name="end_date" value="<?= $this->input->post('end_date') ?>" required>
                     </div>
                 </div>
             </div>
