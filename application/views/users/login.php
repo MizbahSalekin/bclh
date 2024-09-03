@@ -77,7 +77,7 @@
           </div><!-- /.col -->
         </div>
       </form>
-
+      <br>
       <!-- <a href="<?php echo base_url() ?>forgotPassword" style="display: block; text-align: center; margin-top: 20px;">Forgot Password</a> -->
 
     </div><!-- /.login-box-body -->

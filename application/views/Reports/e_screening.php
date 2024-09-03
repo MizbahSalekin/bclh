@@ -170,11 +170,23 @@ $(function() {
                     <div class="box-body parent-sticky">
                         <?php
                         $i = 1;
-                        $header = $row_column = $colspann = '';
+                        $header = $row_column = $colspann = $colspann1 = '';
                         $division = $district = $thana = 0;
+                        // $colspann .= '<th colspan="1"></th>';
+                        $colspann1 .= '<th colspan="49">Data Received from E-Screening App</th>';
+                        $colspann1 .= '<th colspan="10">Data Received from টিকা বাদপড়া শিশুদের তালিকা App</th>';
+                        $colspann .= '<th colspan="6">Address</th>';
+                        $colspann .= '<th colspan="4">Provider Information</th>';
+                        $colspann .= '<th colspan="12">Child Information</th>';
                         $colspann .= '<th colspan="1"></th>';
-                        $colspann .= '<th colspan="7">Adress</th>';
-                        if(!EMPTY($result_data)){
+                        $colspann .= '<th colspan="14">Reasons for not receiving all EPI vaccines</th>';
+                        $colspann .= '<th colspan="7">Vaccination Information</th>';
+                        $colspann .= '<th colspan="5">Referred EPI Center Address</th>';
+                        $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="7">Reasons for not to vaccinate the child</th>';
+                        $colspann .= '<th colspan="1">HA_App</th>';
+                        $colspann .= '<th colspan="1">E-Screening_App</th>';
+
                         foreach ($result_data as $object) {
                             $row_column .= '<tr>';
                             //$arr_geo = array('Present_Division', 'Present_District');
@@ -204,12 +216,15 @@ $(function() {
                             }
                             $row_column .= '</tr>';
                             $i++;
-                        }}
+                        }
                         ?>
 
                         <h4>Export Data</h4>
                         <table id="example" class="table table-bordered sticky-table" style="width:100%">
                             <thead>
+                                <tr>
+                                    <?php echo $colspann1; ?>
+                                </tr>
                                 <tr>
                                     <?php echo $colspann; ?>
                                 </tr>

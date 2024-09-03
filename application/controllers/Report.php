@@ -30,7 +30,6 @@ class Report extends BaseController
         if ($this->isAdmin()) {
             $this->loadThis();
         } else {
-            // Capture search filters
             $division_id = $this->input->post('division_id');
             $district_id = $this->input->post('district_id');
             $upazila_id = $this->input->post('upazila_id');
@@ -46,11 +45,8 @@ class Report extends BaseController
             $district  = $this->report_model->getDistrict();
             $upaz  = $this->report_model->getUpazilla();
 
-            $result_data = '';
             $this->load->library('pagination');
-            if($this->input->server('REQUEST_METHOD') === 'POST'){
                 $result_data = $this->report_model->eScreening_model();
-            }
 
             $data['result_data'] = $result_data;
             $data['division'] = $division;
@@ -139,7 +135,8 @@ class Report extends BaseController
         if ($this->isAdmin()) {
             $this->loadThis();
     } else {
-        // Capture search filters
+        $division_id = $this->input->post('division_id');
+            $district_id = $this->input->post('district_id');
         $upazila_id = $this->input->post('upazila_id');
         $union_id = $this->input->post('union_id');
         $searchText = '';
@@ -150,19 +147,19 @@ class Report extends BaseController
 
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
+            $division  = $this->report_model->getDivision();
+            $district  = $this->report_model->getDistrict();
             $upaz  = $this->report_model->getUpazilla();
             $uni  = $this->report_model->getUnion();
-
-            // pre($upaz); die();
 
             $this->load->library('pagination');
             $result_data = '';
 
-            if($this->input->server('REQUEST_METHOD') === 'POST'){
-             $result_data = $this->report_model->eSupervision_model();
-            }
+            $result_data = $this->report_model->eSupervision_model();
 
             $data['result_data'] = $result_data;
+            $data['division'] = $division;
+            $data['district'] = $district;
             $data['upaz'] = $upaz;
             $data['uni'] = $uni;
             $data['start_date'] = $start_date;
@@ -189,8 +186,6 @@ class Report extends BaseController
             $data['searchText'] = $searchText;
 
             $division  = $this->report_model->getDivision();
-            // pre($division[0]->zillanameeng);
-            // die();
 
             $district  = $this->report_model->getDistrict();
             $upaz  = $this->report_model->getUpazilla();

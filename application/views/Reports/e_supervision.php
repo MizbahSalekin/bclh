@@ -86,12 +86,21 @@ $(function() {
             <div class="row">
                 <div class="col-md-4">                                
                     <div class="form-group">
-                        <label>UPAZILLA:</label>
-                          <select name="upazila_id" id="upazila_id">
-                              <option value="" selected>Select Upazilla</option>
-                              <?php foreach($upaz as $obj){ ?>
-                                <option value="<?php echo $obj->upazilaid?>" ><?php echo $obj->upazilanameeng?></option>
+                        <label>DISTRICT:</label>
+                          <select name="zilla_id" id="zilla_id">
+                              <option value="" selected>Select District</option>
+                              <?php foreach($district as $obj){ ?>
+                                <option value="<?php echo $obj->zillaid?>" ><?php echo $obj->zillanameeng?></option>
                               <?php } ?>
+                          </select>
+                    </div>
+                </div>
+                <div class="col-md-4">                                
+                    <div class="form-group">
+                        <label>UPAZILLA:</label>
+                          <select name="upazila_id" id="upazila_id" required>
+                              <option value="" selected>Select Upazilla</option>
+                              
                           </select>
                     </div>
                 </div>
@@ -99,22 +108,21 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>UNION:</label>
-                        <select name="union_id" id="union_id">
+                        <select name="union_id" id="union_id" required>
                             <option value="" selected>Select Union</option>
                             <!-- Options will be populated here via AJAX -->
                         </select>
                     </div>
                 </div>
 
-                <div class="col-md-4">                                
+                <!-- <div class="col-md-4">                                
                     <div class="form-group">
                         <label>WARD:</label>
-                        <select name="ward_id" id="ward_id">
+                        <select name="ward_id" id="ward_id" required>
                             <option value="" selected>Select Ward</option>
-                            <!-- Options will be populated here via AJAX -->
                         </select>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -125,13 +133,13 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">From Date</label>
-                        <input type="date" class="form-control required" id="start_date" name="start_date" value="">
+                        <input type="date" class="form-control required" id="start_date" name="start_date" value="" required>
                     </div>
                 </div>
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label for="date">To Date</label>
-                        <input type="date" class="form-control required" id="end_date" name="end_date" value="">
+                        <input type="date" class="form-control required" id="end_date" name="end_date" value="" required>
                     </div>
                 </div>
             </div>
@@ -181,9 +189,19 @@ $(function() {
                     <div class="box-body parent-sticky">
                         <?php
                         $i = 1;
-                        $header = $row_column = '';
+                        $header = $row_column = $colspann = $colspann1 = '';
                         $division = $district = $thana = 0;
-                        if(!EMPTY($result_data)){
+                        $colspann1 .= '<th colspan="49">Data Received from E-Screening App</th>';
+                        $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="6">Address</th>';
+                        $colspann .= '<th colspan="3">Provider Information</th>';
+                        $colspann .= '<th colspan="8">Reasons for not achieving  BCG target</th>';
+                        $colspann .= '<th colspan="3">BCG</th>';
+                        $colspann .= '<th colspan="3">Penta 1</th>';
+                        $colspann .= '<th colspan="3">Penta 2</th>';
+                        $colspann .= '<th colspan="3">Penta 3</th>';
+                        $colspann .= '<th colspan="3">MR 1</th>';
+                        $colspann .= '<th colspan="3"></th>';
                         foreach ($result_data as $object) {
                             $row_column .= '<tr>';
                             //$arr_geo = array('Present_Division', 'Present_District');
@@ -213,12 +231,15 @@ $(function() {
                             }
                             $row_column .= '</tr>';
                             $i++;
-                        }}
+                        }
                         ?>
 
                         <h4>Export Data</h4>
                         <table id="example" class="table table-bordered sticky-table" style="width:100%">
                             <thead>
+                                <tr>
+                                    <?php echo $colspann; ?>
+                                </tr>
                                 <tr>
                                     <?php echo $header; ?>
                                 </tr>
@@ -299,7 +320,118 @@ $(function() {
         src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
     <script src='https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js'></script>
 
+    <!-- <script type="text/javascript">
+        $(document).ready(function() {
+            $('#zilla_id').on('change', function() {
+                var zillaid = $(this).val(); 
+                if (zillaid) {
+                    // console.log(zillaid);
+                    $.ajax({
+                        url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',  
+                        type: 'POST',
+                        data: { zillaid: zillaid }, 
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response);  // Log the response to see what is being returned
+                            
+                            var upazillaDropdown = $('#upazila_id');
+                            upazillaDropdown.empty();
+                            upazillaDropdown.append('<option value="0" selected>Select Upazila</option>');
+                            
+                            $.each(response, function(index, upazila) {
+                                upazillaDropdown.append('<option value="' + upazila.upazilaid + '">' + upazila.upazilanameeng + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);  // Log any error to the console
+                            alert('Error retrieving data.');
+                        }
+                    });
+                } else {
+                    $('#upazila_id').empty().append('<option value="0" selected>Select Upazila</option>');
+                }
+            });
+        });
+    </script> -->
+
     <script type="text/javascript">
+    $(document).ready(function() {
+        // When the zilla_id dropdown changes
+        $('#zilla_id').on('change', function() {
+            var zillaid = $(this).val(); 
+            if (zillaid) {
+                $.ajax({
+                    url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',
+                    type: 'POST',
+                    data: { zillaid: zillaid },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response); // Debug the response
+
+                        var upazilaDropdown = $('#upazila_id');
+                        upazilaDropdown.empty();
+                        upazilaDropdown.append('<option value="" selected>Select Upazila</option>');
+
+                        if ($.isArray(response)) {
+                            $.each(response, function(index, upazila) {
+                                upazilaDropdown.append('<option value="' + upazila.upazilaid + '">' + upazila.upazilanameeng + '</option>');
+                            });
+                        } else {
+                            console.error('Unexpected response format');
+                        }
+
+                        // Clear the union dropdown when the upazila dropdown is refreshed
+                        $('#union_id').empty().append('<option value="" selected>Select Union</option>');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Debug errors
+                        alert('Error retrieving Upazila data.');
+                    }
+                });
+            } else {
+                $('#upazila_id').empty().append('<option value="" selected>Select Upazila</option>');
+                $('#union_id').empty().append('<option value="" selected>Select Union</option>');
+            }
+        });
+
+        // When the upazila_id dropdown changes
+        $('#upazila_id').on('change', function() {
+            var upazilaid = $(this).val(); 
+            if (upazilaid) {
+                $.ajax({
+                    url: '<?php echo base_url("Report/get_union_by_upazilaid"); ?>',
+                    type: 'POST',
+                    data: { upazilaid: upazilaid },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response); // Debug the response
+
+                        var unionDropdown = $('#union_id');
+                        unionDropdown.empty();
+                        unionDropdown.append('<option value="" selected>Select Union</option>');
+
+                        if ($.isArray(response)) {
+                            $.each(response, function(index, union) {
+                                unionDropdown.append('<option value="' + union.unionid + '">' + union.unionnameeng + '</option>');
+                            });
+                        } else {
+                            console.error('Unexpected response format');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Debug errors
+                        alert('Error retrieving Union data.');
+                    }
+                });
+            } else {
+                $('#union_id').empty().append('<option value="" selected>Select Union</option>');
+            }
+        });
+    });
+</script>
+
+
+    <!-- <script type="text/javascript">
         $(document).ready(function() {
             $('#upazila_id').on('change', function() {
                 var upazilaid = $(this).val(); 
@@ -334,7 +466,7 @@ $(function() {
                 }
             });
         });
-    </script>
+    </script> -->
 
 
     <script>
@@ -355,10 +487,11 @@ $(function() {
     </script>
     <?php } ?>
     <script>
+
     $(function() {
         $("#filter_submit").click(function() {
-            if ($("#start_date").val() == '' || $("#end_date").val() == '') {
-                alert("Please input From date and To date.");
+            if ($("#start_date").val() == '' || $("#end_date").val() == '' || $("#upaz").val() == '' || $("#uni").val() == '') {
+                alert("Please Choose AREA & DATE Range to Proceed...");
                 return false;
             }
             $("#eSupervision").submit()
