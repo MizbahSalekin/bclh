@@ -61,7 +61,7 @@ $(function() {
         <div class="row">
             <div class="col-xs-6 text-left header-margin ">
                 <h3>
-                    <?php echo $report_title; ?>
+                    <?php echo '<span style="font-family: Arial, sans-serif; font-weight: bold;">' . $report_title . '</span>';?>
                     <?php
                     $CI =& get_instance();
                     ?>

@@ -61,7 +61,7 @@ $(function() {
         <div class="row">
             <div class="col-xs-6 text-left header-margin ">
                 <h3>
-                    <?php echo $report_title; ?>
+                    <?php echo '<span style="font-family: Arial, sans-serif; font-weight: bold;">' . $report_title . '</span>';?>
                     <?php
                     $CI =& get_instance();
                     ?>
@@ -175,8 +175,10 @@ $(function() {
                         $header = $row_column = $colspann = $colspann1 = '';
                         $division = $district = $thana = 0;
                         // $colspann .= '<th colspan="1"></th>';
+                        $colspann1 .= '<th colspan="4"></th>';
                         $colspann1 .= '<th colspan="49">Data Received from E-Screening App</th>';
                         $colspann1 .= '<th colspan="10">Data Received from টিকা বাদপড়া শিশুদের তালিকা App</th>';
+                        $colspann .= '<th colspan="4">Identification Category</th>';
                         $colspann .= '<th colspan="6">Address</th>';
                         $colspann .= '<th colspan="4">Provider Information</th>';
                         $colspann .= '<th colspan="12">Child Information</th>';

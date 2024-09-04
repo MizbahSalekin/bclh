@@ -68,6 +68,42 @@ class Report_model extends CI_Model
         }
 
         $queryRadio = "SELECT
+                        (IF(s2.q212 IN (1, 2), 'Yes', 'No')) AS Vaccinated,
+                        (CASE
+                            WHEN s2.q205b = 2 
+                                AND s2.q203 = 2 
+                                AND (s1.q109 NOT LIKE '%test%' 
+                                OR s2.q201 NOT LIKE '%test%' 
+                                OR s2.q206a NOT LIKE '%test%' 
+                                OR s2.q206b NOT LIKE '%test%') 
+                            THEN 'Yes' 
+                            ELSE 'No'
+                        END) AS Zero_Dose,
+                        CASE
+                            WHEN s2.q203 = 2
+                                AND s2.q205b = 1
+                                AND s2.q205c = 2
+                                AND s2.q205d = 2
+                                AND (
+                                    (s1.q109 NOT LIKE '%test%' OR s1.q109 IS NULL)
+                                    OR (s2.q201 NOT LIKE '%test%' OR s2.q201 IS NULL)
+                                    OR (s2.q206a NOT LIKE '%test%' OR s2.q206a IS NULL)
+                                    OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL)
+                                    )
+                                THEN 'Yes'
+                                ELSE 'No'
+                        END AS Under_Immunized,
+                        (CASE
+                            WHEN s2.q203 = 1
+                                OR (s2.q205b = 1 AND s2.q205c = 1 AND s2.q205d = 1)
+                                AND ((s1.q109 NOT LIKE '%test%' OR s1.q109 IS NULL)
+                                OR (s2.q201 NOT LIKE '%test%' OR s2.q201 NOT LIKE 'E' OR s2.q201 NOT LIKE '%Rgy%' OR s2.q201 IS NULL)
+                                OR (s2.q206a NOT LIKE '%test%' OR s2.q206a IS NULL)
+                                OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL))
+                            THEN 'Yes' 
+                            ELSE 'No'
+                        END) AS Drop_Out,
+
                         z.zillanameeng AS Zilla,
                         u.upazilanameeng AS Upazilla,
                         un.unionnameeng AS 'Union',
