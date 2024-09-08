@@ -29,15 +29,14 @@ class Report_model extends CI_Model
 
     function getUnion(){
 
-        $query = "SELECT DISTINCT unionnameeng FROM unions where upload = 1 ORDER BY unionnameeng ASC";
+        $query = "SELECT DISTINCT unionnameeng FROM unions where upload = 1  ORDER BY unionnameeng ASC";
 
         $uni = $this->db->query($query);
         return $uni->result();
     }
 
-        function eScreening_model()
+    function eScreening_model()
     {
-
         $start_date = $this->input->post('start_date');
         $end_date = $this->input->post('end_date');
         $zilla_id = $this->input->post('zilla_id'); 
@@ -78,7 +77,7 @@ class Report_model extends CI_Model
                                 OR s2.q206b NOT LIKE '%test%') 
                             THEN 'Yes' 
                             ELSE 'No'
-                        END) AS Zero_Dose,
+                        END) AS 'Zero-dose',
                         CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
@@ -92,7 +91,7 @@ class Report_model extends CI_Model
                                     )
                                 THEN 'Yes'
                                 ELSE 'No'
-                        END AS Under_Immunized,
+                        END AS 'Under-immunized',
                         (CASE
                             WHEN s2.q203 = 1
                                 OR (s2.q205b = 1 AND s2.q205c = 1 AND s2.q205d = 1)
@@ -102,97 +101,97 @@ class Report_model extends CI_Model
                                 OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL))
                             THEN 'Yes' 
                             ELSE 'No'
-                        END) AS Drop_Out,
+                        END) AS 'Drop-out',
 
-                        z.zillanameeng AS Zilla,
-                        u.upazilanameeng AS Upazilla,
+                        z.zillanameeng AS 'District',
+                        u.upazilanameeng AS 'Upazilla',
                         un.unionnameeng AS 'Union',
                         c.ward_no AS 'Ward_No',
-                        c.epi_sub_block AS EPI_Sub_Block,
-                        c.epi_cluster_name AS EPI_Cluster,
-                        p.provname AS Provider_Name,    
+                        c.epi_sub_block AS 'EPI_sub_block',
+                        c.epi_cluster_name AS 'EPI_cluster',
+                        p.provname AS 'Provider_name',    
                         CASE
                             WHEN s1.q106 = 1 THEN 'Upazilla_Health_Complex'
                             WHEN s1.q106 = 2 THEN 'Mother and Child Welfare Centre'
                             WHEN s1.q106 = 3 THEN 'Union Health and Family Welfare Center/Union Sub-Centre'
                             WHEN s1.q106 = 4 THEN 'Community Clinic'
                             ELSE 'Others'
-                            END AS Service_Center,
-                        pt.typename as Provider_Designation,
-                        DATE_FORMAT(s1.q108, '%d-%m-%Y') AS Interview_Date,
-                        s1.q109 AS Caregiver_Name,
-                        s2.idno AS Registration_ID,
-                        s2.q201 AS Child_Name,
-                        s2.q206a AS Mother_Name,
-                        s2.q206b AS Father_Name,
-                        s2.q206c AS Mobile_No,
-                        s2.q206d AS House_Name,
-                        s2.q202 AS DOB,
+                            END AS 'Service_center',
+                        pt.typename as 'Provider_designation',
+                        DATE_FORMAT(s1.q108, '%d-%m-%Y') AS 'Interview_date',
+                        s1.q109 AS 'Caregiver_name',
+                        s2.idno AS 'Registration_ID',
+                        s2.q201 AS 'Child_name',
+                        s2.q206a AS 'Mother_name',
+                        s2.q206b AS 'Father_name',
+                        s2.q206c AS 'Mobile_no',
+                        s2.q206d AS 'House_name',
+                        s2.q202 AS 'DOB',
                         CASE
                             WHEN s2.q202a = 1 THEN 'Yes'
                             WHEN s2.q202a = 2 THEN 'No'
                             ELSE 'Not_Selected'
-                            END AS Unknown_DOB,
-                        s2.q202b1 AS Age_Day,
-                        s2.q202b2 AS Age_Month,
-                        s2.q202b3 AS Age_Year,
+                            END AS 'Unknown_DOB',
+                        s2.q202b1 AS 'Age_(Day)',
+                        s2.q202b2 AS 'Age_(Month)',
+                        s2.q202b3 AS 'Age_(Year)',
                         CASE
                             WHEN s2.q203 = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Received_All_Vaccine,
+                            END AS 'Received_all_vaccine',
                         CASE
                             WHEN s2.q204a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_Time_To_Vaccinate,
+                            END AS 'Not_time_to_vaccinate',
                         CASE
                             WHEN s2.q204b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Fear_of_side_Effect,
+                            END AS 'Fear_of_side_effects',
                         CASE
                             WHEN s2.q204c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Child_Ilness,
+                            END AS 'Child_ilness',
                         CASE
                             WHEN s2.q204d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Parent_Business,
+                            END AS 'Parent_business',
                         CASE
                             WHEN s2.q204e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_Permitted,
+                            END AS 'Not_permitted',
                         CASE
                             WHEN s2.q204f = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Financial_Issue,
+                            END AS 'Financial_issue',
                         CASE
                             WHEN s2.q204g = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Vaccine_Center_located_far,
+                            END AS 'Vaccine_center_located_far',
                         CASE
                             WHEN s2.q204h = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Thought_to_Vaccinate,
+                            END AS 'Thought_to_vaccinate',
                         CASE
                             WHEN s2.q204i = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS No_Faith_in_Vaccine,
+                            END AS 'No_faith_in_vaccine',
                         CASE
                             WHEN s2.q204j = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Inconvenient_Hours,
+                            END AS 'Inconvenient_hours',
                         CASE
                             WHEN s2.q204k = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Unknown_Center,
+                            END AS 'Unknown_center',
                         CASE
                             WHEN s2.q204l = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Unsatisfied_Vaccinator_Behaviour,
+                            END AS 'Unsatisfied_vaccinator_behaviour',
                         CASE
                             WHEN s2.q204x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Other_Reasons,
-                        s2.q204x1 AS Specify_Reason,
+                            END AS 'Other_reasons',
+                        s2.q204x1 AS 'Specify_reason',
                         CASE
                             WHEN s2.q205a = 1 THEN 'Yes'
                             ELSE 'No'
@@ -224,60 +223,60 @@ class Report_model extends CI_Model
                         CASE
                             WHEN s2.q207 = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Selected_for_Information',
-                        u.upazilanameeng AS 'EPI_Upazilla_Name',
-                        un.unionnameeng AS 'EPI_Union_Name',
-                        c.ward_no AS 'EPI_Ward_No',
-                        c.epi_cluster_name AS 'EPI_Cluster_Name',
+                            END AS 'Selected_for_information',
+                        u.upazilanameeng AS 'EPI_Upazilla',
+                        un.unionnameeng AS 'EPI_Union',
+                        c.ward_no AS 'EPI_Ward_no',
+                        c.epi_cluster_name AS 'EPI_Cluster',
 
                         CASE
-                            WHEN s2.q212 = 1 THEN 'Selected-1'
-                            WHEN s2.q212 = 2 THEN 'Selected-2'
-                            WHEN s2.q212 = 3 THEN '3_selected'
-                            ELSE 'Not_Selected'
-                            END AS Vaccination_Status,
+                            WHEN s2.q212 = 1 THEN 'Vaccinated_all_doses'
+                            WHEN s2.q212 = 2 THEN 'Partially_vaccinated'
+                            WHEN s2.q212 = 3 THEN 'In_progress'
+                            ELSE 'UnSynced'
+                            END AS 'Vaccination_status',
                         CASE
                             WHEN s2.q212a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Child_Not_Found',
+                            END AS 'Child_not_found',
                         CASE
                             WHEN s2.q212b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Caregiver_Moved',
+                            END AS 'Migrated',
                         CASE
                             WHEN s2.q212c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Child_Illness',
+                            END AS 'Child_illness',
                         CASE
                             WHEN s2.q212d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Parent_Business',
+                            END AS 'Parent_business',
                         CASE
                             WHEN s2.q212e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Caregiver_Not_Interested',
+                            END AS 'Caregiver_not_interested',
                         CASE
                             WHEN s2.q212f = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Not_Time_To_Vaccinate',
+                            END AS 'Not_time_to_vaccinate',
                         CASE
                             WHEN s2.q212g = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Financial_Issue',
+                            END AS 'Financial_issue',
                          CASE
                             WHEN s2.q212h = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Caregivcer_Illness',
+                            END AS 'Caregivcer_illness',
                         CASE
                             WHEN s2.q212x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Other_Resason',
+                            END AS 'Other_resason',
                         CASE
                             WHEN s2.q212x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Specify_Provider_Reason',
-                        DATE_FORMAT(s2.q213, '%d-%m-%Y') AS Vaccine_Info_Date,
-                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS Upload_Date
+                            END AS 'Specify_provider_reason',
+                        DATE_FORMAT(s2.q213, '%d-%m-%Y') AS 'Vaccine_info_date',
+                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS 'Upload_date'
                         FROM
                         section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
@@ -329,227 +328,229 @@ class Report_model extends CI_Model
         }
 
         $queryRadio = "SELECT
-                        s2.idno AS Registration_ID,
-                        z.zillanameeng AS Zilla,
-                        u.upazilanameeng AS Upazilla,
+                        s2.idno AS 'Registration_ID',
+                        z.zillanameeng AS 'District',
+                        u.upazilanameeng AS 'Upazilla',
                         un.unionnameeng AS 'Union',
                         c.ward_no AS 'Ward_No',
-                        c.epi_sub_block AS 'EPI_Sub_Block',
-                        c.epi_cluster_name AS 'EPI_Cluster',
-                        p.provname AS 'Provider_Name',
-                        pt.typename AS 'Provider_Designation',
-                        DATE_FORMAT(s1.interviewer_date, '%d-%m-%Y') AS Interview_Date,
-                        s1.q105 AS 'Ward_No',
+                        c.epi_sub_block AS 'EPI_sub_block',
+                        c.epi_cluster_name AS 'EPI_cluster',
+                        p.provname AS 'Provider_name',
+                        pt.typename AS 'Provider_designation',
+                        DATE_FORMAT(s1.interviewer_date, '%d-%m-%Y') AS 'Interview_date',
+                        s1.q105 AS 'Ward_no',
                         CASE
                             WHEN s2.q111 = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Observed_Session',
+                            END AS 'Observed_session',
                         CASE
                             WHEN s2.q111a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Child_Ilness,
+                            END AS 'Child_illness',
                         CASE
                             WHEN s2.q111b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_at_Home,
+                            END AS 'Not_at_home',
                         CASE
                             WHEN s2.q111c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Guardian_Moved,
+                            END AS 'Migrated',
                         CASE
                             WHEN s2.q111d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Parent_Illness,
+                            END AS 'Parent_illness',
                         CASE
                             WHEN s2.q111e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Undetermined_Cause,
+                            END AS 'Undetermined_cause',
                         CASE
                             WHEN s2.q111x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Other_Reasons,
-                        s2.q111x1 AS Specify_Reason,
-                        s2.q112a AS BCG,
+                            END AS 'Other_Reasons',
+                        s2.q111x1 AS 'Specify_Reason',
                         CASE
                             WHEN s2.q112a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS BCG,
+                            END AS 'BCG',
                         s2.q112a1 AS 'Target_BCG',
-                        s2.q112a2 AS 'Achievement_BCG',
+                        s2.q112a2 AS 'Achieved_BCG',
                         CASE
                             WHEN s2.q112b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Penta_1,
+                            END AS 'Penta-1',
                         s2.q112b1 AS 'Target_Penta-1',
-                        s2.q112b2 AS 'Achievement_Penta-1',
+                        s2.q112b2 AS 'Achieved_Penta-1',
                         CASE
                             WHEN s2.q112c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Penta_2,
+                            END AS 'Penta-2',
                         s2.q112c1 AS 'Target_Penta-2',
-                        s2.q112c2 AS 'Achievement_Penta-2',
+                        s2.q112c2 AS 'Achieved_Penta-2',
                         CASE
                             WHEN s2.q112d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Penta_3,
+                            END AS 'Penta-3',
                         s2.q112d1 AS 'Target_Penta-3',
-                        s2.q112d2 AS 'Achievement_Penta-3',
+                        s2.q112d2 AS 'Achieved_Penta-3',
 
                         -- CASE
                         --     WHEN s2.q112e = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS PCV_1,
                         -- s2.q112e1 AS 'Target_PCV-1',
-                        -- s2.q112e2 AS 'Achievement_PCV-1',
+                        -- s2.q112e2 AS 'Achieved_PCV-1',
                         -- CASE
                         --     WHEN s2.q112f = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS PCV_2,
                         -- s2.q112f1 AS 'Target_PCV-2',
-                        -- s2.q112f2 AS 'Achievement_PCV-2',
+                        -- s2.q112f2 AS 'Achieved_PCV-2',
                         -- CASE
                         --     WHEN s2.q112g = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS PCV_3,
                         -- s2.q112g1 AS 'Target_PCV-3',
-                        -- s2.q112g2 AS 'Achievement_PCV-3',
+                        -- s2.q112g2 AS 'Achieved_PCV-3',
                         -- CASE
                         --     WHEN s2.q112h = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS OPV_1,
                         -- s2.q112h1 AS 'Target_OPV-1',
-                        -- s2.q112h2 AS 'Achievement_OPV-1',
+                        -- s2.q112h2 AS 'Achieved_OPV-1',
                         -- CASE
                         --     WHEN s2.q112i = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS OPV_2,
                         -- s2.q112i1 AS 'Target_OPV-2',
-                        -- s2.q112i2 AS 'Achievement_OPV-2',
+                        -- s2.q112i2 AS 'Achieved_OPV-2',
                         -- CASE
                         --     WHEN s2.q112j = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS OPV_3,
                         -- s2.q112j1 AS 'Target_OPV-3',
-                        -- s2.q112j2 AS 'Achievement_OPV-3',
+                        -- s2.q112j2 AS 'Achieved_OPV-3',
 
                         CASE
                             WHEN s2.q112k = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS MR_1,
+                            END AS 'MR-1',
                         s2.q112k1 AS 'Target_MR_1',
-                        s2.q112k2 AS 'Achievement_MR-1',
+                        s2.q112k2 AS 'Achieved_MR-1',
 
                         -- CASE
                         --     WHEN s2.q112k = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS MR_2,
                         -- s2.q112l1 AS 'Target_MR-2',
-                        -- s2.q112l2 AS 'Achievement_MR-2',
+                        -- s2.q112l2 AS 'Achieved_MR-2',
 
-                        s2.q113 AS Remarks,
+                        s2.q113 AS 'Remarks',
                         CASE
                             WHEN s2.q112p1a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Child_Ilness,
+                            END AS 'Child_illness_P1',
                         CASE
                             WHEN s2.q112p1b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_at_Home,
-                        CASE
+                            END AS 'Not_home_P1',
+                        Case
                             WHEN s2.q112p1c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Guardian_Moved,
-                        CASE
+                            END AS 'Migrated_P1',
+                        Case
                             WHEN s2.q112p1d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Parent_Illness,
+                            END AS 'Parent_illness_P1',
+                    -- not in view
                         CASE
                             WHEN s2.q112p1e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Undetermined_Cause,
+                            END AS 'Undetermined_cause_P1',                        
                         CASE
                             WHEN s2.q112p1x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Other_Reasons,
-                        s2.q112p1x1 AS Specify_Reason,
+                            END AS 'Other_reasons_P1',
+                        s2.q112p1x1 AS 'Specify_reason_P1',       
 
                         CASE
                             WHEN s2.q112p2a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Child_Ilness,
+                            END AS 'Child_ilness_P2',
                         CASE
                             WHEN s2.q112p2b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_at_Home,
+                            END AS 'Not_at_home_P2',
                         CASE
                             WHEN s2.q112p2c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Guardian_Moved,
+                            END AS 'Migrated_P2',
                         CASE
                             WHEN s2.q112p2d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Parent_Illness,
+                            END AS 'Parent_illness_P2',
                         CASE
                             WHEN s2.q112p2e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Undetermined_Cause,
+                            END AS 'Undetermined_cause_P2',
                         CASE
                             WHEN s2.q112p2x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Other_Reasons,
-                        s2.q112p2x1 AS Specify_Reason,
+                            END AS 'Other_reasons_P2',
+                        s2.q112p2x1 AS 'Specify_reason_P2',
 
                         CASE
                             WHEN s2.q112p3a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Child_Ilness,
+                            END AS 'Child_ilness_P3',
                         CASE
                             WHEN s2.q112p3b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_at_Home,
+                            END AS 'Not_at_home_P3',
                         CASE
                             WHEN s2.q112p3c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Guardian_Moved,
+                            END AS 'Migrated_P3',
                         CASE
                             WHEN s2.q112p3d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Parent_Illness,
+                            END AS 'Parent_illness_P3',
                         CASE
                             WHEN s2.q112p3e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Undetermined_Cause,
+                            END AS 'Undetermined_cause_P3',
                         CASE
                             WHEN s2.q112p3x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Other_Reasons,
-                        s2.q112p3x1 AS Specify_Reason,
+                            END AS 'Other_reasons_P3',
+                        s2.q112p3x1 AS 'Specify_reason_P3',
 
                         CASE
                             WHEN s2.q112m1a = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Child_Ilness,
+                            END AS 'Child_ilness_MR-1',
                         CASE
                             WHEN s2.q112m1b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Not_at_Home,
+                            END AS 'Not_at_home_MR-1',
                         CASE
                             WHEN s2.q112m1c = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Guardian_Moved,
+                            END AS 'Migrated_MR-1',
                         CASE
                             WHEN s2.q112m1d = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Parent_Illness,
+                            END AS 'Parent_illness_MR-1',
                         CASE
                             WHEN s2.q112m1e = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Undetermined_Cause,
+                            END AS 'Undetermined_cause_MR-1',
                         CASE
                             WHEN s2.q112m1x = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS Other_Reasons,
-                        s2.q112m1x1 AS Specify_Reason,
+                            END AS 'Other_reasons_MR-1',
+                        s2.q112m1x1 AS 'Specify_reason_MR-1',
+
+                        s2.q113 AS Remarks,
                         DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS Upload_Date 
                         FROM
                         section_1_identifications_ipc_reg s1 
@@ -579,9 +580,36 @@ class Report_model extends CI_Model
     
     function eScreening_summary_model()
     {
-        // Query for the 'Total' summary
         $queryUnion = "SELECT
-                        'Total' AS District,
+                        'Total' AS 'Area',
+                        SUM(CASE
+                                WHEN s2.q203 = 2
+                                    AND s2.q205b = 2
+                                    AND s2.q205c = 2
+                                    AND s2.q205d = 2
+                                    AND (
+                                        s1.q109 NOT LIKE '%test%' 
+                                        OR s2.q201 NOT LIKE '%test%' 
+                                        OR s2.q206a NOT LIKE '%test%' 
+                                        OR s2.q206b NOT LIKE '%test%'
+                                    ) 
+                                THEN 1 
+                                ELSE 0
+                        END) AS 'Zero-dose',
+                        SUM(CASE
+                            WHEN s2.q203 = 2
+                                AND s2.q205b = 1
+                                AND (s2.q205c = 2 OR s2.q205d = 2) 
+                                AND (s1.q109 NOT LIKE '%test%'
+                                    OR s2.q201 NOT LIKE '%test%'
+                                    OR s2.q206a NOT LIKE '%test%'
+                                    OR s2.q206b NOT LIKE '%test%'
+                                ) 
+                            THEN 1 
+                            ELSE 0
+                        END) AS 'Under-immunized',
+
+                        (COUNT(DISTINCT s1.idno) - 
                         SUM(CASE
                             WHEN s2.q205b = 2 
                                 AND s2.q203 = 2 
@@ -591,12 +619,12 @@ class Report_model extends CI_Model
                                 OR s2.q206b NOT LIKE '%test%') 
                             THEN 1 
                             ELSE 0
-                        END) AS Zero_Dose,
+                        END) - 
                         SUM(CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
-                                AND (s2.q205c = 2
-                                AND s2.q205d = 2) 
+                                AND s2.q205c = 2
+                                AND s2.q205d = 2
                                 AND (s1.q109 NOT LIKE '%test%'
                                     OR s2.q201 NOT LIKE '%test%'
                                     OR s2.q206a NOT LIKE '%test%'
@@ -604,18 +632,9 @@ class Report_model extends CI_Model
                                 ) 
                             THEN 1 
                             ELSE 0
-                        END) AS Under_Immunized,
-                        SUM(CASE
-                            WHEN s2.q203 = 1
-                                OR (s2.q205b = 1 AND s2.q205c = 1 AND s2.q205d = 1)
-                                AND ((s1.q109 NOT LIKE '%test%' OR s1.q109 IS NULL)
-                                OR (s2.q201 NOT LIKE '%test%' OR s2.q201 NOT LIKE 'E' OR s2.q201 NOT LIKE '%Rgy%' OR s2.q201 IS NULL)
-                                OR (s2.q206a NOT LIKE '%test%' OR s2.q206a IS NULL)
-                                OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL))
-                            THEN 1
-                            ELSE 0
-                        END) AS Drop_Out,
-                        COUNT(DISTINCT s1.idno) AS Screening_Checklist_Used,
+                        END) 
+                        ) AS 'Drop-out',
+                        COUNT(DISTINCT s1.idno) AS 'Total_(ZD+UI)',
                         SUM(IF(s2.q212 IN (1, 2), 1, 0)) AS Vaccinated
                         FROM section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
@@ -635,12 +654,42 @@ class Report_model extends CI_Model
                             AND un.unionid = s1.unionid 
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s2.q211 AS CHAR) 
-                        WHERE s2.idno IS NOT NULL
-                        GROUP BY District";  // 'District' is a constant here, so grouping by it is not needed
+                        WHERE s2.idno IS NOT NULL";
 
-        // Query for detailed summary by District
         $queryRadio = "SELECT
-                        z.zillanameeng AS District,
+                        CONCAT(
+                        UPPER(SUBSTRING(u.upazilanameeng, 1, 1)), LOWER(SUBSTRING(u.upazilanameeng, 2)), 
+                        ', ' , 
+                        UPPER(SUBSTRING(z.zillanameeng, 1, 1)), LOWER(SUBSTRING(z.zillanameeng, 2))
+                        ) AS Area,
+                        SUM(CASE
+                                WHEN s2.q203 = 2
+                                    AND s2.q205b = 2
+                                    AND s2.q205c = 2
+                                    AND s2.q205d = 2
+                                    AND (
+                                        s1.q109 NOT LIKE '%test%' 
+                                        OR s2.q201 NOT LIKE '%test%' 
+                                        OR s2.q206a NOT LIKE '%test%' 
+                                        OR s2.q206b NOT LIKE '%test%'
+                                    ) 
+                                THEN 1 
+                                ELSE 0
+                        END) AS 'Zero-dose',
+                        SUM(CASE
+                            WHEN s2.q203 = 2
+                                AND s2.q205b = 1
+                                AND (s2.q205c = 2 OR s2.q205d = 2) 
+                                AND (s1.q109 NOT LIKE '%test%'
+                                    OR s2.q201 NOT LIKE '%test%'
+                                    OR s2.q206a NOT LIKE '%test%'
+                                    OR s2.q206b NOT LIKE '%test%'
+                                ) 
+                            THEN 1 
+                            ELSE 0
+                        END) AS 'Under-immunized',
+
+                        (COUNT(DISTINCT s1.idno) - 
                         SUM(CASE
                             WHEN s2.q205b = 2 
                                 AND s2.q203 = 2 
@@ -650,12 +699,12 @@ class Report_model extends CI_Model
                                 OR s2.q206b NOT LIKE '%test%') 
                             THEN 1 
                             ELSE 0
-                        END) AS Zero_Dose,
+                        END) - 
                         SUM(CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
-                                AND (s2.q205c = 2
-                                AND s2.q205d = 2) 
+                                AND s2.q205c = 2
+                                AND s2.q205d = 2
                                 AND (s1.q109 NOT LIKE '%test%'
                                     OR s2.q201 NOT LIKE '%test%'
                                     OR s2.q206a NOT LIKE '%test%'
@@ -663,18 +712,10 @@ class Report_model extends CI_Model
                                 ) 
                             THEN 1 
                             ELSE 0
-                        END) AS Under_Immunized,
-                        SUM(CASE
-                            WHEN s2.q203 = 1
-                                OR (s2.q205b = 1 AND s2.q205c = 1 AND s2.q205d = 1)
-                                AND ((s1.q109 NOT LIKE '%test%' OR s1.q109 IS NULL)
-                                OR (s2.q201 NOT LIKE '%test%' OR s2.q201 NOT LIKE 'E' OR s2.q201 NOT LIKE '%Rgy%' OR s2.q201 IS NULL)
-                                OR (s2.q206a NOT LIKE '%test%' OR s2.q206a IS NULL)
-                                OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL))
-                            THEN 1
-                            ELSE 0
-                        END) AS Drop_Out,
-                        COUNT(DISTINCT s1.idno) AS Screening_Checklist_Used,
+                        END) 
+                        ) AS 'Drop-out',
+
+                        COUNT(DISTINCT s1.idno) AS 'Total_(ZD+UI)',
                         SUM(IF(s2.q212 IN (1, 2), 1, 0)) AS Vaccinated
                         FROM section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
@@ -702,12 +743,13 @@ class Report_model extends CI_Model
         $radio_query_result = $this->db->query($queryRadio);
         return $radio_query_result->result();
     }
+    
     function eSupervision_summary_model()
     {
-        // Query for the Total summary
         $query_Union = "SELECT
-                            'Total' AS Union_Name,
-                            COUNT(DISTINCT s2.idno) AS Supervision_Checklist_Used
+                            'Total' AS `Upazilla`,
+                            '' AS `Union`,
+                            COUNT(DISTINCT s2.idno) AS 'Number_of_checklist_used'
                         FROM
                             section_1_identifications_ipc_reg s1
                         JOIN
@@ -738,10 +780,10 @@ class Report_model extends CI_Model
                             s2.idno IS NOT NULL
                         ";
 
-        // Query for the detailed summary by Union
         $query_Radio = "SELECT
-                            un.unionnameeng AS Union_Name,
-                            COUNT(DISTINCT s2.idno) AS Total_Supervision_Checklist_Used
+                            CONCAT(UPPER(SUBSTRING(u.upazilanameeng, 1, 1)), LOWER(SUBSTRING(u.upazilanameeng, 2))) AS `Upazilla`,
+                            CONCAT(UPPER(SUBSTRING(un.unionnameeng, 1, 1)), LOWER(SUBSTRING(un.unionnameeng, 2))) AS `Union`,
+                            COUNT(DISTINCT s2.idno) AS 'Number_of_checklist_used'
                         FROM
                             section_1_identifications_ipc_reg s1
                         JOIN
@@ -771,7 +813,7 @@ class Report_model extends CI_Model
                         WHERE
                             s2.idno IS NOT NULL
                         GROUP BY
-                            un.unionid, un.unionnameeng
+                            un.unionid, u.upazilanameeng, un.unionnameeng
                         UNION ALL
                         $query_Union
                         ";

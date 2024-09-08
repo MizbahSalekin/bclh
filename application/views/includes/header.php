@@ -70,7 +70,7 @@
                 </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown tasks-menu">
+                        <!-- <li class="dropdown tasks-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-history"></i>
                             </a>
@@ -78,7 +78,7 @@
                                 <li class="header"> Last Login : <i class="fa fa-clock-o"></i>
                                     <?= empty($last_login) ? "First Time Login" : $last_login; ?></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

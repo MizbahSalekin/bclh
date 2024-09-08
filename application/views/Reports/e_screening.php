@@ -132,7 +132,7 @@ $(function() {
             <div class="col-md-12">
                 <div class="form-group">
                     <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="button" id="filter_reset" class="btn btn-default" value="Reset" onclick="resetForm();" />
+                    <input type="button" id="filter_reset" class="btn btn-default" value="View All Data" onclick="resetForm();" />
                 </div>
             </div>
         </div>
@@ -196,7 +196,7 @@ $(function() {
                             //$arr_geo = array('Present_Division', 'Present_District');
                             foreach ($object as $key => $value) {
                                 if ($i == 1)
-                                    $header .= '<th>' . str_replace('_', ' ', $key) . '</th>';
+                                    $header .= '<th style="background-color: #F0F8FF;">' . str_replace('_', ' ', $key) . '</th>';
                                 // $header .= '<th style="width: 1000px;">' . str_replace('_', ' ', $key) . '</th>';
                         
                                 if ($key == 'Present_Division' || $key == 'Permanent_Division') {
@@ -252,7 +252,7 @@ $(function() {
         <div class="col-xs-12 text-center header-margin">
             <p>
                 <div style="border: 1px solid #000000; padding: 10px; display: inline-block; color: #000000; background-color: #000000; font-weight: bold;">
-                    <a href="<?php echo base_url(); ?>eScreening_summary" style="color: #ffff00; text-decoration: none;">
+                    <a href="<?php echo base_url(); ?>eScreening_summary" style="color: #B2FFFF; text-decoration: none;">
                         <?php echo $report_sub_title; ?>
                     </a>
                 </div>
@@ -513,7 +513,13 @@ $(function() {
             dom: 'Bfrtip',
             buttons: [
                 'excel', 'csv', 'copy'
-            ]
+            ],
+            drawCallback: function(settings) {
+                $('#example tbody tr').each(function(index) {
+                    var color = index % 2 === 0 ? '' : '';
+                    $(this).css('background-color', color);
+                });
+            }
         });
     });
     </script>

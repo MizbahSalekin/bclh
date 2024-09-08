@@ -1,9 +1,11 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Gavi</b> Admin System | Version 1.0
+        <b>BCLH</b> Admin System | Version 1.0
     </div>
-    <strong>Copyright&copy; <a href="<?php echo "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)"; ?>">ICDDR,B</a> 2024.</strong> All rights reserved.
-    <!-- <strong>Website - <a href="<?php echo "https://clh-immunisation-bd.org/"; ?>">CLH</a>.</strong> -->
+    <!-- <strong>Copyright&copy; <a href="<?php echo "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)"; ?>">ICDDR,B</a> 2024.</strong> All rights reserved. -->
+
+    <strong>Copyright&copy; <a href="<?php echo "https://clh-immunisation-bd.org/"; ?>">Country Learning Hub Bangladesh (CLH) for Immunisation Equity in Bangladesh </a> 2024.</strong> All rights reserved.
+
 </footer>
 
 <script src="<?php echo base_url(); ?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

@@ -151,7 +151,7 @@ $(function() {
             <div class="col-md-12">
                 <div class="form-group">
                     <input type="submit" id="filter_submit" class="btn btn-primary" value="Submit" />
-                    <input type="button" id="filter_reset" class="btn btn-default" value="Reset" onclick="resetForm();" />
+                    <input type="button" id="filter_reset" class="btn btn-default" value="View All Data" onclick="resetForm();" />
                 </div>
             </div>
         </div>
@@ -193,23 +193,29 @@ $(function() {
                         $i = 1;
                         $header = $row_column = $colspann = $colspann1 = '';
                         $division = $district = $thana = 0;
-                        $colspann1 .= '<th colspan="49">Data Received from E-Screening App</th>';
+                        $colspann1 .= '<th colspan="64">Data Received from E-Supervision App</th>';
                         $colspann .= '<th colspan="1"></th>';
                         $colspann .= '<th colspan="6">Address</th>';
                         $colspann .= '<th colspan="3">Provider Information</th>';
-                        $colspann .= '<th colspan="8">Reasons for not achieving  BCG target</th>';
+                        $colspann .= '<th colspan="9">Reasons for not achieving  BCG target</th>';
                         $colspann .= '<th colspan="3">BCG</th>';
                         $colspann .= '<th colspan="3">Penta 1</th>';
                         $colspann .= '<th colspan="3">Penta 2</th>';
                         $colspann .= '<th colspan="3">Penta 3</th>';
                         $colspann .= '<th colspan="3">MR 1</th>';
-                        $colspann .= '<th colspan="3"></th>';
+                        $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="7">Reasons for not achieving  Penta-1 target</th>';
+                        $colspann .= '<th colspan="7">Reasons for not achieving  Penta-2 target</th>';
+                        $colspann .= '<th colspan="7">Reasons for not achieving  Penta-3 target</th>';
+                        $colspann .= '<th colspan="7">Reasons for not achieving  MR-1 target</th>';
+                        $colspann .= '<th colspan="1"></th>';
+
                         foreach ($result_data as $object) {
                             $row_column .= '<tr>';
                             //$arr_geo = array('Present_Division', 'Present_District');
                             foreach ($object as $key => $value) {
                                 if ($i == 1)
-                                    $header .= '<th>' . str_replace('_', ' ', $key) . '</th>';
+                                    $header .= '<th style="background-color: #F0F8FF;">' . str_replace('_', ' ', $key) . '</th>';
                                 // $header .= '<th style="width: 1000px;">' . str_replace('_', ' ', $key) . '</th>';
                         
                                 if ($key == 'Present_Division' || $key == 'Permanent_Division') {
@@ -240,6 +246,9 @@ $(function() {
                         <table id="example" class="table table-bordered sticky-table" style="width:100%">
                             <thead>
                                 <tr>
+                                    <?php echo $colspann1; ?>
+                                </tr>
+                                <tr>
                                     <?php echo $colspann; ?>
                                 </tr>
                                 <tr>
@@ -262,7 +271,7 @@ $(function() {
         <div class="col-xs-12 text-center header-margin">
             <p>
                 <div style="border: 1px solid #000000; padding: 10px; display: inline-block; color: #000000; background-color: #000000; font-weight: bold;">
-                    <a href="<?php echo base_url(); ?>eSupervision_summary" style="color: #ffff00; text-decoration: none;">
+                    <a href="<?php echo base_url(); ?>eSupervision_summary" style="color: #B2FFFF; text-decoration: none;">
                         <?php echo $report_sub_title; ?>
                     </a>
                 </div>
@@ -310,10 +319,14 @@ $(function() {
 
 
     ?>
-    <script type="text/javascript" language="javascript"
+    <!-- <script type="text/javascript" language="javascript"
         src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript"
-        src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+        src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script> -->
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.4/js/dataTables.buttons.min.js"></script>
+
     <script type="text/javascript" language="javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript" language="javascript"
@@ -358,9 +371,10 @@ $(function() {
 
     <script type="text/javascript">
     $(document).ready(function() {
+        var zillaid;
         // When the zilla_id dropdown changes
         $('#zilla_id').on('change', function() {
-            var zillaid = $(this).val(); 
+             zillaid = $(this).val(); 
             if (zillaid) {
                 $.ajax({
                     url: '<?php echo base_url("Report/get_upazila_by_zillaid"); ?>',
@@ -398,12 +412,16 @@ $(function() {
 
         // When the upazila_id dropdown changes
         $('#upazila_id').on('change', function() {
-            var upazilaid = $(this).val(); 
+
+            var upazilaid = $(this).val();
+            console.log("upazilaid"); 
+            console.log(zillaid);
+            console.log(upazilaid);
             if (upazilaid) {
                 $.ajax({
                     url: '<?php echo base_url("Report/get_union_by_upazilaid"); ?>',
                     type: 'POST',
-                    data: { upazilaid: upazilaid },
+                    data: {zillaid: zillaid, upazilaid: upazilaid },
                     dataType: 'json',
                     success: function(response) {
                         console.log(response); // Debug the response
@@ -632,7 +650,28 @@ $(function() {
         }
     }
     </script>
+
     <script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'csv', 'copy'
+            ],
+            // Callback function to apply row styling
+            drawCallback: function(settings) {
+                $('#example tbody tr').each(function(index) {
+                    // Apply alternating row colors
+                    var color = index % 2 === 0 ? '#' : '#';
+                    $(this).css('background-color', color);
+                });
+            }
+        });
+    });
+</script>
+
+
+    <!-- <script>
     // 'print',
     $(document).ready(function() {
         $('#example').DataTable({
@@ -642,4 +681,4 @@ $(function() {
             ]
         });
     });
-    </script>
+    </script> -->

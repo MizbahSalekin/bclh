@@ -12,21 +12,26 @@
       }
       .content-wrapper {
           position: relative;
-          z-index: 1; /* Ensure content is above the background */
-          padding: auto;
-          background: #Ffffff; /* Optional: slightly opaque background to improve readability */
+          z-index: 5; 
+          padding: 20px; 
+          background: rgba(255, 255, 255, 100); 
+      }
+      .logo_icddrb-wrapper {
+          display: flex; 
+          justify-content: center; 
+          align-items: center; 
+          height: 100%; 
+          width: 100%; 
       }
       .logo_icddrb {
-          width: 100%;
+          max-width: 100%;
           height: auto;
-          max-width: 100%; /* Ensure the image does not exceed the viewport width */
       }
   </style>
 </head>
 
 <body>
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
                 <i class="fa fa-tachometer" aria-hidden="true"></i> Real-Time Information Dashboard
@@ -40,9 +45,9 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>397<sup style="font-size: 20px"></sup></h3>
                             <h2>E-Screening Checklist</h2>
-                            <p>Status of Identified <strong>Zero Dose, Under Immunized</strong> & <strong>Drop Out</strong> Children</p>
+                            <p>Identified <strong>Zero Dose </strong> and <strong>Under Immunized</strong> Children:</p>
+                            <h3>435<sup style="font-size: 20px"></sup></h3>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -56,9 +61,9 @@
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>163</h3>
                             <h2>E-Supervision Checklist</h2>
-                            <p>Status of Expanded Programme on Immunization (EPI) Supervisor's Field Visit</p>
+                            <p>Use of E-Supervision Checklist: </p>
+                            <h3>164</h3>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
@@ -72,8 +77,9 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-12">
-                    <img src="<?php echo base_url(); ?>assets/dist/img/BCLH_Map.png" class="logo_icddrb" alt="logo_icddrb" />
-                    <!-- <h3>Modules <span style="color:red"> "Booking" </span> & <span style="color:red"> "Tasks" </span> created to demonstrate Roles Access.</h3> -->
+                    <div class="logo_icddrb-wrapper">
+                        <img src="<?php echo base_url(); ?>assets/dist/img/BCLH_Map.png" class="logo_icddrb" alt="logo_icddrb" />
+                    </div>
                 </div>
             </div>
         </section>

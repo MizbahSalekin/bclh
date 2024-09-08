@@ -110,7 +110,10 @@ class Report extends BaseController
 }
 
     public function get_union_by_upazilaid() {
-    $upazilaid = $this->input->post('upazilaid');  // Get the upazilaid value from the POST data
+    $zillaid = $this->input->post('zillaid'); 
+    $upazilaid = $this->input->post('upazilaid'); 
+
+    // pre($zillaid);
     
     if ($upazilaid) {
         // Load the database library if it's not autoloaded
@@ -119,6 +122,7 @@ class Report extends BaseController
         // Query the unions table for the matching upazilaid
         $this->db->select('unionid, unionnameeng');
         $this->db->from('unions');
+        $this->db->where('zillaid', $zillaid);
         $this->db->where('upazilaid', $upazilaid);
         $query = $this->db->get();
         
