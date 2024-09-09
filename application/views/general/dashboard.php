@@ -47,7 +47,7 @@
                         <div class="inner">
                             <h2>E-Screening Checklist</h2>
                             <p>Identified <strong>Zero Dose </strong> and <strong>Under Immunized</strong> Children:</p>
-                            <h3>435<sup style="font-size: 20px"></sup></h3>
+                            <h3>361<sup style="font-size: 20px"></sup></h3>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>

@@ -69,8 +69,8 @@ class Report_model extends CI_Model
         $queryRadio = "SELECT
                         (IF(s2.q212 IN (1, 2), 'Yes', 'No')) AS Vaccinated,
                         (CASE
-                            WHEN s2.q205b = 2 
-                                AND s2.q203 = 2 
+                            WHEN s2.q203 = 2
+                                AND s2.q205b = 1
                                 AND (s1.q109 NOT LIKE '%test%' 
                                 OR s2.q201 NOT LIKE '%test%' 
                                 OR s2.q206a NOT LIKE '%test%' 
@@ -78,27 +78,25 @@ class Report_model extends CI_Model
                             THEN 'Yes' 
                             ELSE 'No'
                         END) AS 'Zero-dose',
-                        CASE
-                            WHEN s2.q203 = 2
-                                AND s2.q205b = 1
-                                AND s2.q205c = 2
-                                AND s2.q205d = 2
-                                AND (
-                                    (s1.q109 NOT LIKE '%test%' OR s1.q109 IS NULL)
-                                    OR (s2.q201 NOT LIKE '%test%' OR s2.q201 IS NULL)
-                                    OR (s2.q206a NOT LIKE '%test%' OR s2.q206a IS NULL)
-                                    OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL)
-                                    )
-                                THEN 'Yes'
-                                ELSE 'No'
-                        END AS 'Under-immunized',
                         (CASE
-                            WHEN s2.q203 = 1
-                                OR (s2.q205b = 1 AND s2.q205c = 1 AND s2.q205d = 1)
-                                AND ((s1.q109 NOT LIKE '%test%' OR s1.q109 IS NULL)
-                                OR (s2.q201 NOT LIKE '%test%' OR s2.q201 NOT LIKE 'E' OR s2.q201 NOT LIKE '%Rgy%' OR s2.q201 IS NULL)
-                                OR (s2.q206a NOT LIKE '%test%' OR s2.q206a IS NULL)
-                                OR (s2.q206b NOT LIKE '%test%' OR s2.q206b IS NULL))
+                            WHEN s2.q203 = 2
+                            AND (s2.q205b = 2
+                            AND (s2.q205c = 1 OR s2.q205d = 1))
+                            AND (s1.q109 NOT LIKE '%test%'
+                                OR s2.q201 NOT LIKE '%test%'
+                                OR s2.q206a NOT LIKE '%test%'
+                                OR s2.q206b NOT LIKE '%test%'
+                            )
+                            THEN 'Yes' 
+                            ELSE 'No'
+                        END) AS 'Under-immunized',
+                        (CASE
+                            WHEN s2.q203 = '1' 
+                                OR (s2.q203 = '2' AND (s2.q205b = 2 AND s2.q205c = 2 AND s2.q205d = 2))
+                                OR (s1.q109 LIKE '%test%' 
+                                    OR s2.q201 LIKE '%test%' 
+                                    OR s2.q206a LIKE '%test%' 
+                                    OR s2.q206b LIKE '%test%')
                             THEN 'Yes' 
                             ELSE 'No'
                         END) AS 'Drop-out',
@@ -583,59 +581,91 @@ class Report_model extends CI_Model
         $queryUnion = "SELECT
                         'Total' AS 'Area',
                         SUM(CASE
-                                WHEN s2.q203 = 2
-                                    AND s2.q205b = 2
-                                    AND s2.q205c = 2
-                                    AND s2.q205d = 2
-                                    AND (
-                                        s1.q109 NOT LIKE '%test%' 
-                                        OR s2.q201 NOT LIKE '%test%' 
-                                        OR s2.q206a NOT LIKE '%test%' 
-                                        OR s2.q206b NOT LIKE '%test%'
-                                    ) 
-                                THEN 1 
-                                ELSE 0
-                        END) AS 'Zero-dose',
-                        SUM(CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
-                                AND (s2.q205c = 2 OR s2.q205d = 2) 
-                                AND (s1.q109 NOT LIKE '%test%'
-                                    OR s2.q201 NOT LIKE '%test%'
-                                    OR s2.q206a NOT LIKE '%test%'
-                                    OR s2.q206b NOT LIKE '%test%'
-                                ) 
-                            THEN 1 
-                            ELSE 0
-                        END) AS 'Under-immunized',
-
-                        (COUNT(DISTINCT s1.idno) - 
-                        SUM(CASE
-                            WHEN s2.q205b = 2 
-                                AND s2.q203 = 2 
                                 AND (s1.q109 NOT LIKE '%test%' 
                                 OR s2.q201 NOT LIKE '%test%' 
                                 OR s2.q206a NOT LIKE '%test%' 
                                 OR s2.q206b NOT LIKE '%test%') 
                             THEN 1 
                             ELSE 0
-                        END) - 
+                        END) AS 'Zero-dose',
+                        SUM(CASE
+                            WHEN s2.q203 = 2
+                            AND s2.q205b = 2
+                            AND (s2.q205c = 1 OR s2.q205d = 1)
+                            AND (s1.q109 NOT LIKE '%test%'
+                                OR s2.q201 NOT LIKE '%test%'
+                                OR s2.q206a NOT LIKE '%test%'
+                                OR s2.q206b NOT LIKE '%test%'
+                            )
+                            THEN 1
+                            ELSE 0
+                        END) AS 'Under-immunized',
+
                         SUM(CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
-                                AND s2.q205c = 2
-                                AND s2.q205d = 2
+                                AND (s1.q109 NOT LIKE '%test%' 
+                                OR s2.q201 NOT LIKE '%test%' 
+                                OR s2.q206a NOT LIKE '%test%' 
+                                OR s2.q206b NOT LIKE '%test%') 
+                            THEN 1 
+                            ELSE 0
+                        END) +
+                        SUM(CASE
+                            WHEN s2.q203 = 2
+                                AND s2.q205b = 2
+                                AND (s2.q205c = 1 OR s2.q205d = 1)
                                 AND (s1.q109 NOT LIKE '%test%'
                                     OR s2.q201 NOT LIKE '%test%'
                                     OR s2.q206a NOT LIKE '%test%'
                                     OR s2.q206b NOT LIKE '%test%'
-                                ) 
-                            THEN 1 
+                                )
+                            THEN 1
                             ELSE 0
-                        END) 
-                        ) AS 'Drop-out',
-                        COUNT(DISTINCT s1.idno) AS 'Total_(ZD+UI)',
-                        SUM(IF(s2.q212 IN (1, 2), 1, 0)) AS Vaccinated
+                        END) AS `Total_(ZD+UI)`,
+
+                        -- (COUNT(DISTINCT s1.idno) - 
+                        -- SUM(CASE
+                        --     WHEN s2.q203 = 2
+                        --         AND s2.q205b = 1
+                        --         AND (s1.q109 NOT LIKE '%test%' 
+                        --         OR s2.q201 NOT LIKE '%test%' 
+                        --         OR s2.q206a NOT LIKE '%test%' 
+                        --         OR s2.q206b NOT LIKE '%test%') 
+                        --     THEN 1 
+                        --     ELSE 0
+                        -- END) - 
+                        -- SUM(CASE
+                        --     WHEN s2.q203 = 2
+                        --     AND s2.q205b = 2
+                        --     AND (s2.q205c = 1 OR s2.q205d = 1)
+                        --     AND (s1.q109 NOT LIKE '%test%'
+                        --         OR s2.q201 NOT LIKE '%test%'
+                        --         OR s2.q206a NOT LIKE '%test%'
+                        --         OR s2.q206b NOT LIKE '%test%'
+                        --     )
+                        --     THEN 1
+                        --     ELSE 0
+                        -- END) 
+                        -- ) AS 'Drop-out',
+                        -- COUNT(DISTINCT s1.idno) AS 'Total_(ZD+UI+DO)',
+
+                        SUM(CASE
+                            WHEN s2.q205b IS NOT NULL
+                            AND (s2.q212 = 1 OR s2.q212 = 2)
+                            AND s2.q203 = 2
+                            AND (s2.q205c = 1 OR s2.q205d = 1)
+                            AND (s1.q109 NOT LIKE '%test%'
+                                 OR s2.q201 NOT LIKE '%test%'
+                                 OR s2.q206a NOT LIKE '%test%'
+                                 OR s2.q206b NOT LIKE '%test%'
+                                )
+                                THEN 1 
+                                ELSE 0
+                        END) AS Vaccinated
+                        -- SUM(IF(s2.q212 IN (1, 2), 1, 0)) AS Vaccinated
                         FROM section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
                             ON s2.idno = s1.idno
@@ -663,60 +693,90 @@ class Report_model extends CI_Model
                         UPPER(SUBSTRING(z.zillanameeng, 1, 1)), LOWER(SUBSTRING(z.zillanameeng, 2))
                         ) AS Area,
                         SUM(CASE
-                                WHEN s2.q203 = 2
-                                    AND s2.q205b = 2
-                                    AND s2.q205c = 2
-                                    AND s2.q205d = 2
-                                    AND (
-                                        s1.q109 NOT LIKE '%test%' 
-                                        OR s2.q201 NOT LIKE '%test%' 
-                                        OR s2.q206a NOT LIKE '%test%' 
-                                        OR s2.q206b NOT LIKE '%test%'
-                                    ) 
-                                THEN 1 
-                                ELSE 0
-                        END) AS 'Zero-dose',
-                        SUM(CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
-                                AND (s2.q205c = 2 OR s2.q205d = 2) 
-                                AND (s1.q109 NOT LIKE '%test%'
-                                    OR s2.q201 NOT LIKE '%test%'
-                                    OR s2.q206a NOT LIKE '%test%'
-                                    OR s2.q206b NOT LIKE '%test%'
-                                ) 
-                            THEN 1 
-                            ELSE 0
-                        END) AS 'Under-immunized',
-
-                        (COUNT(DISTINCT s1.idno) - 
-                        SUM(CASE
-                            WHEN s2.q205b = 2 
-                                AND s2.q203 = 2 
                                 AND (s1.q109 NOT LIKE '%test%' 
                                 OR s2.q201 NOT LIKE '%test%' 
                                 OR s2.q206a NOT LIKE '%test%' 
                                 OR s2.q206b NOT LIKE '%test%') 
                             THEN 1 
                             ELSE 0
-                        END) - 
+                        END) AS 'Zero-dose',
+                        SUM(CASE
+                            WHEN s2.q203 = 2
+                            AND s2.q205b = 2
+                            AND (s2.q205c = 1 OR s2.q205d = 1)
+                            AND (s1.q109 NOT LIKE '%test%'
+                                OR s2.q201 NOT LIKE '%test%'
+                                OR s2.q206a NOT LIKE '%test%'
+                                OR s2.q206b NOT LIKE '%test%'
+                            )
+                            THEN 1
+                            ELSE 0
+                        END) AS 'Under-immunized',
                         SUM(CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
-                                AND s2.q205c = 2
-                                AND s2.q205d = 2
+                                AND (s1.q109 NOT LIKE '%test%' 
+                                OR s2.q201 NOT LIKE '%test%' 
+                                OR s2.q206a NOT LIKE '%test%' 
+                                OR s2.q206b NOT LIKE '%test%') 
+                            THEN 1 
+                            ELSE 0
+                        END) +
+                        SUM(CASE
+                            WHEN s2.q203 = 2
+                                AND s2.q205b = 2
+                                AND (s2.q205c = 1 OR s2.q205d = 1)
                                 AND (s1.q109 NOT LIKE '%test%'
                                     OR s2.q201 NOT LIKE '%test%'
                                     OR s2.q206a NOT LIKE '%test%'
                                     OR s2.q206b NOT LIKE '%test%'
-                                ) 
-                            THEN 1 
+                                )
+                            THEN 1
                             ELSE 0
-                        END) 
-                        ) AS 'Drop-out',
+                        END) AS `Total_(ZD+UI)`,
 
-                        COUNT(DISTINCT s1.idno) AS 'Total_(ZD+UI)',
-                        SUM(IF(s2.q212 IN (1, 2), 1, 0)) AS Vaccinated
+                        -- (COUNT(DISTINCT s1.idno) - 
+                        -- SUM(CASE
+                        --     WHEN s2.q203 = 2
+                        --         AND s2.q205b = 1
+                        --         AND (s1.q109 NOT LIKE '%test%' 
+                        --         OR s2.q201 NOT LIKE '%test%' 
+                        --         OR s2.q206a NOT LIKE '%test%' 
+                        --         OR s2.q206b NOT LIKE '%test%') 
+                        --     THEN 1 
+                        --     ELSE 0
+                        -- END) - 
+                        -- SUM(CASE
+                        --     WHEN s2.q203 = 2
+                        --     AND s2.q205b = 2
+                        --     AND (s2.q205c = 1 OR s2.q205d = 1)
+                        --     AND (s1.q109 NOT LIKE '%test%'
+                        --         OR s2.q201 NOT LIKE '%test%'
+                        --         OR s2.q206a NOT LIKE '%test%'
+                        --         OR s2.q206b NOT LIKE '%test%'
+                        --     )
+                        --     THEN 1
+                        --     ELSE 0
+                        -- END) 
+                        -- ) AS 'Drop-out',
+                        -- COUNT(DISTINCT s1.idno) AS 'Total_(ZD+UI+DO)',
+
+                        SUM(CASE
+                            WHEN s2.q205b IS NOT NULL
+                            AND (s2.q212 = 1 OR s2.q212 = 2)
+                            AND s2.q203 = 2
+                            AND (s2.q205c = 1 OR s2.q205d = 1)
+                            AND (s1.q109 NOT LIKE '%test%'
+                                 OR s2.q201 NOT LIKE '%test%'
+                                 OR s2.q206a NOT LIKE '%test%'
+                                 OR s2.q206b NOT LIKE '%test%'
+                                )
+                                THEN 1 
+                                ELSE 0
+                        END) AS Vaccinated
+                        -- SUM(IF(s2.q212 IN (1, 2), 1, 0)) AS Vaccinated
                         FROM section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
                             ON s2.idno = s1.idno
