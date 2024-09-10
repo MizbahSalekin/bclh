@@ -1,32 +1,47 @@
 <head>
   <style>
-      html, body {
+        html, body {
           height: 100%;
           margin: 0;
           padding: 0;
-      }
-      body {
+        }
+        body {
           background: url('<?php echo base_url(); ?>assets/dist/img/BCLH_Map.png') no-repeat center center fixed;
           background-size: cover;
           overflow: auto;
-      }
-      .content-wrapper {
+        }
+        .content-wrapper {
           position: relative;
           z-index: 5; 
           padding: 20px; 
           background: rgba(255, 255, 255, 100); 
-      }
-      .logo_icddrb-wrapper {
+        }
+        .logo_icddrb-wrapper {
           display: flex; 
           justify-content: center; 
           align-items: center; 
           height: 100%; 
           width: 100%; 
-      }
-      .logo_icddrb {
+        }
+        .logo_icddrb {
           max-width: 100%;
           height: auto;
-      }
+        }
+
+        .small-box .inner {
+        text-align: default;
+        }
+
+        /* Center align the h3 element */
+        .inner h3 {
+          text-align: right;
+        }
+
+        /* Center align the h3 element */
+        .inner h1 {
+          text-align: center;
+        }
+
   </style>
 </head>
 
@@ -46,8 +61,8 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h2>E-Screening Checklist</h2>
-                            <p>Identified <strong>Zero Dose </strong> and <strong>Under Immunized</strong> Children:</p>
-                            <h3>361<sup style="font-size: 20px"></sup></h3>
+                            <p>Identified <strong>Zero-dose </strong> and <strong>Under-immunized</strong> Children: </p>
+                            <h1><strong>363</strong></h1>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -63,7 +78,7 @@
                         <div class="inner">
                             <h2>E-Supervision Checklist</h2>
                             <p>Use of E-Supervision Checklist: </p>
-                            <h3>164</h3>
+                            <h3>166</h3>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>

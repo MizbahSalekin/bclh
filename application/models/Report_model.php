@@ -90,16 +90,16 @@ class Report_model extends CI_Model
                             THEN 'Yes' 
                             ELSE 'No'
                         END) AS 'Under-immunized',
-                        (CASE
-                            WHEN s2.q203 = '1' 
-                                OR (s2.q203 = '2' AND (s2.q205b = 2 AND s2.q205c = 2 AND s2.q205d = 2))
-                                OR (s1.q109 LIKE '%test%' 
-                                    OR s2.q201 LIKE '%test%' 
-                                    OR s2.q206a LIKE '%test%' 
-                                    OR s2.q206b LIKE '%test%')
-                            THEN 'Yes' 
-                            ELSE 'No'
-                        END) AS 'Drop-out',
+                        -- (CASE
+                        --     WHEN s2.q203 = '1' 
+                        --         OR (s2.q203 = '2' AND (s2.q205b = 2 AND s2.q205c = 2 AND s2.q205d = 2))
+                        --         OR (s1.q109 LIKE '%test%' 
+                        --             OR s2.q201 LIKE '%test%' 
+                        --             OR s2.q206a LIKE '%test%' 
+                        --             OR s2.q206b LIKE '%test%')
+                        --     THEN 'Yes' 
+                        --     ELSE 'No'
+                        -- END) AS 'Drop-out',
 
                         z.zillanameeng AS 'District',
                         u.upazilanameeng AS 'Upazilla',
@@ -226,6 +226,7 @@ class Report_model extends CI_Model
                         un.unionnameeng AS 'EPI_Union',
                         c.ward_no AS 'EPI_Ward_no',
                         c.epi_cluster_name AS 'EPI_Cluster',
+                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS 'Uploaded_On',
 
                         CASE
                             WHEN s2.q212 = 1 THEN 'Vaccinated_all_doses'
@@ -273,8 +274,7 @@ class Report_model extends CI_Model
                             WHEN s2.q212x = 1 THEN 'Yes'
                             ELSE 'No'
                             END AS 'Specify_provider_reason',
-                        DATE_FORMAT(s2.q213, '%d-%m-%Y') AS 'Vaccine_info_date',
-                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS 'Upload_date'
+                        DATE_FORMAT(s2.q213, '%d-%m-%Y') AS 'Updated_On'
                         FROM
                         section_1_screening_checklist_idf s1 
                         JOIN section_2_vaccinations_info s2 
@@ -336,36 +336,10 @@ class Report_model extends CI_Model
                         p.provname AS 'Provider_name',
                         pt.typename AS 'Provider_designation',
                         DATE_FORMAT(s1.interviewer_date, '%d-%m-%Y') AS 'Interview_date',
-                        s1.q105 AS 'Ward_no',
                         CASE
                             WHEN s2.q111 = 1 THEN 'Yes'
                             ELSE 'No'
                             END AS 'Observed_session',
-                        CASE
-                            WHEN s2.q111a = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Child_illness',
-                        CASE
-                            WHEN s2.q111b = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Not_at_home',
-                        CASE
-                            WHEN s2.q111c = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Migrated',
-                        CASE
-                            WHEN s2.q111d = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Parent_illness',
-                        CASE
-                            WHEN s2.q111e = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Undetermined_cause',
-                        CASE
-                            WHEN s2.q111x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Other_Reasons',
-                        s2.q111x1 AS 'Specify_Reason',
                         CASE
                             WHEN s2.q112a = 1 THEN 'Yes'
                             ELSE 'No'
@@ -432,7 +406,7 @@ class Report_model extends CI_Model
                             WHEN s2.q112k = 1 THEN 'Yes'
                             ELSE 'No'
                             END AS 'MR-1',
-                        s2.q112k1 AS 'Target_MR_1',
+                        s2.q112k1 AS 'Target_MR-1',
                         s2.q112k2 AS 'Achieved_MR-1',
 
                         -- CASE
@@ -442,7 +416,32 @@ class Report_model extends CI_Model
                         -- s2.q112l1 AS 'Target_MR-2',
                         -- s2.q112l2 AS 'Achieved_MR-2',
 
-                        s2.q113 AS 'Remarks',
+                        CASE
+                            WHEN s2.q111a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_illness_BCG',
+                        CASE
+                            WHEN s2.q111b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Not_at_home_BCG',
+                        CASE
+                            WHEN s2.q111c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Migrated_BCG',
+                        CASE
+                            WHEN s2.q111d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Parent_illness_BCG',
+                        CASE
+                            WHEN s2.q111e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Undetermined_cause_BCG',
+                        CASE
+                            WHEN s2.q111x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_Reasons_BCG',
+                        s2.q111x1 AS 'Specify_Reason_BCG',
+
                         CASE
                             WHEN s2.q112p1a = 1 THEN 'Yes'
                             ELSE 'No'
@@ -450,7 +449,7 @@ class Report_model extends CI_Model
                         CASE
                             WHEN s2.q112p1b = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Not_home_P1',
+                            END AS 'Not_at_home_P1',
                         Case
                             WHEN s2.q112p1c = 1 THEN 'Yes'
                             ELSE 'No'
@@ -548,8 +547,8 @@ class Report_model extends CI_Model
                             END AS 'Other_reasons_MR-1',
                         s2.q112m1x1 AS 'Specify_reason_MR-1',
 
-                        s2.q113 AS Remarks,
-                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS Upload_Date 
+                        s2.q113 AS 'Remarks',
+                        DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS 'Uploaded_On' 
                         FROM
                         section_1_identifications_ipc_reg s1 
                         JOIN section_1_manager_staff_service s2 
@@ -876,6 +875,8 @@ class Report_model extends CI_Model
                             un.unionid, u.upazilanameeng, un.unionnameeng
                         UNION ALL
                         $query_Union
+                        ORDER BY
+                        'Union' ASC
                         ";
 
         $radio_query_result = $this->db->query($query_Radio);

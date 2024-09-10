@@ -4574,7 +4574,7 @@ CREATE TABLE IF NOT EXISTS `providerdb` (
   `tablestructurerequest` int(11) DEFAULT NULL,
   `areaupdate` int(11) DEFAULT NULL,
   `supervisorcode` varchar(4) CHARACTER SET utf8 DEFAULT NULL,
-  `provpass` int(11) DEFAULT NULL,
+  `provpass` int(11) ,
   `facilityname` varchar(23) CHARACTER SET utf8 DEFAULT NULL,
   `csba` varchar(4) CHARACTER SET utf8 DEFAULT NULL,
   `systementrydate` varchar(26) CHARACTER SET utf8 DEFAULT NULL,

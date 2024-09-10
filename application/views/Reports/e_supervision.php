@@ -193,22 +193,22 @@ $(function() {
                         $i = 1;
                         $header = $row_column = $colspann = $colspann1 = '';
                         $division = $district = $thana = 0;
-                        $colspann1 .= '<th colspan="64">Data Received from E-Supervision App</th>';
+                        $colspann1 .= '<th colspan="63">Data Received from E-Supervision App</th>';
                         $colspann .= '<th colspan="1"></th>';
                         $colspann .= '<th colspan="6">Address</th>';
-                        $colspann .= '<th colspan="3">Provider Information</th>';
-                        $colspann .= '<th colspan="9">Reasons for not achieving  BCG target</th>';
+                        $colspann .= '<th colspan="4">Provider Information</th>';
                         $colspann .= '<th colspan="3">BCG</th>';
-                        $colspann .= '<th colspan="3">Penta 1</th>';
-                        $colspann .= '<th colspan="3">Penta 2</th>';
-                        $colspann .= '<th colspan="3">Penta 3</th>';
-                        $colspann .= '<th colspan="3">MR 1</th>';
-                        $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="3">Penta-1</th>';
+                        $colspann .= '<th colspan="3">Penta-2</th>';
+                        $colspann .= '<th colspan="3">Penta-3</th>';
+                        $colspann .= '<th colspan="3">MR-1</th>';
+                        $colspann .= '<th colspan="7">Reasons for not achieving  BCG target</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  Penta-1 target</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  Penta-2 target</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  Penta-3 target</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  MR-1 target</th>';
                         $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="1">E-Supervision Info</th>';
 
                         foreach ($result_data as $object) {
                             $row_column .= '<tr>';
