@@ -796,7 +796,7 @@ class Report_model extends CI_Model
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s2.q211 AS CHAR) 
                         WHERE s2.idno IS NOT NULL
-                        GROUP BY z.zillaid, z.zillanameeng
+                        GROUP BY z.zillaid, z.zillanameeng, u.upazilanameeng
                         UNION ALL
                         $queryUnion";
 
