@@ -29,17 +29,7 @@
         }
 
         .small-box .inner {
-        text-align: default;
-        }
-
-        /* Center align the h3 element */
-        .inner h3 {
-          text-align: right;
-        }
-
-        /* Center align the h3 element */
-        .inner h1 {
-          text-align: center;
+        text-align: center;
         }
 
   </style>
@@ -61,8 +51,8 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h2>E-Screening Checklist</h2>
-                            <p>Identified <strong>Zero-dose </strong> and <strong>Under-immunized</strong> Children: </p>
-                            <h1><strong>363</strong></h1>
+                            <p>Identified <strong>Zero Dose </strong> and <strong>Under Immunized</strong> Children:</p>
+                            <h3>363<sup style="font-size: 20px"></sup></h3>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
