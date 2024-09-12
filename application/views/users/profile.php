@@ -48,7 +48,7 @@ $role = $userInfo->role;
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <li class="<?= ($active == "details")? "active" : "" ?>"><a href="#details" data-toggle="tab">Details</a></li>
-                        <li class="<?= ($active == "changepass")? "active" : "" ?>"><a href="#changepass" data-toggle="tab">Change Password</a></li>                        
+                        <!-- <li class="<?= ($active == "changepass")? "active" : "" ?>"><a href="#changepass" data-toggle="tab">Change Password</a></li>                         -->
                     </ul>
                     <div class="tab-content">
                         <div class="<?= ($active == "details")? "active" : "" ?> tab-pane" id="details">

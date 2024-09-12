@@ -124,7 +124,7 @@ class Report_model extends CI_Model
                         s2.q206b AS 'Father_name',
                         s2.q206c AS 'Mobile_no',
                         s2.q206d AS 'House_name',
-                        s2.q202 AS 'DOB',
+                        DATE_FORMAT(s2.q202, '%d-%m-%Y') AS 'Date_of_birth',
                         CASE
                             WHEN s2.q202a = 1 THEN 'Yes'
                             WHEN s2.q202a = 2 THEN 'No'

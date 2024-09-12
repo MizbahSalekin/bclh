@@ -132,13 +132,13 @@ $(function() {
 <!-- <h4>Select Date Range for Report</h4> -->
         <div class="box-body">
             <div class="row">
-                <div class="col-md-4">                                
+                <div class="col-md-6">                                
                     <div class="form-group">
                         <label for="date">From Date</label>
                         <input type="date" class="form-control required" id="start_date" name="start_date" value="<?= $this->input->post('start_date') ?>" required>
                     </div>
                 </div>
-                <div class="col-md-4">                                
+                <div class="col-md-6">                                
                     <div class="form-group">
                         <label for="date">To Date</label>
                         <input type="date" class="form-control required" id="end_date" name="end_date" value="<?= $this->input->post('end_date') ?>" required>
