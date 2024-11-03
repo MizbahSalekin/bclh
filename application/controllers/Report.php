@@ -13,6 +13,7 @@ class Report extends BaseController
         parent::__construct();
         $this->load->model('report_model');
         $this->isLoggedIn();
+        //$this->db = $this->load->database('apps',TRUE);
     }
 
     /**

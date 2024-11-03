@@ -66,8 +66,20 @@ class Report_model extends CI_Model
             
         }
 
-        $queryRadio = "SELECT
-                        (IF(s2.q212 IN (1, 2), 'Yes', 'No')) AS Vaccinated,
+        $queryRadio = "SELECT 
+                        (CASE
+                            WHEN s2.q205b IS NOT NULL
+                                AND s2.q212 IS NOT NULL
+                                AND (s2.q212 = 1 OR s2.q212 = 2)
+                                AND s2.q203 = 2
+                                AND (s2.q205c = 1 OR s2.q205d = 1)
+                                AND (COALESCE(s1.q109, '') NOT LIKE '%test%'
+                                     OR COALESCE(s2.q201, '') NOT LIKE '%test%'
+                                     OR COALESCE(s2.q206a, '') NOT LIKE '%test%'
+                                     OR COALESCE(s2.q206b, '') NOT LIKE '%test%')
+                            THEN 'Yes' 
+                            ELSE 'No'
+                        END) AS Vaccinated,
                         (CASE
                             WHEN s2.q203 = 2
                                 AND s2.q205b = 1
@@ -109,7 +121,7 @@ class Report_model extends CI_Model
                         c.epi_cluster_name AS 'EPI_cluster',
                         p.provname AS 'Provider_name',    
                         CASE
-                            WHEN s1.q106 = 1 THEN 'Upazilla_Health_Complex'
+                            WHEN s1.q106 = 1 THEN 'Upazilla Health Complex'
                             WHEN s1.q106 = 2 THEN 'Mother and Child Welfare Centre'
                             WHEN s1.q106 = 3 THEN 'Union Health and Family Welfare Center/Union Sub-Centre'
                             WHEN s1.q106 = 4 THEN 'Community Clinic'
@@ -270,10 +282,11 @@ class Report_model extends CI_Model
                             WHEN s2.q212x = 1 THEN 'Yes'
                             ELSE 'No'
                             END AS 'Other_resason',
-                        CASE
-                            WHEN s2.q212x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Specify_provider_reason',
+                        -- CASE
+                        --     WHEN s2.q212x = 1 THEN 'Yes'
+                        --     ELSE 'No'
+                        --     END AS 'Specify_provider_reason',
+                        s2.q212x1 As 'Specify_provider_reason',
                         DATE_FORMAT(s2.q213, '%d-%m-%Y') AS 'Updated_On'
                         FROM
                         section_1_screening_checklist_idf s1 
