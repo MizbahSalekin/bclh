@@ -115,7 +115,7 @@ class Report_model extends CI_Model
 
                         z.zillanameeng AS 'District',
                         u.upazilanameeng AS 'Upazilla',
-                        un.unionnameeng AS 'Union',
+                        un1.unionnameeng AS 'Union',
                         c.ward_no AS 'Ward_No',
                         c.epi_sub_block AS 'EPI_sub_block',
                         c.epi_cluster_name AS 'EPI_cluster',
@@ -235,7 +235,7 @@ class Report_model extends CI_Model
                             ELSE 'No'
                             END AS 'Selected_for_information',
                         u.upazilanameeng AS 'EPI_Upazilla',
-                        un.unionnameeng AS 'EPI_Union',
+                        un2.unionnameeng AS 'EPI_Union',
                         c.ward_no AS 'EPI_Ward_no',
                         c.epi_cluster_name AS 'EPI_Cluster',
                         DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS 'Uploaded_On',
@@ -301,10 +301,14 @@ class Report_model extends CI_Model
                         LEFT JOIN upazila u 
                             ON u.zillaid = s1.zillaid 
                             AND u.upazilaid = s1.upazilaid 
-                        LEFT JOIN unions un 
-                            ON un.zillaid = s1.zillaid 
-                            AND un.upazilaid = s1.upazilaid 
-                            AND un.unionid = s1.unionid 
+                        LEFT JOIN unions un1 
+                            ON un1.zillaid = s1.zillaid 
+                            AND un1.upazilaid = s1.upazilaid 
+                            AND un1.unionid = s1.unionid
+                        LEFT JOIN unions un2 
+                            ON un2.zillaid = s1.zillaid 
+                            AND un2.upazilaid = s1.upazilaid 
+                            AND un2.unionid = s2.q209
                         LEFT JOIN cluster c 
                             ON c.clusterid = CAST(s2.q211 AS CHAR) 
                         WHERE s2.idno IS NOT NULL $where;
@@ -346,37 +350,140 @@ class Report_model extends CI_Model
                         c.ward_no AS 'Ward_No',
                         c.epi_sub_block AS 'EPI_sub_block',
                         c.epi_cluster_name AS 'EPI_cluster',
-                        p.provname AS 'Provider_name',
                         pt.typename AS 'Provider_designation',
-                        DATE_FORMAT(s1.interviewer_date, '%d-%m-%Y') AS 'Interview_date',
+                        p.provname AS 'Provider_name',
+                        DATE_FORMAT(s1.interviewer_date, '%d-%m-%Y') AS 'Visit_date',
                         CASE
                             WHEN s2.q111 = 1 THEN 'Yes'
                             ELSE 'No'
-                            END AS 'Observed_session',
+                            END AS 'Observed_complete_session',
                         CASE
-                            WHEN s2.q112a = 1 THEN 'Yes'
-                            ELSE 'No'
+                            WHEN s2.q112a = 1 THEN 'Given'
+                            ELSE 'Not Given'
                             END AS 'BCG',
-                        s2.q112a1 AS 'Target_BCG',
-                        s2.q112a2 AS 'Achieved_BCG',
+                        s2.q112a1 AS 'BCG_Target',
+                        s2.q112a2 AS 'BCG_Achievement',
                         CASE
-                            WHEN s2.q112b = 1 THEN 'Yes'
+                            WHEN s2.q111a = 1 THEN 'Yes'
                             ELSE 'No'
+                            END AS 'Child_is_sick_(BCG)',
+                        CASE
+                            WHEN s2.q111b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_not_at_home_(BCG)',
+                        CASE
+                            WHEN s2.q111c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_guardian_migrated_(BCG)',
+                        CASE
+                            WHEN s2.q111d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_parent_is_ill_(BCG)',
+                        CASE
+                            WHEN s2.q111e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Cause_undetermined_(BCG)',
+                        CASE
+                            WHEN s2.q111x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_Reasons_(BCG)',
+                        s2.q111x1 AS 'Specify_Reason_(BCG)',
+
+                        CASE
+                            WHEN s2.q112b = 1 THEN 'Given'
+                            ELSE 'Not Given'
                             END AS 'Penta-1',
-                        s2.q112b1 AS 'Target_Penta-1',
-                        s2.q112b2 AS 'Achieved_Penta-1',
+                        s2.q112b1 AS 'Penta-1_Target',
+                        s2.q112b2 AS 'Penta-1_Achievement',
                         CASE
-                            WHEN s2.q112c = 1 THEN 'Yes'
+                            WHEN s2.q112p1a = 1 THEN 'Yes'
                             ELSE 'No'
+                            END AS 'Child_is_sick_(Penta-1)',
+                        CASE
+                            WHEN s2.q112p1b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_not_at_home_(Penta-1)',
+                        Case
+                            WHEN s2.q112p1c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_guardian_migrated_(Penta-1)',
+                        Case
+                            WHEN s2.q112p1d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_parent_is_ill_(Penta-1)',
+                        CASE
+                            WHEN s2.q112p1e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Cause_undetermined_(Penta-1)',                        
+                        CASE
+                            WHEN s2.q112p1x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_reasons_(Penta-1)',
+                        s2.q112p1x1 AS 'Specify_reason_(Penta-1)',
+
+                        CASE
+                            WHEN s2.q112c = 1 THEN 'Given'
+                            ELSE 'Not Given'
                             END AS 'Penta-2',
-                        s2.q112c1 AS 'Target_Penta-2',
-                        s2.q112c2 AS 'Achieved_Penta-2',
+                        s2.q112c1 AS 'Penta-2_Target',
+                        s2.q112c2 AS 'Penta-2_Achievement',
                         CASE
-                            WHEN s2.q112d = 1 THEN 'Yes'
+                            WHEN s2.q112p2a = 1 THEN 'Yes'
                             ELSE 'No'
+                            END AS 'Child_is_sick_(Penta-2)',
+                        CASE
+                            WHEN s2.q112p2b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_not_at_home_(Penta-2)',
+                        CASE
+                            WHEN s2.q112p2c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_guardian_migrated_(Penta-2)',
+                        CASE
+                            WHEN s2.q112p2d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_parent_is_ill_(Penta-2)',
+                        CASE
+                            WHEN s2.q112p2e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Cause_undetermined_(Penta-2)',
+                        CASE
+                            WHEN s2.q112p2x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_reasons_(Penta-2)',
+                        s2.q112p2x1 AS 'Specify_reason_(Penta-2)',
+
+                        CASE
+                            WHEN s2.q112d = 1 THEN 'Given'
+                            ELSE 'Not Given'
                             END AS 'Penta-3',
-                        s2.q112d1 AS 'Target_Penta-3',
-                        s2.q112d2 AS 'Achieved_Penta-3',
+                        s2.q112d1 AS 'Penta-3_Target',
+                        s2.q112d2 AS 'Penta-3_Achievement',
+                        CASE
+                            WHEN s2.q112p3a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_is_sick_(Penta-3)',
+                        CASE
+                            WHEN s2.q112p3b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_not_at_home_(Penta-3)',
+                        CASE
+                            WHEN s2.q112p3c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_guardian_migrated_(Penta-3)',
+                        CASE
+                            WHEN s2.q112p3d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_parent_is_ill_(Penta-3)',
+                        CASE
+                            WHEN s2.q112p3e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Cause_undetermined_(Penta-3)',
+                        CASE
+                            WHEN s2.q112p3x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_reasons_(Penta-3)',
+                        s2.q112p3x1 AS 'Specify_reason_(Penta-3)',
 
                         -- CASE
                         --     WHEN s2.q112e = 1 THEN 'Yes'
@@ -416,149 +523,44 @@ class Report_model extends CI_Model
                         -- s2.q112j2 AS 'Achieved_OPV-3',
 
                         CASE
-                            WHEN s2.q112k = 1 THEN 'Yes'
-                            ELSE 'No'
+                            WHEN s2.q112k = 1 THEN 'Given'
+                            ELSE 'Not Given'
                             END AS 'MR-1',
-                        s2.q112k1 AS 'Target_MR-1',
-                        s2.q112k2 AS 'Achieved_MR-1',
+                        s2.q112k1 AS 'MR-1_Target',
+                        s2.q112k2 AS 'MR-1_Achievement',      
+
+                        CASE
+                            WHEN s2.q112m1a = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_is_sick_(MR-1)',
+                        CASE
+                            WHEN s2.q112m1b = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Child_not_at_home_(MR-1)',
+                        CASE
+                            WHEN s2.q112m1c = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_guardian_migrated_(MR-1)',
+                        CASE
+                            WHEN s2.q112m1d = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Childs_parent_is_ill_(MR-1)',
+                        CASE
+                            WHEN s2.q112m1e = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Cause_undetermined_(MR-1)',
+                        CASE
+                            WHEN s2.q112m1x = 1 THEN 'Yes'
+                            ELSE 'No'
+                            END AS 'Other_reasons_(MR-1)',
+                        s2.q112m1x1 AS 'Specify_reason_(MR-1)',
 
                         -- CASE
                         --     WHEN s2.q112k = 1 THEN 'Yes'
                         --     ELSE 'No'
                         --     END AS MR_2,
                         -- s2.q112l1 AS 'Target_MR-2',
-                        -- s2.q112l2 AS 'Achieved_MR-2',
-
-                        CASE
-                            WHEN s2.q111a = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Child_illness_BCG',
-                        CASE
-                            WHEN s2.q111b = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Not_at_home_BCG',
-                        CASE
-                            WHEN s2.q111c = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Migrated_BCG',
-                        CASE
-                            WHEN s2.q111d = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Parent_illness_BCG',
-                        CASE
-                            WHEN s2.q111e = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Undetermined_cause_BCG',
-                        CASE
-                            WHEN s2.q111x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Other_Reasons_BCG',
-                        s2.q111x1 AS 'Specify_Reason_BCG',
-
-                        CASE
-                            WHEN s2.q112p1a = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Child_illness_P1',
-                        CASE
-                            WHEN s2.q112p1b = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Not_at_home_P1',
-                        Case
-                            WHEN s2.q112p1c = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Migrated_P1',
-                        Case
-                            WHEN s2.q112p1d = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Parent_illness_P1',
-                    -- not in view
-                        CASE
-                            WHEN s2.q112p1e = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Undetermined_cause_P1',                        
-                        CASE
-                            WHEN s2.q112p1x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Other_reasons_P1',
-                        s2.q112p1x1 AS 'Specify_reason_P1',       
-
-                        CASE
-                            WHEN s2.q112p2a = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Child_ilness_P2',
-                        CASE
-                            WHEN s2.q112p2b = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Not_at_home_P2',
-                        CASE
-                            WHEN s2.q112p2c = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Migrated_P2',
-                        CASE
-                            WHEN s2.q112p2d = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Parent_illness_P2',
-                        CASE
-                            WHEN s2.q112p2e = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Undetermined_cause_P2',
-                        CASE
-                            WHEN s2.q112p2x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Other_reasons_P2',
-                        s2.q112p2x1 AS 'Specify_reason_P2',
-
-                        CASE
-                            WHEN s2.q112p3a = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Child_ilness_P3',
-                        CASE
-                            WHEN s2.q112p3b = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Not_at_home_P3',
-                        CASE
-                            WHEN s2.q112p3c = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Migrated_P3',
-                        CASE
-                            WHEN s2.q112p3d = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Parent_illness_P3',
-                        CASE
-                            WHEN s2.q112p3e = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Undetermined_cause_P3',
-                        CASE
-                            WHEN s2.q112p3x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Other_reasons_P3',
-                        s2.q112p3x1 AS 'Specify_reason_P3',
-
-                        CASE
-                            WHEN s2.q112m1a = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Child_ilness_MR-1',
-                        CASE
-                            WHEN s2.q112m1b = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Not_at_home_MR-1',
-                        CASE
-                            WHEN s2.q112m1c = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Migrated_MR-1',
-                        CASE
-                            WHEN s2.q112m1d = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Parent_illness_MR-1',
-                        CASE
-                            WHEN s2.q112m1e = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Undetermined_cause_MR-1',
-                        CASE
-                            WHEN s2.q112m1x = 1 THEN 'Yes'
-                            ELSE 'No'
-                            END AS 'Other_reasons_MR-1',
-                        s2.q112m1x1 AS 'Specify_reason_MR-1',
+                        -- s2.q112l2 AS 'Achieved_MR-2', 
 
                         s2.q113 AS 'Remarks',
                         DATE_FORMAT(s1.uploaddt, '%d-%m-%Y') AS 'Uploaded_On' 
@@ -586,8 +588,7 @@ class Report_model extends CI_Model
 
         $radio_query_result = $this->db->query($queryRadio);
         return $radio_query_result->result();
-    }
-    
+    }  
     function eScreening_summary_model()
     {
         $queryUnion = "SELECT

@@ -87,7 +87,7 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>DISTRICT:</label>
-                          <select name="zilla_id" id="zilla_id" required>
+                          <select name="zilla_id" id="zilla_id">
                                           <option value="" selected>Select District</option>
                                         <?php foreach($district as $obj){ ?>
                                           <option value="<?php echo $obj->zillaid ?>" <?php if($this->input->post('zilla_id') == $obj->zillaid) echo 'selected'; ?>>
@@ -100,7 +100,7 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>UPAZILLA:</label>
-                          <select name="upazila_id" id="upazila_id" required>
+                          <select name="upazila_id" id="upazila_id">
                               <option value="" selected>Select Upazilla</option>
                               
                           </select>
@@ -110,7 +110,7 @@ $(function() {
                 <div class="col-md-4">                                
                     <div class="form-group">
                         <label>UNION:</label>
-                        <select name="union_id" id="union_id" required>
+                        <select name="union_id" id="union_id">
                             <option value="" selected>Select Union</option>
                             <!-- Options will be populated here via AJAX -->
                         </select>
@@ -197,15 +197,15 @@ $(function() {
                         $colspann .= '<th colspan="1"></th>';
                         $colspann .= '<th colspan="6">Address</th>';
                         $colspann .= '<th colspan="4">Provider Information</th>';
-                        $colspann .= '<th colspan="3">BCG</th>';
-                        $colspann .= '<th colspan="3">Penta-1</th>';
-                        $colspann .= '<th colspan="3">Penta-2</th>';
-                        $colspann .= '<th colspan="3">Penta-3</th>';
-                        $colspann .= '<th colspan="3">MR-1</th>';
+                        $colspann .= '<th colspan="3">BCG Status</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  BCG target</th>';
+                        $colspann .= '<th colspan="3">Penta-1 Status</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  Penta-1 target</th>';
+                        $colspann .= '<th colspan="3">Penta-2 Status</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  Penta-2 target</th>';
+                        $colspann .= '<th colspan="3">Penta-3 Status</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  Penta-3 target</th>';
+                        $colspann .= '<th colspan="3">MR-1 Status</th>';
                         $colspann .= '<th colspan="7">Reasons for not achieving  MR-1 target</th>';
                         $colspann .= '<th colspan="1"></th>';
                         $colspann .= '<th colspan="1">E-Supervision Info</th>';
