@@ -173,22 +173,23 @@ $(function() {
                         <?php
                         $i = 1;
                         $header = $row_column = $colspann = $colspann1 = '';
-                        $division = $district = $thana = 0;
+                        $diision = $district = $thana = 0;
                         // $colspann .= '<th colspan="1"></th>';
                         $colspann1 .= '<th colspan="3"></th>';
-                        $colspann1 .= '<th colspan="50">Data Received from: E-Screening App</th>';
-                        $colspann1 .= '<th colspan="9">Data Received from: টিকা বাদপড়া শিশুদের তালিকা App</th>';
-                        $colspann .= '<th colspan="3">Identification Category</th>';
-                        $colspann .= '<th colspan="6">Address</th>';
+                        $colspann1 .= '<th colspan="45">Data Received from: E-Screening Checklist App</th>';
+                        $colspann1 .= '<th colspan="13">Data Received from: Health Assistant App</th>';
+                        $colspann .= '<th colspan="1"></th>';
+                        $colspann .= '<th colspan="2">Identification Category</th>';
+                        $colspann .= '<th colspan="4">Address</th>';
                         $colspann .= '<th colspan="4">Provider Information</th>';
-                        $colspann .= '<th colspan="12">Child Information</th>';
+                        $colspann .= '<th colspan="9">Child Information</th>';
                         $colspann .= '<th colspan="1"></th>';
                         $colspann .= '<th colspan="14">Reasons for not receiving all EPI vaccines</th>';
-                        $colspann .= '<th colspan="7">Vaccination Information</th>';
+                        $colspann .= '<th colspan="7">Vaccination Update</th>';
                         $colspann .= '<th colspan="5">Referred EPI Center Address</th>';
-                        $colspann .= '<th colspan="1">E-Screenining Info</th>';
-                        $colspann .= '<th colspan="8">Reasons for not to vaccinate the child</th>';
-                        $colspann .= '<th colspan="1">Vaccination Info</th>';
+                        $colspann .= '<th colspan="1">E-Screenining Information</th>';
+                        $colspann .= '<th colspan="9">Reasons for not to vaccinate the child</th>';
+                        $colspann .= '<th colspan="3">Vaccination Information</th>';
 
                         foreach ($result_data as $object) {
                             $row_column .= '<tr>';
