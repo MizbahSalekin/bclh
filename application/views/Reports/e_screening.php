@@ -367,8 +367,8 @@ $(function() {
     <script>
     $(function() {
         $("#filter_submit").click(function() {
-            if ($("#upazila_id").val() == '' || $("#zilla_id").val() == '' || $("#start_date").val() == '' || $("#end_date").val() == '') {
-                alert("Please input both AREA & DATE Range to continue...");
+            if ($("#start_date").val() == '' || $("#end_date").val() == '') {
+                alert("Please input AREA & DATE Range.");
                 return false;
             }
             $("#eScreening").submit();

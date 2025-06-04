@@ -52,7 +52,8 @@
                         <div class="inner">
                             <h2>E-Screening Checklist</h2>
                             <p>Identified <strong>Zero-dose </strong> and <strong>Under-immunized</strong> Children:</p>
-                            <h3>949/1043<sup style="font-size: 20px"></sup></h3>
+                            <h3>1131 (ZD: 157 / UI: 974)<sup style="font-size: 20px"></sup></h3>
+                            <p>Vaccinated: 956</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -68,7 +69,7 @@
                         <div class="inner">
                             <h2>E-Supervision Checklist</h2>
                             <p>Use of E-Supervision Checklist: </p>
-                            <h3>259</h3>
+                            <h3>277</h3>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>

@@ -356,7 +356,8 @@ class Report_model extends CI_Model
                              AND c.unionid = s2.q209
                              AND c.ward_no = s2.q210
                         WHERE 
-                            s2.idno IS NOT NULL $where;
+                            s2.q203 != 1
+                            AND s2.idno IS NOT NULL $where;
                     ";
 
         $radio_query_result = $this->db->query($queryRadio);
@@ -386,6 +387,9 @@ class Report_model extends CI_Model
             $where .= "AND DATE(s1.uploaddt) <= '" . $end_date . "'";
             
         }
+
+        $where .= "AND s2.q113 NOT LIKE '%test%'
+                    AND p.provname NOT LIKE '%test%'";
 
         $queryRadio = "SELECT
                         s2.idno AS 'Registration_ID',
@@ -1137,6 +1141,8 @@ class Report_model extends CI_Model
                             ON c.clusterid = CAST(s1.q106 AS UNSIGNED)
                         WHERE
                             s2.idno IS NOT NULL
+                            AND s2.q113 NOT LIKE '%test%'
+                            AND p.provname NOT LIKE '%test%'
                         ";
 
         $query_Radio = "SELECT
